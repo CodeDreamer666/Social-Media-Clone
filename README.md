@@ -55,3 +55,4 @@ Open your browser at http://localhost:5173 (or the port Vite shows).
 ## Author
 - Name: CodeDreamer
 - Age: 14
+- GitHub: https://github.com/CodeDreamer666/Social-Media-Clone.git
