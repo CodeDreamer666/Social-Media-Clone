@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme {
+    --breakpoint-sm: 480px;
+}
+
+body {
+    @apply flex flex-col
+}
