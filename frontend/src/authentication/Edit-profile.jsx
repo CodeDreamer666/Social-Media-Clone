@@ -32,7 +32,7 @@ export default function EditProfile() {
     })
 
     const submitBio = (event) => {
-        handleResponse("http://localhost:8000/api/auth/edit-profile", () => {
+        handleResponse("http://localhost:8000/api/auth/profile", () => {
             setTimeout(() => {
                 navigate("/profile");
                 window.location.reload();

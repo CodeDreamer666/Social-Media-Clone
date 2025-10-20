@@ -1,6 +1,6 @@
 export default function Comment({ id, username, comment, onClick = null, isFilled = false, likes }) {
     return (
-        <article key={id} className="flex flex-col justify-between mb-8 w-[90%] max-w-[400px] mx-auto bg-white shadow-md hover:shadow-lg hover:scale-105 px-4 py-3 rounded-lg transition-all duration-300 cursor-pointer">
+        <article className="flex flex-col justify-between mb-8 w-[90%] max-w-[400px] mx-auto bg-white shadow-md hover:shadow-lg hover:scale-105 px-4 py-3 rounded-lg transition-all duration-300 cursor-pointer">
             <h2 className="text-sm text-gray-500 italic">
                 Posted by <span className="font-semibold text-gray-700">{username}</span>
             </h2>

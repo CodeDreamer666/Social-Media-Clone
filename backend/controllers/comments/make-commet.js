@@ -3,13 +3,8 @@ import getUsersDB from "../../database/users/getDB.js"
 import getPostsDB from "../../database/posts/getDB.js"
 import sanitizeHtml from "sanitize-html";
 
-export const makeCommentController = async (req, res) => {
+export const makeCommentController = async (req, res, next) => {
     try {
-
-        if (!req.session.userId) {
-            return res.status(400).json({ error: "Please sign in or login to make a comment" })
-        }
-
         const commentsDB = await getCommentsDB();
         const usersDB = await getUsersDB();
         const postsDB = await getPostsDB();
@@ -37,7 +32,6 @@ export const makeCommentController = async (req, res) => {
 
         res.status(201).json({ message: `You’ve successfully commented on ${post.username}’s post.` })
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Please try to make a comment again " })
+        next(err);
     }
 }

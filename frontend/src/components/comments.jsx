@@ -26,7 +26,7 @@ export default function Comments() {
 
     // --> /api/comments/:postId
     const [commentPostData, setCommentPostData] = useFetchData(`
-        http://localhost:8000/api/comments/comment-post/${postId}
+        http://localhost:8000/api/comments/post/${postId}
         `);
 
     // --> /api/comments/:postId
@@ -66,6 +66,8 @@ export default function Comments() {
         })
     }
 
+    console.log("COMMENTS DATA:", commentsData);
+
     return (
         <>
             <Header />
@@ -79,6 +81,7 @@ export default function Comments() {
 
             {commentPostData.map(({ id, username, title, details, likes, comments }) => {
                 return <Post
+                    key={id}
                     id={id}
                     username={username}
                     title={title}
@@ -97,9 +100,12 @@ export default function Comments() {
                 )}
             </section>
 
+            
+
             <section className="max-w-[1200px] mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
                 {commentsData.map(({ id, username, comment, likes, }) => {
                     return <Comment
+                        key={id}
                         onClick={() => likeComment(id)}
                         isFilled={alreadyLikedComments.includes(id)}
                         id={id}

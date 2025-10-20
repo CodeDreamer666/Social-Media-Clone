@@ -3,7 +3,7 @@ import validator from "validator";
 import bcrypt from "bcryptjs";
 import sanitizeHtml from "sanitize-html";
 
-export const loginController = async (req, res) => {
+export const loginController = async (req, res, next) => {
     try {
         const DB = await getUsersDB();
         let { email, password } = req.body;
@@ -54,7 +54,6 @@ export const loginController = async (req, res) => {
 
         await DB.close();
     } catch (err) {
-        console.log(err);
-        res.status(500).json({ error: 'Login failed. Please try again.' })
+        next();
     }
 }

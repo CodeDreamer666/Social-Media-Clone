@@ -2,11 +2,8 @@ import getPostsDB from "../../database/posts/getDB.js"
 import getUsersDB from "../../database/users/getDB.js"
 import sanitizeHtml from "sanitize-html";
 
-export const uploadPostController = async (req, res) => {
+export const uploadPostController = async (req, res, next) => {
     try {
-        if (!req.session.userId) {
-            return res.status(401).json({ error: "Please sign in or login to upload post" });
-        }
         const postsDB = await getPostsDB();
         const usersDB = await getUsersDB();
         let { title, description } = req.body;
@@ -34,7 +31,6 @@ export const uploadPostController = async (req, res) => {
         await usersDB.close();
         res.status(201).json({ message: "You have successfully make a post!" })
     } catch (err) {
-        res.status(500).json({ error: "Please try to submit again" })
-        console.log(err);
+        next();
     }
 }

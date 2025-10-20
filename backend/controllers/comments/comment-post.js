@@ -1,6 +1,6 @@
 import getPostsDB from "../../database/posts/getDB.js";
 
-export const commentPostController = async (req, res) => {
+export const commentPostController = async (req, res, next) => {
     try {
         const postsDB = await getPostsDB();
         const { postId } = req.params;
@@ -12,9 +12,6 @@ export const commentPostController = async (req, res) => {
         await postsDB.close();
         res.json([post]);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({
-            error: "Please try to make a comment again"
-        });
+        next(err);
     }
 }

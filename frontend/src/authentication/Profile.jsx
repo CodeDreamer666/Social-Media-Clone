@@ -5,7 +5,7 @@ import useFetchData from "../hooks/fetchData.jsx"
 export default function Profile() {
     const { id } = useParams();
     const fetchId = id || "me";
-    const [userProfile, setUserProfile] = useFetchData(`http://localhost:8000/api/auth/user-profile/${fetchId}`);
+    const [userProfile, setUserProfile] = useFetchData(`http://localhost:8000/api/auth/profile/${fetchId}`);
 
     return (
         <>

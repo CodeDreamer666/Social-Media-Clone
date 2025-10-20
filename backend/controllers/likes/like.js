@@ -1,14 +1,8 @@
 import getLikesDB from "../../database/likes/getDB.js";
 import getPostsDB from "../../database/posts/getDB.js";
 
-export const likeController = async (req, res) => {
+export const likeController = async (req, res, next) => {
   try {
-    if (!req.session.userId) {
-      return res
-        .status(401)
-        .json({ error: "Please sign in or login to like the post" });
-    }
-
     const { id } = req.params;
     const postId = Number(id);
     const userId = req.session.userId;
@@ -68,7 +62,6 @@ export const likeController = async (req, res) => {
         });
     }
   } catch (err) {
-    console.error(err);
-    return res.status(500).json({ error: "Please try to like the post again" });
+    next();
   }
 };

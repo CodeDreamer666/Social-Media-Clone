@@ -5,14 +5,13 @@ import Post from "../prop/Post"
 import useSendRequest from "../hooks/useSendRequest";
 
 export default function Posts() {
-    // --> /api/posts
+
     const [postsData, setPostsData] = useFetchData(`
-        http://localhost:8000/api/get-post
+        http://localhost:8000/api/post
         `)
 
-    // --> /api/liked-posts
     const [likedPosts, setLikedPosts] = useFetchData(`
-        http://localhost:8000/api/likes/user-like-posts
+        http://localhost:8000/api/likes
         `);
 
     const {
@@ -33,7 +32,7 @@ export default function Posts() {
     })
 
     const likePost = (postId) => {
-        handleResponse(`http://localhost:8000/api/likes/like-post/${postId}`, (data) => {
+        handleResponse(`http://localhost:8000/api/likes/${postId}`, (data) => {
             setLikedPosts((prev) => {
                 if (prev.includes(postId)) {
                     return prev.filter(id => id !== postId);

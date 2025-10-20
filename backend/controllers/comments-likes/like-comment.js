@@ -2,13 +2,8 @@ import getCommentsLikesDB from "../../database/comments-likes/getDB.js"
 import getCommentsDB from "../../database/comments/getDB.js"
 import getUsersDB from "../../database/users/getDB.js"
 
-export const likeCommentController = async (req, res) => {
+export const likeCommentController = async (req, res, next) => {
     try {
-        if (!req.session.userId) {
-            return res.status(401).json({
-                error: "Please sign in or login to like the comment"
-            })
-        }
         const { commentId } = req.params;
         const commentsLikesDB = await getCommentsLikesDB();
         const commentsDB = await getCommentsDB();
@@ -71,7 +66,6 @@ export const likeCommentController = async (req, res) => {
             });
         }
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: "Please sign in or login to like the comment" })
+      next(err);
     }
 }

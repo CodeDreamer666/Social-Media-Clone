@@ -36,7 +36,7 @@ export default function UploadPost() {
     });
 
     const uploadPost = (event) => {
-        handleResponse("http://localhost:8000/api/upload-post", () => {
+        handleResponse("http://localhost:8000/api/post", () => {
             setTimeout(() => {
                 navigate("/");
                 window.location.reload();

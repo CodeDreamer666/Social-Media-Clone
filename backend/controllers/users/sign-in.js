@@ -3,9 +3,10 @@ import validator from "validator";
 import bcrypt from "bcryptjs";
 import sanitizeHtml from "sanitize-html";
 
-export const signInController = async (req, res) => {
+export const signInController = async (req, res, next) => {
     try {
         const DB = await getUsersDB();
+
         let { username, email, password } = req.body;
 
         username = username.trim();
@@ -57,6 +58,7 @@ export const signInController = async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 10);
         const result = await DB.run("INSERT INTO users (username, email, password) VALUES (?, ?, ?)", [username, email, hashedPassword]);
+        
         req.session.userId = result.lastID;
         req.session.save((err) => {
             if (err) {
@@ -68,7 +70,6 @@ export const signInController = async (req, res) => {
 
         await DB.close();
     } catch (err) {
-        console.log(err);
-        res.status(500).json({ error: 'Registration failed. Please try again.' })
+        next(err);
     }
 }

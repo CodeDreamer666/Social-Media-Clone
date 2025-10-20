@@ -32,7 +32,7 @@ export default function MakeComment() {
     })
 
     const makeComment = (event, postId) => {
-        handleResponse(`http://localhost:8000/api/comments/make-comment/${postId}`, () => {
+        handleResponse(`http://localhost:8000/api/comments/${postId}`, () => {
             setTimeout(() => {
                 navigate(`/comments/${postId}`);
                 window.location.reload();
