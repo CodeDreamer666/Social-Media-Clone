@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+@theme {
+
+}
+
+body {
+    @apply mt-16 min-h-[90vh] w-full bg-black text-white flex flex-col py-6
+}
