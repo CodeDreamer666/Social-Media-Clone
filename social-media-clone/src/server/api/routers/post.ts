@@ -4,38 +4,31 @@ import {
   createTRPCRouter,
   protectedProcedure,
   publicProcedure,
-} from "~/server/api/trpc"; 
+} from "~/server/api/trpc";
 
 export const postRouter = createTRPCRouter({
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
-    }),
-
-  create: protectedProcedure
-    .input(z.object({ name: z.string().min(1) }))
+  createPost: protectedProcedure
+    .input(z.object({
+      content: z.string().trim().nonempty("Post content cannot be empty")
+    }))
     .mutation(async ({ ctx, input }) => {
-      return ctx.db.post.create({
+      const userId = ctx.session.user.id;
+
+      await ctx.db.post.create({
         data: {
-          name: input.name,
-          createdBy: { connect: { id: ctx.session.user.id } },
-        },
+          content: input.content,
+          userId
+        }
       });
+
+      return {
+        success: true,
+        message: "Create post successfully"
+      }
     }),
 
-  getLatest: protectedProcedure.query(async ({ ctx }) => {
-    const post = await ctx.db.post.findFirst({
-      orderBy: { createdAt: "desc" },
-      where: { createdBy: { id: ctx.session.user.id } },
-    });
-
-    return post ?? null;
-  }),
-
-  getSecretMessage: protectedProcedure.query(() => {
-    return "you can now see this secret message!";
-  }),
+  getAllPost: publicProcedure
+    .query(async ({ ctx }) => {
+      return await ctx.db.post.findMany();
+    })
 });

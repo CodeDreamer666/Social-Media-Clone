@@ -1,4 +1,4 @@
-import InputWithLabel from "../InputWithLabel";
+import InputWithLabel from "../shared/InputWithLabel";
 import ButtonToLogin from "./ButtonToLogin";
 
 type Field = {
