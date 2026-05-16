@@ -17,9 +17,20 @@ export const postRouter = createTRPCRouter({
       await ctx.db.post.create({
         data: {
           content: input.content,
-          userId
+          userId,
         }
       });
+
+      await ctx.db.user.update({
+        where: {
+          id: userId
+        },
+        data: {
+          postsCount: {
+            increment: 1
+          }
+        }
+      })
 
       return {
         success: true,
@@ -29,6 +40,10 @@ export const postRouter = createTRPCRouter({
 
   getAllPost: publicProcedure
     .query(async ({ ctx }) => {
-      return await ctx.db.post.findMany();
+      return await ctx.db.post.findMany({
+        include: {
+          user: true
+        }
+      });
     })
 });

@@ -1,12 +1,13 @@
 "use client"
 import { api } from "~/trpc/react"
-import { authClient } from "~/server/better-auth/client";
 import useStatusMessage from "../hooks/useStatusMessage";
 import StatusMessage from "../components/shared/StatusMessage";
 import { useRouter, usePathname } from "next/navigation"
 import LoadingIcon from "../components/shared/LoadingIcon";
 import { TRPCClientError } from "@trpc/client";
 import { useState } from "react";
+import Loader from "../components/shared/Loader";
+import ServerError from "../components/shared/ServerError";
 
 export default function CreatePost() {
     const [postContent, setPostContent] = useState("");
@@ -21,12 +22,14 @@ export default function CreatePost() {
     } = useStatusMessage()
     const utils = api.useUtils();
 
+    const { data: user, isLoading, error } = api.user.getUserInfo.useQuery();
+
     const createPost = api.post.createPost.useMutation({
         onSuccess: (newData) => {
             setIsSuccess(newData.success);
             setMessage(newData.message);
             setTimeout(() => {
-                router.push("/");
+                router.replace("/");
             }, 1500)
         },
 
@@ -44,13 +47,18 @@ export default function CreatePost() {
         },
 
         onSettled: async () => {
-            await utils.post.getAllPost.invalidate()
+            await utils.post.getAllPost.invalidate();
+            await utils.user.getUserInfo.invalidate();
         }
     });
 
-    const { data: userSession } = authClient.useSession();
+    if (isLoading) return <Loader />
 
-    if (!userSession || !userSession.user.image) return null;
+    if (error && error instanceof TRPCClientError) {
+        router.replace(`/auth?redirect=${encodeURIComponent(pathname)}`);
+    }
+
+    if (!user) return <ServerError />
 
     return (
         <>
@@ -76,22 +84,16 @@ export default function CreatePost() {
                 >
 
                     <div className="mb-6 flex items-center gap-3">
-                        <img
-                            className="
-                         flex h-11 w-11 items-center justify-center rounded-full 
-                         text-sm font-semibold text-white
-                        "
-                            src={userSession.user.image}
-                            loading="lazy"
-                            alt={`A profile picture of ${userSession.user.name}`}
-                        />
+                        <div className="flex h-12 w-12 text-2xl items-center justify-center rounded-full bg-sky-500 font-semibold text-white">
+                            C
+                        </div>
                         <div>
                             <h2 className="text-sm font-semibold text-white">
-                                {userSession.user.name}
+                                {user.name}
                             </h2>
 
                             <p className="text-xs text-neutral-400">
-                                @{userSession.user.name.toLowerCase().replace(/\s/g, "")}
+                                {user.username ?? `@${user.name.toLowerCase().replace(/\s/g, "")}`}
                             </p>
                         </div>
                     </div>
@@ -110,7 +112,7 @@ export default function CreatePost() {
                         <button
                             disabled={createPost.isPending || postContent === ""}
                             type="submit"
-                            className="h-10 disabled:cursor-not-allowed cursor-pointer rounded-xl bg-sky-500 px-5 text-sm font-medium text-white transition-colors duration-200 hover:bg-sky-400"
+                            className="h-10 disabled:bg-neutral-800 disabled:text-neutral-500 disabled:hover:bg-neutral-800 disabled:cursor-not-allowed cursor-pointer rounded-xl bg-sky-500 px-5 text-sm font-medium text-white transition-colors duration-200 hover:bg-sky-400"
                         >
                             {createPost.isPending ? (
                                 <div className="flex gap-2 items-center">

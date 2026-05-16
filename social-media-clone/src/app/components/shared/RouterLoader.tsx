@@ -1,0 +1,26 @@
+"use client";
+import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import Loader from "~/app/components/shared/Loader";
+
+export default function RouteLoader({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 500); // adjust time
+
+    return () => clearTimeout(timer);
+  }, [pathname]);
+
+  return (
+    <>
+      {loading && <Loader />}
+      {children}
+    </>
+  );
+}

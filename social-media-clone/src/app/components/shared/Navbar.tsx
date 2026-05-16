@@ -71,14 +71,30 @@ export default function Navbar() {
                             isMobile={false}
                         />
 
-                        <NavigationLink
-                            icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
-                            </svg>}
-                            path="/auth"
-                            displayText="Login"
-                            isMobile={false}
-                        />
+                        {userSession ? (
+                            <button
+                                onClick={() => signOut()}
+                                className={`
+                                 cursor-pointer text-md font-medium flex gap-1 
+                                 items-center justify-center text-neutral-400 
+                               hover:text-white hover:border-b hover:pb-1 transition-all duration-200
+                              `}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                                </svg>
+                                Logout
+                            </button>
+                        ) : (
+                            <NavigationLink
+                                icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
+                                </svg>}
+                                path="/auth"
+                                displayText="Login"
+                                isMobile={false}
+                            />
+                        )}
                     </ul>
 
                     {/* Mobile Menu Button */}
@@ -92,7 +108,7 @@ export default function Navbar() {
 
                 </div>
             </nav>
-            
+
             {/* Mobile Sidebar */}
             <aside
                 className={`fixed top-0 left-0 z-99 h-screen w-64 border-r border-neutral-800 bg-neutral-950 p-6 transition-transform duration-300 sm:hidden ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
@@ -127,14 +143,31 @@ export default function Navbar() {
                         isMobile={true}
                     />
 
-                    <NavigationLink
-                        icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
-                        </svg>}
-                        path="/auth"
-                        displayText="Login"
-                        isMobile={true}
-                    />
+                    {userSession ? (
+                        <button
+                            onClick={() => signOut()}
+                            className={`
+                                flex items-center justify-center gap-2 rounded-xl 
+                              bg-sky-500 px-4 py-2 font-medium cursor-pointer 
+                              text-white transition-colors duration-200 hover:bg-sky-400
+                              `}
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                            </svg>
+                            Logout
+                        </button>
+                    ) : (
+                        <NavigationLink
+                            icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
+                            </svg>}
+                            path="/auth"
+                            displayText="Login"
+                            isMobile={true}
+                        />
+                    )}
+
                 </ul>
             </aside>
 

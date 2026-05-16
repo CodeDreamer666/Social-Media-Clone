@@ -1,6 +1,7 @@
 import { TRPCReactProvider } from "~/trpc/react";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/shared/Navbar";
 import "~/styles/globals.css"
+import RouteLoader from "./components/shared/RouterLoader";
 
 export default function RootLayout({
   children,
@@ -8,10 +9,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <TRPCReactProvider>
-          <Navbar />
-          {children}
-        </TRPCReactProvider>
+        <RouteLoader>
+          <TRPCReactProvider>
+            <Navbar />
+            {children}
+          </TRPCReactProvider>
+        </RouteLoader>
       </body>
     </html>
   );

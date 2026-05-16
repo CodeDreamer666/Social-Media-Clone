@@ -1,44 +1,69 @@
-"use client"
-import useRefresh from "../hooks/useRefresh";
 import Link from "next/link";
+import useRefresh from "~/app/hooks/useRefresh";
 
 export default function ServerError() {
-    const { setRefresh } = useRefresh();
 
-    return (
-        <section className="fixed inset-0 flex items-center justify-center bg-slate-50/50 backdrop-blur-sm px-4 z-50">
-            <div className="w-full max-w-md overflow-hidden bg-white rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-red-100 p-8 text-center transition-all animate-in fade-in zoom-in duration-300">
+  const { setRefresh } = useRefresh();
 
-                <svg className="size-12 mx-auto text-red-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z" />
-                </svg>
+  return (
+    <section className="fixed inset-0 z-9999 flex items-center justify-center bg-black px-4">
 
-                <h2 className="text-2xl font-bold text-slate-900 tracking-tight mb-2">
-                    Something went wrong
-                </h2>
+      <div className="w-full max-w-md rounded-3xl border border-neutral-800 bg-neutral-900 p-8 text-center">
 
-                <p className="text-slate-500 leading-relaxed mb-8">
-                    Oops! Something went wrong while loading. Please refresh the page or try again later.
-                </p>
+        {/* Icon */}
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border border-red-500/20 bg-neutral-950">
 
-                <div className="flex flex-col gap-3">
-                    <button
-                        onClick={() => {
-                            setRefresh(true)
-                        }}
-                        className="w-full inline-flex cursor-pointer items-center justify-center px-6 py-3.5 bg-slate-900 text-white font-semibold rounded-xl hover:bg-slate-800 active:scale-[0.98] transition-all shadow-sm"
-                    >
-                        Try again
-                    </button>
-                    <Link
-                        href="/"
-                        className="w-full inline-flex items-center justify-center px-6 py-3 text-slate-600 font-medium rounded-xl hover:bg-slate-100 transition-colors"
-                    >
-                        Back to Home
-                    </Link>
+          <svg
+            className="size-7 text-red-400"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.5}
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M12 9v3.75m9-.75a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 3.75h.008v.008H12v-.008Z"
+            />
+          </svg>
 
-                </div>
-            </div>
-        </section>
-    );
+        </div>
+
+        {/* Title */}
+        <h2 className="mt-6 text-2xl font-semibold text-white">
+          Something went wrong
+        </h2>
+
+        {/* Description */}
+        <p className="mt-3 text-sm leading-7 text-neutral-400">
+          An unexpected error occurred while loading the page.
+          Please try again.
+        </p>
+
+        {/* Actions */}
+        <div className="mt-8 flex flex-col gap-3">
+
+          <button
+            onClick={() => {
+              setRefresh(true);
+            }}
+            className="h-11 rounded-xl cursor-pointer bg-sky-500 text-sm font-medium text-white transition-colors duration-200 hover:bg-sky-400"
+          >
+            Try again
+          </button>
+
+          <Link
+            href="/"
+            className="flex h-11 items-center cursor-pointer justify-center rounded-xl border border-neutral-800 bg-neutral-950 text-sm font-medium text-white transition-colors duration-200 hover:bg-neutral-800"
+          >
+            Back to Home
+          </Link>
+
+        </div>
+
+      </div>
+
+    </section>
+  );
 }
