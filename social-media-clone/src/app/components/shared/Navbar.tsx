@@ -29,10 +29,8 @@ export default function Navbar() {
     return (
         <header>
             <nav className="fixed top-0 z-50 h-16 w-full border-b border-neutral-800 bg-neutral-950 backdrop-blur">
-
                 <div className="mx-auto flex h-full max-w-6xl items-center justify-between px-4">
 
-                    {/* Welcoming speech and Logo */}
                     <div className="flex gap-1 items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-7">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M8.625 12a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H8.25m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0H12m4.125 0a.375.375 0 1 1-.75 0 .375.375 0 0 1 .75 0Zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 0 1-2.555-.337A5.972 5.972 0 0 1 5.41 20.97a5.969 5.969 0 0 1-.474-.065 4.48 4.48 0 0 0 .978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25Z" />
@@ -42,7 +40,6 @@ export default function Navbar() {
                         </h1>
                     </div>
 
-                    {/* Desktop Navigation */}
                     <ul className="hidden items-center gap-8 sm:flex">
                         <NavigationLink
                             icon={<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
@@ -97,7 +94,6 @@ export default function Navbar() {
                         )}
                     </ul>
 
-                    {/* Mobile Menu Button */}
                     <button
                         onClick={() => setIsOpen(!isOpen)}
                         className="text-2xl cursor-pointer text-neutral-300 transition-colors duration-200 hover:text-white sm:hidden"
@@ -109,7 +105,6 @@ export default function Navbar() {
                 </div>
             </nav>
 
-            {/* Mobile Sidebar */}
             <aside
                 className={`fixed top-0 left-0 z-99 h-screen w-64 border-r border-neutral-800 bg-neutral-950 p-6 transition-transform duration-300 sm:hidden ${isOpen ? "translate-x-0" : "-translate-x-full"}`}
             >
@@ -171,7 +166,6 @@ export default function Navbar() {
                 </ul>
             </aside>
 
-            {/* Mobile Overlay */}
             {isOpen && (
                 <div
                     onClick={() => setIsOpen(false)}

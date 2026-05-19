@@ -1,3 +1,4 @@
+import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import {
@@ -16,30 +17,47 @@ export const userRouter = createTRPCRouter({
                     id: userId
                 },
                 include: {
-                    posts: true
+                    posts: {
+                        include: {
+                            likes: true,
+                            comments: true
+                        }
+                    }
                 }
             })
         }),
 
-    // editUserAccountPrivacy: protectedProcedure
-    //     .input(z.object({ isPublic: z.boolean() }))
-    //     .mutation(async ({ ctx, input }) => {
-    //         const userId = ctx.session.user.id
+    getSelectedUserInfo: protectedProcedure
+        .input(z.object({ userId: z.string().trim().nonempty().nullable() }))
+        .query(async ({ ctx, input }) => {
+            if (!input.userId) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "User id cannot be empty"
+                })
+            }
 
-    //         await ctx.db.user.update({
-    //             where: {
-    //                 id: userId
-    //             },
-    //             data: {
-    //                 isPublic: input.isPublic
-    //             }
-    //         });
+            const selectedUser = await ctx.db.user.findUnique({
+                where: {
+                    id: input.userId
+                },
+                include: {
+                    posts: {
+                        include: {
+                            likes: true,
+                            comments: true
+                        }
+                    }
+                }
+            });
 
-    //         return {
-    //             success: true,
-    //             message: "Update Account Privacy Successfully"
-    //         }
-    //     }),
+            if (!selectedUser) throw new TRPCError({
+                code: "BAD_REQUEST",
+                message: "User not found"
+            })
+
+            return selectedUser;
+        }),
 
     editUserInfo: protectedProcedure
         .input(z.object({

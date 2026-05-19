@@ -1,28 +1,48 @@
 "use client"
-import useTimeAgo from "~/app/hooks/useTimeAgo"
-import Link from "next/link"
 import { useRouter, usePathname } from "next/navigation"
 import type { SetStateAction } from "react"
-import { useEffect } from "react"
 import { authClient } from "~/server/better-auth/client"
-import type { SinglePost } from "~/app/types/types"
-import CommentIcon from "../shared/CommentIcon"
-import Loader from "../shared/Loader"
-import LikeIcon from "../shared/LikeIcon"
+import CommentIcon from "../../components/shared/CommentIcon"
+import LikeIcon from "../../components/shared/LikeIcon"
+import Loader from "../../components/shared/Loader"
+import { useEffect } from "react"
 
 type Post = {
-    post: SinglePost,
+    post: {
+        comments: {
+            id: string;
+            createdAt: Date;
+            updatedAt: Date;
+            userId: string;
+            content: string;
+            postId: string;
+        }[];
+        likes: {
+            id: string;
+            userId: string;
+            postId: string;
+        }[];
+    } & {
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        userId: string;
+        content: string;
+        likeCount: number;
+        commentCount: number;
+    },
     setMessage: React.Dispatch<SetStateAction<string>>,
     setIsSuccess: React.Dispatch<SetStateAction<boolean | "IDLE">>,
 }
 
-export default function PostItem({
+export default function ProfilePost({
     post,
     setIsSuccess,
     setMessage,
 }: Post) {
     const router = useRouter();
     const pathname = usePathname();
+
     const { data: currentUser, isPending } = authClient.useSession();
 
     useEffect(() => {
@@ -37,36 +57,13 @@ export default function PostItem({
         return <Loader />
     }
 
-    const postTimeAgo = useTimeAgo(new Date(post.createdAt))
-
     let isLike = post.likes.some((like) => {
         return like.postId === post.id && like.userId === currentUser.user.id
     });
 
     return (
-        <section
-            className="w-full max-w-112.5 mt-4 mx-auto rounded-2xl border border-neutral-800 bg-neutral-900 p-5"
-        >
-
-            <Link href={`/profile/${post.user.id}`}>
-                <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-500 font-semibold text-white">
-                        {post.user.name[0]?.toUpperCase()}
-                    </div>
-
-                    <div>
-                        <h2 className="text-lg font-semibold text-white">
-                            {post.user.name}
-                        </h2>
-
-                        <p className="text-sm text-neutral-400">
-                            {post.user.username ?? `@${post.user.name.toLowerCase().replace(/\s/g, "")}`} • {postTimeAgo}
-                        </p>
-                    </div>
-                </div>
-            </Link>
-
-            <p className="mt-4 leading-7 text-neutral-200">
+        <section className="rounded-2xl border border-neutral-800 bg-neutral-900 p-5">
+            <p className="text-sm leading-7 text-neutral-200">
                 {post.content}
             </p>
 
@@ -75,11 +72,11 @@ export default function PostItem({
                     postLikeCount={post.likeCount}
                     setIsSuccess={setIsSuccess}
                     setMessage={setMessage}
-                    isLike={isLike}
+                    isLike={!isLike}
                     postId={post.id}
                     currentUserId={currentUser.user.id}
                 />
-                
+
                 <CommentIcon
                     postCommentCount={post.commentCount}
                     postId={post.id}

@@ -4,7 +4,7 @@ import { api } from "~/trpc/react";
 import { TRPCClientError } from "@trpc/client";
 import type { SetStateAction } from "react";
 import { useRouter, usePathname } from "next/navigation";
-import LoadingIcon from "../shared/LoadingIcon";
+import LoadingIcon from "~/app/components/shared/LoadingIcon";
 
 type Post = {
     post: {

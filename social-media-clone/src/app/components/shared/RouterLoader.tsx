@@ -4,23 +4,23 @@ import { usePathname } from "next/navigation";
 import Loader from "~/app/components/shared/Loader";
 
 export default function RouteLoader({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname();
-  const [loading, setLoading] = useState(true);
+    const pathname = usePathname();
+    const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    setLoading(true);
+    useEffect(() => {
+        setLoading(true);
 
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 500); // adjust time
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 500);
 
-    return () => clearTimeout(timer);
-  }, [pathname]);
+        return () => clearTimeout(timer);
+    }, [pathname]);
 
-  return (
-    <>
-      {loading && <Loader />}
-      {children}
-    </>
-  );
+    return (
+        <>
+            {loading && <Loader />}
+            {children}
+        </>
+    );
 }
