@@ -21,26 +21,14 @@ export default function PostItem({
     setIsSuccess,
     setMessage,
 }: Post) {
-    const router = useRouter();
-    const pathname = usePathname();
     const { data: currentUser, isPending } = authClient.useSession();
 
-    useEffect(() => {
-        if (isPending) return;
-
-        if (!currentUser) {
-            router.replace(`/auth?redirect=${encodeURIComponent(pathname)}`);
-        }
-    }, [currentUser, isPending, pathname, router]);
-
-    if (isPending || !currentUser) {
-        return <Loader />
-    }
+    if (isPending) return <Loader />
 
     const postTimeAgo = useTimeAgo(new Date(post.createdAt))
 
     let isLike = post.likes.some((like) => {
-        return like.postId === post.id && like.userId === currentUser.user.id
+        return like.postId === post.id && like.userId === currentUser?.user.id
     });
 
     return (
@@ -77,9 +65,9 @@ export default function PostItem({
                     setMessage={setMessage}
                     isLike={isLike}
                     postId={post.id}
-                    currentUserId={currentUser.user.id}
+                    currentUserId={currentUser?.user.id}
                 />
-                
+
                 <CommentIcon
                     postCommentCount={post.commentCount}
                     postId={post.id}

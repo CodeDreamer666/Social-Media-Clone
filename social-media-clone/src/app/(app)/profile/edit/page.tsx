@@ -1,7 +1,7 @@
 "use client"
 import { api } from "~/trpc/react";
 import { useRouter, usePathname } from "next/navigation";
-import EditProfileView from "../components/EditProfileView";
+import EditProfileView from "../../components/profile/EditProfileView";
 import { TRPCClientError } from "@trpc/client";
 import Loader from "~/app/components/shared/Loader";
 import ServerError from "~/app/components/shared/ServerError";

@@ -1,13 +1,13 @@
 "use client"
 import { api } from "~/trpc/react";
 import { useRouter, usePathname } from "next/navigation";
-import Loader from "../components/shared/Loader";
+import Loader from "../../components/shared/Loader";
 import Link from "next/link";
-import NoPostModal from "./components/NoPostModal";
-import TopPartProfile from "./components/TopPartProfile";
-import ProfilePost from "./components/ProfilePost";
-import useStatusMessage from "../hooks/useStatusMessage";
-import StatusMessage from "../components/shared/StatusMessage";
+import NoPostModal from "../../components/profile/NoPostModal";
+import TopPartProfile from "../../components/profile/TopPartProfile";
+import ProfilePost from "~/app/components/profile/ProfilePost"
+import useStatusMessage from "../../hooks/useStatusMessage";
+import StatusMessage from "../../components/shared/StatusMessage";
 
 export default function Profile() {
     const pathname = usePathname();

@@ -1,5 +1,5 @@
 import { api } from "~/trpc/server";
-import PostView from "../../components/posts/PostView";
+import PostView from "~/app/components/posts/PostView";
 
 export default async function Post({
     params

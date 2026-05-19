@@ -40,7 +40,7 @@ export const postRouter = createTRPCRouter({
             }
         }),
 
-    getAllPost: publicProcedure
+    getAllPost: protectedProcedure
         .query(async ({ ctx }) => {
             return await ctx.db.post.findMany({
                 include: {
@@ -53,7 +53,7 @@ export const postRouter = createTRPCRouter({
             });
         }),
 
-    getSelectedPost: publicProcedure
+    getSelectedPost: protectedProcedure
         .input(z.object({ postId: z.string().trim().nonempty() }))
         .query(async ({ ctx, input }) => {
             const selectedPost = await ctx.db.post.findUnique({

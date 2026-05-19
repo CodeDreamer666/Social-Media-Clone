@@ -1,49 +1,12 @@
 "use client"
-import ProfilePost from "../components/ProfilePost"
+import ProfilePost from "~/app/components/profile/ProfilePost"
 import StatusMessage from "~/app/components/shared/StatusMessage"
 import useStatusMessage from "~/app/hooks/useStatusMessage"
-import TopPartProfile from "../components/TopPartProfile"
+import TopPartProfile from "./TopPartProfile"
+import type { User } from "~/app/types/types"
 
 type SelectedProfileView = {
-    user: ({
-        posts: ({
-            comments: {
-                id: string;
-                userId: string;
-                content: string;
-                createdAt: Date;
-                updatedAt: Date;
-                postId: string;
-            }[];
-            likes: {
-                id: string;
-                userId: string;
-                postId: string;
-            }[];
-        } & {
-            id: string;
-            userId: string;
-            content: string;
-            likeCount: number;
-            commentCount: number;
-            createdAt: Date;
-            updatedAt: Date;
-        })[];
-    } & {
-        id: string;
-        name: string;
-        createdAt: Date;
-        updatedAt: Date;
-        username: string | null;
-        bio: string;
-        followersCount: number;
-        followingCount: number;
-        postsCount: number;
-        email: string;
-        emailVerified: boolean;
-        image: string | null;
-        isPublic: boolean;
-    })
+    user: User
 }
 
 export default function SelectedProfileView({ user }: SelectedProfileView) {

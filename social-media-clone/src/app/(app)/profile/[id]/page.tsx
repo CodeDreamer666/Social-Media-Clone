@@ -1,5 +1,5 @@
 import { api } from "~/trpc/server"
-import SelectedProfileView from "./SelectedProfileView";
+import SelectedProfileView from "../../components/profile/SelectedProfileView";
 import { redirect } from "next/navigation";
 
 export default async function Profile({ params }: { params: Promise<{ id: string }> }) {

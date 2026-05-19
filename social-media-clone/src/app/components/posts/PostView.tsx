@@ -8,7 +8,7 @@ import { useState } from "react"
 import { authClient } from "~/server/better-auth/client"
 import StatusMessage from "~/app/components/shared/StatusMessage"
 import useStatusMessage from "~/app/hooks/useStatusMessage"
-import type { SinglePost } from "~/app/types/types"
+import type { SinglePost, User } from "~/app/types/types"
 import LikeIcon from "~/app/components/shared/LikeIcon"
 import CommentIcon from "~/app/components/shared/CommentIcon"
 import ServerError from "~/app/components/shared/ServerError"
@@ -32,29 +32,18 @@ export default function PostView({
         setMessage,
         closeMessage
     } = useStatusMessage();
-
-    const { data: currentUser } = authClient.useSession();
-    const { data: fullCurrentUser, isLoading, error } = api.user.getSelectedUserInfo.useQuery({ userId: currentUser?.user.id ?? null })
+    
+    const { data: currentUser, isLoading, error } = api.user.getUserInfo.useQuery();
 
     const postTimeAgo = useTimeAgo(new Date(post.createdAt));
 
     if (isLoading) return <Loader />
 
-    if (error || !fullCurrentUser) {
-        if (error instanceof TRPCClientError) {
-            if (error.data.code === "BAD_REQUEST") {
-                router.replace(`/auth?redirect=${encodeURIComponent(pathname)}`);
-                return;
-            }
-        }
-
-        return <ServerError />
-    }
+    if (error) return <ServerError />
 
     let isLike = post.likes.some((like) => {
-        return like.postId === post.id && like.userId === fullCurrentUser.id
+        return like.postId === post.id && like.userId === currentUser?.id
     })
-
 
     return (
         <>
@@ -97,7 +86,7 @@ export default function PostView({
                         setMessage={setMessage}
                         isLike={isLike}
                         postId={post.id}
-                        currentUserId={fullCurrentUser.id}
+                        currentUserId={currentUser?.id}
                     />
 
                     <CommentIcon
@@ -146,7 +135,7 @@ export default function PostView({
                 <MakeCommentModal
                     setIsSuccess={setIsSuccess}
                     setMessage={setMessage}
-                    currentUser={fullCurrentUser}
+                    currentUser={currentUser as User}
                     post={post}
                     setIsOpen={setIsOpen}
                 />
