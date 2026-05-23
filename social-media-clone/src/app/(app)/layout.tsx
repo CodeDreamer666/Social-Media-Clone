@@ -5,6 +5,7 @@ import RouteLoader from "../components/shared/RouterLoader";
 import { auth } from "~/server/better-auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { HydrateClient } from "~/trpc/server";
 
 export default async function RootLayout({
     children,
@@ -19,15 +20,8 @@ export default async function RootLayout({
     }
 
     return (
-        <html lang="en">
-            <body>
-                <RouteLoader>
-                    <TRPCReactProvider>
-                        <Navbar />
-                        {children}
-                    </TRPCReactProvider>
-                </RouteLoader>
-            </body>
-        </html>
+        <>
+            {children}
+        </>
     );
 }

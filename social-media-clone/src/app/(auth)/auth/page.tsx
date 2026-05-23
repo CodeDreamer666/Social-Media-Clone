@@ -1,6 +1,7 @@
 "use client"
 import { authClient } from "~/server/better-auth/client"
 import { useSearchParams } from "next/navigation"
+import Image from "next/image";
 
 export default function SignIn() {
     const searchParams = useSearchParams();
@@ -47,14 +48,13 @@ export default function SignIn() {
                     }}
                     className="flex h-12 w-full items-center justify-center gap-3 rounded-2xl border border-neutral-800 bg-neutral-950 text-sm font-medium cursor-pointer text-white transition-all duration-200 hover:border-neutral-700 hover:bg-neutral-800 active:scale-[0.99]"
                 >
-                    <img
+                    <Image
                         src="/googleIcon.svg"
-                        alt="Google"
-                        className="h-5 w-5"
+                        alt="An icon of Google"
+                        height={20}
+                        width={20}
                     />
-                    <span>
-                        Continue with Google
-                    </span>
+                    Continue with Google
                 </button>
             </section>
         </section>

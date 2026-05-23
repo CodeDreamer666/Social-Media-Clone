@@ -1,9 +1,7 @@
 "use client"
 import useTimeAgo from "~/app/hooks/useTimeAgo"
 import Link from "next/link"
-import { useRouter, usePathname } from "next/navigation"
 import type { SetStateAction } from "react"
-import { useEffect } from "react"
 import { authClient } from "~/server/better-auth/client"
 import type { SinglePost } from "~/app/types/types"
 import CommentIcon from "../shared/CommentIcon"
@@ -21,7 +19,10 @@ export default function PostItem({
     setIsSuccess,
     setMessage,
 }: Post) {
-    const { data: currentUser, isPending } = authClient.useSession();
+    const { 
+        data: currentUser, 
+        isPending 
+    } = authClient.useSession();
 
     if (isPending) return <Loader />
 
@@ -66,6 +67,7 @@ export default function PostItem({
                     isLike={isLike}
                     postId={post.id}
                     currentUserId={currentUser?.user.id}
+                    typeOfQuery="post"
                 />
 
                 <CommentIcon

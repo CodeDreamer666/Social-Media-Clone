@@ -33,12 +33,16 @@ type Post = {
     },
     setMessage: React.Dispatch<SetStateAction<string>>,
     setIsSuccess: React.Dispatch<SetStateAction<boolean | "IDLE">>,
+    typeOfQuery: "ownerProfile" | "othersProfile" | "post" | undefined,
+    profileUserId?: string
 }
 
 export default function ProfilePost({
     post,
     setIsSuccess,
     setMessage,
+    typeOfQuery,
+    profileUserId
 }: Post) {
     const router = useRouter();
     const pathname = usePathname();
@@ -72,9 +76,11 @@ export default function ProfilePost({
                     postLikeCount={post.likeCount}
                     setIsSuccess={setIsSuccess}
                     setMessage={setMessage}
-                    isLike={!isLike}
+                    isLike={isLike}
                     postId={post.id}
                     currentUserId={currentUser.user.id}
+                    typeOfQuery={typeOfQuery}
+                    profileUserId={profileUserId}
                 />
 
                 <CommentIcon

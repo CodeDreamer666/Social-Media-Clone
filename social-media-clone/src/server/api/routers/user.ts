@@ -28,13 +28,14 @@ export const userRouter = createTRPCRouter({
         }),
 
     getSelectedUserInfo: protectedProcedure
-        .input(z.object({ userId: z.string().trim().nonempty().nullable() }))
+        .input(z.object({ userId: z.string().trim().nonempty() }))
         .query(async ({ ctx, input }) => {
-            if (!input.userId) {
-                throw new TRPCError({
-                    code: "BAD_REQUEST",
-                    message: "User id cannot be empty"
-                })
+            const currentUserId = ctx.session.user.id;
+
+            if (currentUserId === input.userId) {
+                return {
+                    redirecting: true
+                }
             }
 
             const selectedUser = await ctx.db.user.findUnique({

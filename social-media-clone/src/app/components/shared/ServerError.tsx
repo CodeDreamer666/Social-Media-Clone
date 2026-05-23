@@ -1,9 +1,14 @@
 "use client"
 import Link from "next/link";
-import useRefresh from "~/app/hooks/useRefresh";
+import { useState, useEffect } from "react"
 
 export default function ServerError() {
-    const { setRefresh } = useRefresh();
+    const [refresh, setRefresh] = useState(false);
+
+    useEffect(() => {
+        if (refresh) window.location.reload();
+        setRefresh(false);
+    }, [refresh])
 
     return (
         <section className="fixed inset-0 z-9999 flex items-center justify-center bg-black px-4">

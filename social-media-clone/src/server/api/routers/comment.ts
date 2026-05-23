@@ -19,9 +19,10 @@ export const commentRouter = createTRPCRouter({
             const post = await ctx.db.post.findUnique({
                 where: {
                     id: input.postId,
-                    userId
                 }
             });
+
+            console.log("post", post)
 
             if (!post) {
                 throw new TRPCError({
@@ -41,7 +42,6 @@ export const commentRouter = createTRPCRouter({
 
                 await tx.post.update({
                     where: {
-                        userId,
                         id: input.postId
                     },
                     data: {
@@ -55,26 +55,5 @@ export const commentRouter = createTRPCRouter({
             });
 
             return { success: true }
-        }),
-
-    getPostComment: protectedProcedure
-        .input(z.object({ postId: z.string().trim().nonempty() }))
-        .query(async ({ ctx, input }) => {
-            const post = await ctx.db.post.findUnique({
-                where: {
-                    id: input.postId
-                }
-            });
-
-            if (!post) throw new TRPCError({
-                code: "BAD_REQUEST",
-                message: "Post not found"
-            });
-
-            return await ctx.db.comment.findMany({
-                where: {
-                    postId: input.postId
-                }
-            })
         })
 })

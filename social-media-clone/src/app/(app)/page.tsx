@@ -8,7 +8,11 @@ import useStatusMessage from "../hooks/useStatusMessage"
 import StatusMessage from "../components/shared/StatusMessage"
 
 export default function HomePage() {
-    const { data: postsData, isLoading, error } = api.post.getAllPost.useQuery();
+    const {
+        data: postsData,
+        isLoading,
+        error
+    } = api.post.getAllPost.useQuery();
 
     const {
         isSuccess,
@@ -17,13 +21,13 @@ export default function HomePage() {
         setMessage,
         closeMessage
     } = useStatusMessage();
-    
+
     if (isLoading) return <Loader />
 
     if (error || !postsData) return <ServerError />
 
     return (
-        <section>
+        <>
 
             <StatusMessage
                 message={message}
@@ -41,6 +45,7 @@ export default function HomePage() {
                     />
                 })}
             </ul>
-        </section>
+
+        </>
     )
 }

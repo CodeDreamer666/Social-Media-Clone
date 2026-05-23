@@ -1,4 +1,7 @@
 import changePostLikeStateAction from "~/app/libs/changePostLikeState"
+import changePostLikeStateProfileAction from "~/app/libs/profile/changePostLikeStateProfile"
+import changePostLikeStateSelectedProfileAction from "~/app/libs/profile/changePostLikeStateSelectedProfile"
+import changePostLikeStateCommentAction from "~/app/libs/comment/changePostLikeStateComment"
 import type { SetStateAction } from "react"
 
 type Parameter = {
@@ -8,6 +11,8 @@ type Parameter = {
     setIsSuccess: React.Dispatch<SetStateAction<boolean | "IDLE">>,
     currentUserId: string | null | undefined,
     postId: string,
+    typeOfQuery?: "post" | "ownerProfile" | "othersProfile" | "comment",
+    profileUserId?: string
 }
 
 export default function LikeIcon({
@@ -16,19 +21,65 @@ export default function LikeIcon({
     setIsSuccess,
     setMessage,
     currentUserId,
-    postId
+    postId,
+    typeOfQuery,
+    profileUserId
 }: Parameter) {
+
+    let disabled: any;
+    let onClick: any;
 
     const { changePostLikeState } = changePostLikeStateAction({
         setIsSuccess,
         setMessage,
         currentUserId
+    });
+
+    const { changePostLikeStateProfile } = changePostLikeStateProfileAction({
+        setIsSuccess,
+        setMessage,
+        currentUserId
+    });
+
+    const { changePostLikeStateSelectedProfile } = changePostLikeStateSelectedProfileAction({
+        setIsSuccess,
+        setMessage,
+        currentUserId,
+        profileUserId
+    });
+
+    const { changePostLikeStateComment } = changePostLikeStateCommentAction({
+        setIsSuccess,
+        setMessage,
+        currentUserId,
+        postId
     })
+
+    if (typeOfQuery === "post") {
+        disabled = changePostLikeState.isPending;
+        onClick = () => changePostLikeState.mutate({ postId, isLike: !isLike })
+
+    } else if (typeOfQuery === "ownerProfile") {
+        disabled = changePostLikeStateProfile.isPending;
+        onClick = () => changePostLikeStateProfile.mutate({ postId, isLike: !isLike })
+
+    } else if (typeOfQuery === "othersProfile") {
+        disabled = changePostLikeStateSelectedProfile.isPending;
+        onClick = () => changePostLikeStateSelectedProfile.mutate({ postId, isLike: !isLike })
+
+    } else if (typeOfQuery === "comment") {
+        disabled = changePostLikeStateComment.isPending;
+        onClick = () => changePostLikeStateComment.mutate({ postId, isLike: !isLike })
+    }
+    else {
+        disabled = undefined
+        onClick = undefined
+    }
 
     return (
         <button
-            disabled={changePostLikeState.isPending}
-            onClick={() => changePostLikeState.mutate({ postId, isLike: !isLike })}
+            disabled={disabled}
+            onClick={onClick}
             className="flex disabled:text-neutral-500 disabled:cursor-not-allowed items-center gap-2 text-sm text-neutral-400 cursor-pointer transition-colors duration-200 hover:text-white"
         >
             <svg

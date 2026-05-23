@@ -2,6 +2,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 import Navbar from "~/app/components/shared/Navbar";
 import "~/styles/globals.css"
 import RouteLoader from "~/app/components/shared/RouterLoader";
+import { HydrateClient } from "~/trpc/server";
 
 export default async function RootLayout({
     children,
@@ -9,12 +10,14 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <body>
-                <RouteLoader>
-                    <TRPCReactProvider>
-                        <Navbar />
-                        {children}
-                    </TRPCReactProvider>
-                </RouteLoader>
+                <TRPCReactProvider>
+                    <HydrateClient>
+                        <RouteLoader>
+                            <Navbar />
+                            {children}
+                        </RouteLoader>
+                    </HydrateClient>
+                </TRPCReactProvider>
             </body>
         </html>
     );

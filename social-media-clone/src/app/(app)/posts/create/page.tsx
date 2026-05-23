@@ -1,16 +1,17 @@
 "use client"
 import { api } from "~/trpc/react"
-import useStatusMessage from "../hooks/useStatusMessage";
-import StatusMessage from "../components/shared/StatusMessage";
-import { useRouter, usePathname } from "next/navigation"
-import LoadingIcon from "../components/shared/LoadingIcon";
-import { TRPCClientError } from "@trpc/client";
+import StatusMessage from "~/app/components/shared/StatusMessage";
+import useStatusMessage from "~/app/hooks/useStatusMessage";
+import LoadingIcon from "~/app/components/shared/LoadingIcon";
 import { useState } from "react";
-import Loader from "../components/shared/Loader";
-import ServerError from "../components/shared/ServerError";
+import Loader from "~/app/components/shared/Loader";
+import ServerError from "~/app/components/shared/ServerError";
+import { useRouter, usePathname } from "next/navigation";
+import handleTRPCError from "~/app/libs/handleTRPCError";
 
 export default function CreatePost() {
     const [postContent, setPostContent] = useState("");
+    const utils = api.useUtils();
     const router = useRouter();
     const pathname = usePathname();
     const {
@@ -20,45 +21,33 @@ export default function CreatePost() {
         setMessage,
         closeMessage
     } = useStatusMessage()
-    const utils = api.useUtils();
 
-    const { data: user, isLoading, error } = api.user.getUserInfo.useQuery();
+    const { 
+        data: currentUser, 
+        isLoading, 
+        error 
+    } = api.user.getUserInfo.useQuery();
 
+    // Create post mutation
     const createPost = api.post.createPost.useMutation({
         onSuccess: (newData) => {
-            setIsSuccess(newData.success);
-            setMessage(newData.message);
-            setTimeout(() => {
-                router.replace("/");
-            }, 1500)
+            router.replace("/");
         },
 
         onError: (error) => {
-            if (error instanceof TRPCClientError) {
-                if (error.data?.code === "UNAUTHORIZED") {
-                    router.replace(`/auth?redirect=${encodeURIComponent(pathname)}`);
-                    return;
-                }
-
-                setIsSuccess(false);
-                setMessage(error.data.zodError[0].message ?? "Something went wrong. Please try again.");
-                return;
-            }
+            handleTRPCError({
+                error, setMessage, setIsSuccess, router, pathname
+            })
         },
 
         onSettled: async () => {
-            await utils.post.getAllPost.invalidate();
-            await utils.user.getUserInfo.invalidate();
+            await utils.invalidate();
         }
     });
 
     if (isLoading) return <Loader />
 
-    if (error && error instanceof TRPCClientError) {
-        router.replace(`/auth?redirect=${encodeURIComponent(pathname)}`);
-    }
-
-    if (!user) return <ServerError />
+    if (error || !currentUser) return <ServerError />
 
     return (
         <>
@@ -89,11 +78,11 @@ export default function CreatePost() {
                         </div>
                         <div>
                             <h2 className="text-sm font-semibold text-white">
-                                {user.name}
+                                {currentUser.name}
                             </h2>
 
                             <p className="text-xs text-neutral-400">
-                                {user.username ?? `@${user.name.toLowerCase().replace(/\s/g, "")}`}
+                                {currentUser.username ?? `@${currentUser.name.toLowerCase().replace(/\s/g, "")}`}
                             </p>
                         </div>
                     </div>
@@ -120,7 +109,6 @@ export default function CreatePost() {
                                     <p>Posting...</p>
                                 </div>
                             ) : "Post"}
-
                         </button>
                     </div>
 

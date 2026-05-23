@@ -5,6 +5,7 @@ import { TRPCClientError } from "@trpc/client";
 import type { SetStateAction } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import LoadingIcon from "~/app/components/shared/LoadingIcon";
+import handleTRPCError from "~/app/libs/handleTRPCError";
 
 type Post = {
     post: {
@@ -20,12 +21,13 @@ type Post = {
     setMessage: React.Dispatch<SetStateAction<string>>
 }
 
-export default function PostItem({ post, setIsSuccess, setMessage }: Post) {
+export default function PostEditForm({ post, setIsSuccess, setMessage }: Post) {
     const postTimeAgo = useTimeAgo(new Date(post.createdAt));
     const utils = api.useUtils();
     const router = useRouter();
     const pathname = usePathname();
 
+    // Edit user post mutation
     const editUserPosts = api.user.editUserPosts.useMutation({
         onMutate: async (newData) => {
             await utils.user.getUserInfo.cancel();
@@ -44,34 +46,18 @@ export default function PostItem({ post, setIsSuccess, setMessage }: Post) {
             return { previousUserInfo };
         },
 
-        onSuccess: (newData) => {
-            setIsSuccess(newData.success);
-            setMessage(newData.message);
-            return;
-        },
-
         onError: (error, newData, context) => {
             if (context?.previousUserInfo) {
                 utils.user.getUserInfo.setData(undefined, context.previousUserInfo);
-                setIsSuccess(false);
-                setMessage("Something went wrong. Please try again");
-                return;
             }
 
-            if (error instanceof TRPCClientError) {
-                if (error.data?.code === "UNAUTHORIZED") {
-                    router.replace(`/auth?redirect=${encodeURIComponent(pathname)}`);
-                    return;
-                }
-
-                setIsSuccess(false);
-                setMessage(error.data.zodError[0].message ?? "Something went wrong. Please try again.");
-                return;
-            }
+            handleTRPCError({
+                error, setMessage, setIsSuccess, router, pathname
+            })
         },
 
         onSettled: async () => {
-            await utils.user.getUserInfo.invalidate()
+            await utils.invalidate()
         }
     });
 
