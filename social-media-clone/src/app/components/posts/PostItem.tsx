@@ -1,40 +1,28 @@
 "use client"
 import useTimeAgo from "~/app/hooks/useTimeAgo"
 import Link from "next/link"
-import type { SetStateAction } from "react"
-import { authClient } from "~/server/better-auth/client"
 import type { SinglePost } from "~/app/types/types"
 import CommentIcon from "../shared/CommentIcon"
-import Loader from "../shared/Loader"
 import LikeIcon from "../shared/LikeIcon"
 
 type Post = {
     post: SinglePost,
-    setMessage: React.Dispatch<SetStateAction<string>>,
-    setIsSuccess: React.Dispatch<SetStateAction<boolean | "IDLE">>,
+    mutation: any,
+    onClickMutation: any,
+    isLike: boolean
 }
 
 export default function PostItem({
     post,
-    setIsSuccess,
-    setMessage,
+    mutation,
+    onClickMutation,
+    isLike
 }: Post) {
-    const { 
-        data: currentUser, 
-        isPending 
-    } = authClient.useSession();
-
-    if (isPending) return <Loader />
-
     const postTimeAgo = useTimeAgo(new Date(post.createdAt))
-
-    let isLike = post.likes.some((like) => {
-        return like.postId === post.id && like.userId === currentUser?.user.id
-    });
 
     return (
         <section
-            className="w-full max-w-112.5 mt-4 mx-auto rounded-2xl border border-neutral-800 bg-neutral-900 p-5"
+            className="w-[90%] max-w-112.5 mt-4 mx-auto rounded-2xl border border-neutral-800 bg-neutral-900 p-5"
         >
 
             <Link href={`/profile/${post.user.id}`}>
@@ -62,12 +50,9 @@ export default function PostItem({
             <div className="mt-5 flex items-center gap-6 border-t border-neutral-800 pt-4">
                 <LikeIcon
                     postLikeCount={post.likeCount}
-                    setIsSuccess={setIsSuccess}
-                    setMessage={setMessage}
                     isLike={isLike}
-                    postId={post.id}
-                    currentUserId={currentUser?.user.id}
-                    typeOfQuery="post"
+                    mutation={mutation}
+                    onClickMutation={onClickMutation}
                 />
 
                 <CommentIcon

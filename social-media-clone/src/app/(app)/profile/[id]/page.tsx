@@ -1,20 +1,31 @@
 "use client"
-import ProfilePost from "~/app/components/profile/ProfilePost"
 import StatusMessage from "~/app/components/shared/StatusMessage"
 import useStatusMessage from "~/app/hooks/useStatusMessage"
 import { api } from "~/trpc/react"
 import Loader from "~/app/components/shared/Loader"
 import ServerError from "~/app/components/shared/ServerError"
-import { redirect, useParams } from "next/navigation"
+import { redirect, useParams, useRouter, usePathname } from "next/navigation"
+import CommentIcon from "~/app/components/shared/CommentIcon"
+import LikeIcon from "~/app/components/shared/LikeIcon"
+import handleTRPCError from "~/app/libs/handleTRPCError"
+import { authClient } from "~/server/better-auth/client"
+import { updatePostLike } from "~/app/libs/likeUpdater"
 
 export default function Page() {
-    const params = useParams<{ id: string }>()
+    const params = useParams<{ id: string }>();
+    const utils = api.useUtils();
+    const router = useRouter();
+    const pathname = usePathname();
 
     const {
         data: user,
         isLoading,
         error
     } = api.user.getSelectedUserInfo.useQuery({ userId: params.id });
+
+    const {
+        data: currentUser
+    } = authClient.useSession();
 
     const {
         setIsSuccess,
@@ -24,9 +35,54 @@ export default function Page() {
         closeMessage
     } = useStatusMessage();
 
+    // Like or unlike post mutation
+    const changePostLikeState = api.like.changePostLikeState.useMutation({
+        onMutate: async (newData) => {
+            await utils.user.getSelectedUserInfo.cancel({ userId: params.id });
+
+            const previousInfo = utils.user.getSelectedUserInfo.getData({ userId: params.id });
+
+
+            utils.user.getSelectedUserInfo.setData({ userId: params.id }, (old) => {
+                if (!old || !currentUser?.user.id || "redirecting" in old) return old;
+
+                return {
+                    ...old,
+                    posts: old.posts.map((post) => {
+                        if (post.id !== newData.postId) {
+                            return post;
+                        }
+
+                        return updatePostLike(post, {
+                            currentUserId: currentUser.user.id,
+                            isLike: newData.isLike,
+                            postId: newData.postId
+                        });
+                    })
+                }
+            });
+
+            return { previousInfo };
+        },
+
+        onError: (error, newData, context) => {
+            if (context?.previousInfo) {
+                utils.user.getSelectedUserInfo.setData({ userId: params.id }, context.previousInfo);
+            }
+
+            handleTRPCError({
+                error, setMessage, setIsSuccess, router, pathname
+            })
+        },
+
+        onSettled: async () => {
+            await utils.invalidate()
+        }
+    });
+
     if (isLoading) return <Loader />
 
-    if (error || !user) return <ServerError />
+    if (error || !user || !currentUser) return <ServerError />
 
     if ("redirecting" in user) return redirect("/profile")
 
@@ -108,18 +164,37 @@ export default function Page() {
                         </h2>
                     </div>
                 )}
-
+                
+                {/* Post content */}
                 <ul className="flex flex-col gap-4">
                     {user.posts.map((post) => {
+                        const isLike = post.likes.some((like) => {
+                            return like.postId === post.id && like.userId === currentUser.user.id
+                        });
+
                         return (
-                            <ProfilePost
-                                key={post.id}
-                                setIsSuccess={setIsSuccess}
-                                setMessage={setMessage}
-                                post={post}
-                                typeOfQuery="othersProfile"
-                                profileUserId={params.id}
-                            />
+                            <section className="rounded-2xl border border-neutral-800 bg-neutral-900 p-5">
+                                <p className="text-sm leading-7 text-neutral-200">
+                                    {post.content}
+                                </p>
+
+                                <div className="mt-5 flex items-center gap-6 border-t border-neutral-800 pt-4">
+                                    <LikeIcon
+                                        mutation={changePostLikeState}
+                                        postLikeCount={post.likeCount}
+                                        onClickMutation={() => changePostLikeState.mutate({
+                                            postId: post.id,
+                                            isLike: !isLike
+                                        })}
+                                        isLike={isLike}
+                                    />
+
+                                    <CommentIcon
+                                        postCommentCount={post.commentCount}
+                                        postId={post.id}
+                                    />
+                                </div>
+                            </section>
                         )
                     })}
                 </ul>

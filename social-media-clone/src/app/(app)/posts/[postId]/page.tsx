@@ -1,17 +1,15 @@
 "use client"
-import useTimeAgo from "~/app/hooks/useTimeAgo"
 import { api } from "~/trpc/react"
-import Link from "next/link"
 import { useState } from "react"
 import { useParams, useRouter, usePathname } from "next/navigation"
 import StatusMessage from "~/app/components/shared/StatusMessage"
 import useStatusMessage from "~/app/hooks/useStatusMessage"
 import Comment from "~/app/components/comments/Comment"
-import LikeIcon from "~/app/components/shared/LikeIcon"
-import CommentIcon from "~/app/components/shared/CommentIcon"
 import ServerError from "~/app/components/shared/ServerError"
 import Loader from "~/app/components/shared/Loader"
 import handleTRPCError from "~/app/libs/handleTRPCError"
+import PostItem from "~/app/components/posts/PostItem"
+import { updatePostLike } from "~/app/libs/likeUpdater"
 
 export default function Page() {
     const [isOpen, setIsOpen] = useState(false);
@@ -40,46 +38,22 @@ export default function Page() {
         error: currentUserError
     } = api.user.getUserInfo.useQuery();
 
-    const postTimeAgo = useTimeAgo(new Date(selectedPost?.createdAt ?? new Date()));
-
-    // Create comment mutation
-    const createComment = api.comment.createComment.useMutation({
-        onSuccess: () => setIsOpen(false),
-
+    // Like or unlike post
+    const changePostLikeState = api.like.changePostLikeState.useMutation({
         onMutate: async (newData) => {
-            await utils.comment.getPostComment.cancel();
+            await utils.post.getSelectedPost.cancel({ postId: params.postId });
 
-            const previousInfo = utils.comment.getPostComment.getData({ postId: newData.postId });
+            const previousInfo = utils.post.getSelectedPost.getData({ postId: params.postId });
 
-            utils.comment.getPostComment.setData({ postId: newData.postId }, (old) => {
-                if (!old || !currentUser?.id) return old;
+            utils.post.getSelectedPost.setData({ postId: params.postId }, (old) => {
+                if (!old || !currentUser) return old;
 
-                return [
-                    ...old,
-                    {
-                        user: {
-                            name: "",
-                            id: crypto.randomUUID(),
-                            createdAt: new Date(),
-                            updatedAt: new Date(),
-                            username: null,
-                            bio: "",
-                            followersCount: 0,
-                            followingCount: 0,
-                            postsCount: 0,
-                            email: "",
-                            emailVerified: true,
-                            image: null,
-                            isPublic: true,
-                        },
-                        id: crypto.randomUUID(),
-                        userId: currentUser.id,
-                        postId: newData.postId,
-                        content: newData.commentContent,
-                        createdAt: new Date(),
-                        updatedAt: new Date()
-                    }
-                ]
+                return updatePostLike(old, {
+                    currentUserId: currentUser.id,
+                    isLike: newData.isLike,
+                    postId: newData.postId
+                })
+
             });
 
             return { previousInfo };
@@ -87,7 +61,68 @@ export default function Page() {
 
         onError: (error, newData, context) => {
             if (context?.previousInfo) {
-                utils.comment.getPostComment.setData({ postId: newData.postId }, context.previousInfo);
+                utils.post.getSelectedPost.setData({ postId: params.postId }, context.previousInfo);
+            }
+
+            handleTRPCError({
+                error, setMessage, setIsSuccess, router, pathname
+            })
+        },
+
+        onSettled: async () => {
+            await utils.invalidate()
+        }
+    });
+
+    // Create comment mutation
+    const createComment = api.comment.createComment.useMutation({
+        onSuccess: () => setIsOpen(false),
+
+        onMutate: async (newData) => {
+            await utils.post.getSelectedPost.cancel();
+
+            const previousInfo = utils.post.getSelectedPost.getData({ postId: newData.postId });
+
+            utils.post.getSelectedPost.setData({ postId: newData.postId }, (old) => {
+                if (!old || !currentUser?.id) return old;
+
+                return {
+                    ...old,
+                    comments: [
+                        ...old.comments,
+                        {
+                            user: {
+                                name: "",
+                                id: crypto.randomUUID(),
+                                createdAt: new Date(),
+                                updatedAt: new Date(),
+                                username: null,
+                                bio: "",
+                                followersCount: 0,
+                                followingCount: 0,
+                                postsCount: 0,
+                                email: "",
+                                emailVerified: true,
+                                image: null,
+                                isPublic: true,
+                            },
+                            id: crypto.randomUUID(),
+                            userId: currentUser.id,
+                            postId: newData.postId,
+                            content: newData.commentContent,
+                            createdAt: new Date(),
+                            updatedAt: new Date()
+                        }
+                    ]
+                }
+            });
+
+            return { previousInfo };
+        },
+
+        onError: (error, newData, context) => {
+            if (context?.previousInfo) {
+                utils.post.getSelectedPost.setData({ postId: newData.postId }, context.previousInfo);
             }
 
             handleTRPCError({
@@ -123,52 +158,17 @@ export default function Page() {
                 closeMessage={closeMessage}
             />
 
-            <section
-                className="w-full max-w-112.5 mt-4 mx-auto rounded-2xl border border-neutral-800 bg-neutral-900 p-5"
-            >
+            <PostItem
+                post={selectedPost}
+                isLike={isLike}
+                mutation={changePostLikeState}
+                onClickMutation={() => changePostLikeState.mutate({
+                    postId: selectedPost.id,
+                    isLike: !isLike
+                })}
+            />
 
-                {/* Post owner information */}
-                <Link href={`/profile/${selectedPost.user.id}`}>
-                    <div className="flex items-center gap-3">
-                        <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-500 font-semibold text-white">
-                            {selectedPost.user.name[0]?.toUpperCase()}
-                        </div>
-
-                        <div>
-                            <h2 className="text-lg font-semibold text-white">
-                                {selectedPost.user.name}
-                            </h2>
-
-                            <p className="text-sm text-neutral-400">
-                                {selectedPost.user.username ?? `@${selectedPost.user.name.toLowerCase().replace(/\s/g, "")}`} • {postTimeAgo}
-                            </p>
-                        </div>
-                    </div>
-                </Link>
-
-                <p className="mt-4 leading-7 text-neutral-200">
-                    {selectedPost.content}
-                </p>
-
-                <div className="mt-5 flex items-center gap-6 border-t border-neutral-800 pt-4">
-                    <LikeIcon
-                        postLikeCount={selectedPost.likeCount}
-                        setIsSuccess={setIsSuccess}
-                        setMessage={setMessage}
-                        isLike={isLike}
-                        postId={selectedPost.id}
-                        currentUserId={currentUser.id}
-                        typeOfQuery="comment"
-                    />
-
-                    <CommentIcon
-                        postCommentCount={selectedPost.commentCount}
-                        postId={selectedPost.id}
-                    />
-                </div>
-            </section>
-
-            <section className="mx-auto mt-6 w-full max-w-112.5">
+            <section className="mt-6 w-[90%] mx-auto max-w-112.5">
                 <div className="mb-5 flex items-center justify-between">
                     <h2 className="text-lg font-semibold text-white">
                         Comments

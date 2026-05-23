@@ -32,11 +32,11 @@ export default function Comment({ comment }: CommentParameter) {
 
     return (
         <section className="flex flex-col gap-4">
-            <div className="flex gap-3 rounded-2xl border border-neutral-800 bg-neutral-900 p-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sky-500 text-sm font-medium text-white">
-                    {comment.user.name[0]?.toUpperCase()}
-                </div>
-                <div className="">
+            <div className="flex flex-col gap-2 rounded-2xl border border-neutral-800 bg-neutral-900 p-4">
+                <div className="flex gap-2 items-center">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sky-500 text-sm font-medium text-white">
+                        {comment.user.name[0]?.toUpperCase()}
+                    </div>
                     <div className="flex flex-col">
                         <h3 className="text-sm font-medium text-white">
                             {comment.user.name}
@@ -45,10 +45,10 @@ export default function Comment({ comment }: CommentParameter) {
                             {comment.user.username ?? `@${comment.user.name.toLowerCase().replace(/\s/g, "")}`} • {commentTimeAgo}
                         </p>
                     </div>
-                    <p className="mt-2 text-sm text-neutral-200">
-                        {comment.content}
-                    </p>
                 </div>
+                <p className="mt-2 text-sm text-neutral-200">
+                    {comment.content}
+                </p>
             </div>
         </section>
     )

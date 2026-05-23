@@ -2,10 +2,14 @@
 import { api } from "~/trpc/react";
 import Loader from "../../components/shared/Loader";
 import Link from "next/link";
-import ProfilePost from "~/app/components/profile/ProfilePost"
 import useStatusMessage from "../../hooks/useStatusMessage";
 import StatusMessage from "../../components/shared/StatusMessage";
 import ServerError from "~/app/components/shared/ServerError";
+import { useRouter, usePathname } from "next/navigation";
+import handleTRPCError from "~/app/libs/handleTRPCError";
+import { updatePostLike } from "~/app/libs/likeUpdater";
+import LikeIcon from "~/app/components/shared/LikeIcon";
+import CommentIcon from "~/app/components/shared/CommentIcon";
 
 export default function Profile() {
     const {
@@ -14,13 +18,61 @@ export default function Profile() {
         error
     } = api.user.getUserInfo.useQuery();
 
+    const utils = api.useUtils();
+    const router = useRouter();
+    const pathname = usePathname();
+
+    // Like or unlike post
+    const changePostLikeState = api.like.changePostLikeState.useMutation({
+        onMutate: async (newData) => {
+            await utils.user.getUserInfo.cancel();
+
+            const previousInfo = utils.user.getUserInfo.getData();
+
+            utils.user.getUserInfo.setData(undefined, (old) => {
+                if (!old || !currentUser?.id) return old;
+
+                return {
+                    ...old,
+                    posts: old.posts.map((post) => {
+                        if (post.id !== newData.postId) {
+                            return post;
+                        }
+
+                        return updatePostLike(post, {
+                            currentUserId: currentUser.id,
+                            isLike: newData.isLike,
+                            postId: newData.postId
+                        });
+                    })
+                };
+            });
+
+            return { previousInfo };
+        },
+
+        onError: (error, newData, context) => {
+            if (context?.previousInfo) {
+                utils.user.getUserInfo.setData(undefined, context.previousInfo);
+            }
+
+            handleTRPCError({
+                error, setMessage, setIsSuccess, router, pathname
+            })
+        },
+
+        onSettled: async () => {
+            await utils.invalidate()
+        }
+    });
+
     const {
         setIsSuccess,
         setMessage,
         isSuccess,
         message,
         closeMessage
-    } = useStatusMessage()
+    } = useStatusMessage();
 
     if (isLoading) return <Loader />
 
@@ -123,15 +175,40 @@ export default function Profile() {
                     </section>
                 )}
 
+                {/* Post content */}
                 <ul className="flex flex-col gap-4">
                     {currentUser.posts.map((post) => {
-                        return <ProfilePost
-                            key={post.id}
-                            setIsSuccess={setIsSuccess}
-                            setMessage={setMessage}
-                            post={post}
-                            typeOfQuery="ownerProfile"
-                        />
+                        const isLike = post.likes.some((like) => {
+                            return like.postId === post.id && like.userId === currentUser.id
+                        });
+
+                        return (
+                            <section
+                                key={post.id}
+                                className="rounded-2xl border border-neutral-800 bg-neutral-900 p-5"
+                            >
+                                <p className="text-sm leading-7 text-neutral-200">
+                                    {post.content}
+                                </p>
+
+                                <div className="mt-5 flex items-center gap-6 border-t border-neutral-800 pt-4">
+                                    <LikeIcon
+                                        mutation={changePostLikeState}
+                                        postLikeCount={post.likeCount}
+                                        onClickMutation={() => changePostLikeState.mutate({
+                                            postId: post.id,
+                                            isLike: !isLike
+                                        })}
+                                        isLike={isLike}
+                                    />
+
+                                    <CommentIcon
+                                        postCommentCount={post.commentCount}
+                                        postId={post.id}
+                                    />
+                                </div>
+                            </section>
+                        )
                     })}
                 </ul>
             </section >
