@@ -1,5 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import sanitizeHtml from "sanitize-html";
 
 import {
     createTRPCRouter,
@@ -71,13 +72,23 @@ export const userRouter = createTRPCRouter({
         .mutation(async ({ ctx, input }) => {
             const userId = ctx.session.user.id;
 
+            const cleanUsernameInput = sanitizeHtml(input.username, {
+                allowedAttributes: {},
+                allowedTags: []
+            })
+
+            const cleanBioInput = sanitizeHtml(input.bio, {
+                allowedAttributes: {},
+                allowedTags: []
+            })
+
             await ctx.db.user.update({
                 where: {
                     id: userId
                 },
                 data: {
-                    username: input.username,
-                    bio: input.bio,
+                    username: cleanUsernameInput,
+                    bio: cleanBioInput,
                 }
             });
 

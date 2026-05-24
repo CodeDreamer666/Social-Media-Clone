@@ -32,7 +32,7 @@ model Like {
   userId String
   user   User   @relation(fields: [userId], references: [id])
   postId String
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
 
   @@unique([userId, postId])
 }
@@ -40,7 +40,7 @@ model Like {
 model Comment {
   id        String   @id @default(uuid())
   postId    String
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   content   String
@@ -51,7 +51,7 @@ model Comment {
 model User {
   id             String    @id @default(uuid())
   name           String //@db.Text
-  username       String?   @unique
+  username       String?   
   bio            String    @default("A new social media user")
   followersCount Int       @default(0)
   followingCount Int       @default(0)

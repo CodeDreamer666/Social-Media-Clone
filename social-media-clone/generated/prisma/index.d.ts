@@ -9886,12 +9886,12 @@ export namespace Prisma {
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-    username?: string
     email?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
+    username?: StringNullableFilter<"User"> | string | null
     bio?: StringFilter<"User"> | string
     followersCount?: IntFilter<"User"> | number
     followingCount?: IntFilter<"User"> | number
@@ -9906,7 +9906,7 @@ export namespace Prisma {
     posts?: PostListRelationFilter
     comments?: CommentListRelationFilter
     likes?: LikeListRelationFilter
-  }, "id" | "username" | "email">
+  }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder

@@ -1,5 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
+import sanitizeHtml from "sanitize-html"
 
 import {
     createTRPCRouter,
@@ -22,7 +23,11 @@ export const commentRouter = createTRPCRouter({
                 }
             });
 
-            console.log("post", post)
+            const cleanCommentContentInput = sanitizeHtml(input.commentContent, {
+                allowedAttributes: {},
+                allowedTags: []
+            })
+
 
             if (!post) {
                 throw new TRPCError({
@@ -35,7 +40,7 @@ export const commentRouter = createTRPCRouter({
                 await tx.comment.create({
                     data: {
                         userId,
-                        content: input.commentContent,
+                        content: cleanCommentContentInput,
                         postId: input.postId
                     }
                 });

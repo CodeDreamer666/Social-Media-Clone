@@ -29,6 +29,11 @@ export default function PostEditForm({ post, setIsSuccess, setMessage }: Post) {
 
     // Edit user post mutation
     const editUserPosts = api.user.editUserPosts.useMutation({
+        onSuccess: (newData) => {
+            setIsSuccess(newData.success);
+            setMessage(newData.message)
+        },
+        
         onMutate: async (newData) => {
             await utils.user.getUserInfo.cancel();
 
