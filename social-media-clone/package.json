@@ -38,7 +38,7 @@
     "sanitize-html": "^2.17.4",
     "server-only": "^0.0.1",
     "superjson": "^2.2.1",
-    "zod": "^4.4.3"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.3.1",
