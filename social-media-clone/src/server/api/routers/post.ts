@@ -48,7 +48,7 @@ export const postRouter = createTRPCRouter({
                     likes: true
                 },
                 orderBy: {
-                    id: "asc"
+                    id: "desc"
                 }
             });
         }),

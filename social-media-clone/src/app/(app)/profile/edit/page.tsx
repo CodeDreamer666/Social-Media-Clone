@@ -80,7 +80,7 @@ export default function EditProfile() {
     if (error || !currentUser) return <ServerError />
 
     return (
-        <section className="mx-auto w-full max-w-3xl px-4">
+        <section className="mx-auto w-full max-w-2xl px-4">
 
             <StatusMessage
                 message={message}
@@ -88,7 +88,7 @@ export default function EditProfile() {
                 closeMessage={closeMessage}
             />
 
-            <section className="mb-6 flex xxs:flex-col xs:items-center justify-between gap-4">
+            <section className="mb-6 flex flex-col justify-between gap-4">
                 <div>
                     <h1 className="text-3xl font-semibold text-white">
                         Edit Profile

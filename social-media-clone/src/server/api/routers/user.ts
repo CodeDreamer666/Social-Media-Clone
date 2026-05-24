@@ -21,6 +21,9 @@ export const userRouter = createTRPCRouter({
                         include: {
                             likes: true,
                             comments: true
+                        },
+                        orderBy: {
+                            id: "desc"
                         }
                     }
                 }

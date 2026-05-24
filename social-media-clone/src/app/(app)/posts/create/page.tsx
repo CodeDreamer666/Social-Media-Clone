@@ -57,7 +57,7 @@ export default function CreatePost() {
                 closeMessage={closeMessage}
             />
 
-            <div className="mx-auto w-full max-w-2xl px-4">
+            <div className="mx-auto w-full max-w-2xl min-h-[85vh] flex flex-col justify-center px-4">
                 <form
                     onSubmit={(event) => {
                         event.preventDefault();

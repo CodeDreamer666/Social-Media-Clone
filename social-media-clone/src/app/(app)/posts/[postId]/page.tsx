@@ -181,7 +181,7 @@ export default function Page() {
                     </button>
                 </div>
 
-                <ul>
+                <ul className="flex flex-col gap-4">
                     {selectedPost.comments.map((comment) => {
                         return (
                             <Comment
@@ -234,10 +234,10 @@ export default function Page() {
                                 value={commentContent}
                                 onChange={(event) => setCommentContent(event.target.value)}
                                 placeholder="Write a comment..."
-                                className="mt-5 h-60 w-full resize-none bg-transparent text-[15px] leading-7 text-white outline-none placeholder:text-neutral-500"
+                                className="mt-5 h-40 w-full resize-none bg-transparent text-[15px] leading-7 text-white outline-none placeholder:text-neutral-500"
                             />
 
-                            <div className="mt-6 flex items-center justify-between border-t border-neutral-800 pt-4">
+                            <div className="mt-6 flex xxs:flex-col xxs:gap-2 xs:flex-row xs:items-center xs:justify-between border-t border-neutral-800 pt-4">
                                 <p className="text-sm text-neutral-500">
                                     Keep it respectful and meaningful.
                                 </p>

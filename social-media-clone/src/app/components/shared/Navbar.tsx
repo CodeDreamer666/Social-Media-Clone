@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from "react"
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
 import { authClient } from "~/server/better-auth/client";
 import { useRouter } from "next/navigation";
 import NavigationLink from "./NavigationLink";
@@ -23,13 +23,15 @@ export default function Navbar() {
                     router.push("/")
                 }
             }
-        })
+        });
+
+        return redirect("/auth")
     }
 
     return (
         <header>
             <nav className="fixed top-0 z-50 h-16 w-full border-b border-neutral-800 bg-neutral-950 backdrop-blur">
-                <div className="mx-auto flex h-full max-w-6xl items-center justify-between px-4">
+                <div className="mx-auto flex h-full max-w-3xl items-center justify-between px-4">
 
                     <div className="flex gap-1 items-center justify-center">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="white" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-7">
