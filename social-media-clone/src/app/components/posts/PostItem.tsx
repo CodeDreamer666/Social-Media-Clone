@@ -22,32 +22,32 @@ export default function PostItem({
 
     return (
         <section
-            className="w-[90%] max-w-112.5 mt-4 mx-auto rounded-2xl border border-neutral-800 bg-neutral-900 p-5"
+            className="mx-auto mt-4 w-[92%] max-w-112.5 rounded-3xl border border-white/[0.06] bg-zinc-900/60 p-5 shadow-[0_8px_30px_rgba(0,0,0,0.35)] backdrop-blur-xl transition-colors duration-200 hover:border-white/[0.1]"
         >
 
-            <Link href={`/profile/${post.user.id}`}>
+            <Link href={`/profile/${post.user.id}`} className="group">
                 <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-500 font-semibold text-white">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-[17px] font-semibold text-white shadow-md shadow-blue-500/20">
                         {post.user.name[0]?.toUpperCase()}
                     </div>
 
-                    <div>
-                        <h2 className="text-lg font-semibold text-white">
+                    <div className="min-w-0">
+                        <h2 className="truncate text-[15px] font-semibold text-white transition-colors duration-200 group-hover:text-blue-400">
                             {post.user.name}
                         </h2>
 
-                        <p className="text-sm text-neutral-400">
-                            {post.user.username ?? `@${post.user.name.toLowerCase().replace(/\s/g, "")}`} • {postTimeAgo}
+                        <p className="truncate text-[13px] text-zinc-500">
+                            {post.user.username ?? `@${post.user.name.toLowerCase().replace(/\s/g, "")}`} · {postTimeAgo}
                         </p>
                     </div>
                 </div>
             </Link>
 
-            <p className="mt-4 leading-7 text-neutral-200">
+            <p className="mt-4 text-[15px] leading-7 text-zinc-200">
                 {post.content}
             </p>
 
-            <div className="mt-5 flex items-center gap-6 border-t border-neutral-800 pt-4">
+            <div className="mt-4 flex items-center gap-6 border-t border-white/[0.06] pt-4">
                 <LikeIcon
                     postLikeCount={post.likeCount}
                     isLike={isLike}
@@ -63,3 +63,4 @@ export default function PostItem({
         </section>
     )
 }
+

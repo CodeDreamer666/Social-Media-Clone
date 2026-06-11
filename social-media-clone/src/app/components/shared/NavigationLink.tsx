@@ -13,15 +13,17 @@ export default function NavigationLink({
     isMobile: boolean
 }) {
     const desktopNavigationLinkStyle = `
-        cursor-pointer text-md font-medium flex gap-1 
-        items-center justify-center text-neutral-400 
-        hover:text-white hover:border-b hover:pb-1 transition-all duration-200
+        flex items-center gap-1.5 rounded-full px-3 py-1.5
+        text-[14px] font-medium text-zinc-400
+        transition-all duration-200
+        hover:bg-white/5 hover:text-white
     `
 
     const mobileNavigationLinkStyle = `
-        flex items-center justify-center gap-2 rounded-xl 
-        bg-sky-500 px-4 py-2 font-medium text-white transition-colors 
-        duration-200 hover:bg-sky-400
+        flex items-center gap-3 rounded-xl px-3 py-2.5
+        text-[15px] font-medium text-zinc-300
+        transition-colors duration-200
+        hover:bg-white/5 hover:text-white
     `
 
     return (
@@ -34,3 +36,4 @@ export default function NavigationLink({
         </Link>
     )
 }
+

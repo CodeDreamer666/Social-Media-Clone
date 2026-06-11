@@ -87,7 +87,7 @@ export default function Page() {
     if ("redirecting" in user) return redirect("/profile")
 
     return (
-        <div>
+        <div className="min-h-screen bg-black pb-10">
             <section className="px-4 max-w-2xl mx-auto">
 
                 <StatusMessage
@@ -97,20 +97,19 @@ export default function Page() {
                 />
 
                 {/* User profile information */}
-                <div className="flex flex-col" >
+                <div className="flex flex-col rounded-3xl border border-white/[0.06] bg-zinc-900/60 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.35)] backdrop-blur-xl">
                     <div className="flex gap-2 items-center justify-between w-full">
-                        <div className="flex gap-2 items-center">
+                        <div className="flex gap-3 items-center">
 
-                            <div className="flex h-12 w-12 text-2xl items-center justify-center rounded-full bg-sky-500 font-semibold text-white">
+                            <div className="flex h-14 w-14 shrink-0 text-2xl items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 font-semibold text-white shadow-md shadow-blue-500/20">
                                 {user.name[0]?.toUpperCase()}
                             </div>
 
-
                             <div>
-                                <h2 className="text-2xl font-semibold text-white">
+                                <h2 className="text-xl font-semibold tracking-tight text-white">
                                     {user.name}
                                 </h2>
-                                <p className="text-sm text-neutral-400">
+                                <p className="text-[13px] text-zinc-500">
                                     {user.username ?? `@${user.name.toLowerCase().replace(/\s/g, "")}`}
                                 </p>
                             </div>
@@ -122,35 +121,35 @@ export default function Page() {
                                     {user.postsCount}
                                 </h3>
 
-                                <p className="text-sm text-neutral-400">
+                                <p className="text-[12px] text-zinc-500">
                                     Posts
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <p className="mt-5 max-w-lg text-sm text-neutral-300">
+                    <p className="mt-5 max-w-lg text-[14px] leading-7 text-zinc-300">
                         {user.bio}
                     </p>
                 </div>
 
                 <section className="mt-8">
-                    <h2 className="mb-4 text-2xl font-semibold text-white">
+                    <h2 className="mb-4 text-xl font-semibold tracking-tight text-white">
                         Posts
                     </h2>
 
                     {/* No Post Modal */}
                     {user.posts.length === 0 && (
-                        <div className="flex flex-col items-center justify-center rounded-3xl border border-neutral-800 bg-neutral-900 px-6 py-16 text-center">
+                        <div className="flex flex-col items-center justify-center rounded-3xl border border-white/[0.06] bg-zinc-900/60 px-6 py-16 text-center backdrop-blur-xl">
 
-                            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-neutral-950 border border-neutral-800">
+                            <div className="flex h-14 w-14 items-center justify-center rounded-full bg-white/5 border border-white/[0.06]">
                                 <svg
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     strokeWidth={1.5}
                                     stroke="currentColor"
-                                    className="h-7 w-7 text-neutral-400"
+                                    className="h-7 w-7 text-zinc-400"
                                 >
                                     <path
                                         strokeLinecap="round"
@@ -160,14 +159,14 @@ export default function Page() {
                                 </svg>
                             </div>
 
-                            <h2 className="mt-2 text-lg font-semibold text-white">
+                            <h2 className="mt-4 text-lg font-semibold text-white">
                                 No posts yet
                             </h2>
                         </div>
                     )}
 
                     {/* Post content */}
-                    <ul className="flex flex-col gap-4">
+                    <ul className="flex flex-col gap-3">
                         {user.posts.map((post) => {
                             const isLike = post.likes.some((like) => {
                                 return like.postId === post.id && like.userId === currentUser.user.id
@@ -176,13 +175,13 @@ export default function Page() {
                             return (
                                 <section
                                     key={post.id}
-                                    className="rounded-2xl border border-neutral-800 bg-neutral-900 p-5"
+                                    className="rounded-2xl border border-white/[0.06] bg-zinc-900/60 p-5 backdrop-blur-xl transition-colors duration-200 hover:border-white/[0.1]"
                                 >
-                                    <p className="text-sm leading-7 text-neutral-200">
+                                    <p className="text-[14px] leading-7 text-zinc-200">
                                         {post.content}
                                     </p>
 
-                                    <div className="mt-5 flex items-center gap-6 border-t border-neutral-800 pt-4">
+                                    <div className="mt-4 flex items-center gap-6 border-t border-white/[0.06] pt-4">
                                         <LikeIcon
                                             mutation={changePostLikeState}
                                             postLikeCount={post.likeCount}

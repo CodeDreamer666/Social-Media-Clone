@@ -32,21 +32,21 @@ export default function Comment({ comment }: CommentParameter) {
 
     return (
         <section className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2 rounded-2xl border border-neutral-800 bg-neutral-900 p-4">
-                <div className="flex gap-2 items-center">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-sky-500 text-sm font-medium text-white">
+            <div className="flex flex-col gap-3 rounded-2xl border border-white/[0.06] bg-zinc-900/60 p-4 backdrop-blur-xl">
+                <div className="flex items-center gap-2.5">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-[13px] font-semibold text-white shadow-md shadow-blue-500/20">
                         {comment.user.name[0]?.toUpperCase()}
                     </div>
                     <div className="flex flex-col">
-                        <h3 className="text-sm font-medium text-white">
+                        <h3 className="text-[14px] font-semibold text-white">
                             {comment.user.name}
                         </h3>
-                        <p className="text-xs text-neutral-500">
-                            {comment.user.username ?? `@${comment.user.name.toLowerCase().replace(/\s/g, "")}`} • {commentTimeAgo}
+                        <p className="text-[12px] text-zinc-500">
+                            {comment.user.username ?? `@${comment.user.name.toLowerCase().replace(/\s/g, "")}`} · {commentTimeAgo}
                         </p>
                     </div>
                 </div>
-                <p className="mt-2 text-sm text-neutral-200">
+                <p className="text-[14px] leading-7 text-zinc-200">
                     {comment.content}
                 </p>
             </div>

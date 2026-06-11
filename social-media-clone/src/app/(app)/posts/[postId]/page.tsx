@@ -158,104 +158,109 @@ export default function Page() {
                 closeMessage={closeMessage}
             />
 
-            <PostItem
-                post={selectedPost}
-                isLike={isLike}
-                mutation={changePostLikeState}
-                onClickMutation={() => changePostLikeState.mutate({
-                    postId: selectedPost.id,
-                    isLike: !isLike
-                })}
-            />
+            <div className="min-h-screen bg-black pb-10">
 
-            <section className="mt-6 w-[90%] mx-auto max-w-112.5">
-                <div className="mb-5 flex items-center justify-between">
-                    <h2 className="text-lg font-semibold text-white">
-                        Comments
-                    </h2>
-                    <button
-                        onClick={() => setIsOpen(true)}
-                        className="h-10 disabled:bg-neutral-800 disabled:text-neutral-500 disabled:hover:bg-neutral-800 disabled:cursor-not-allowed cursor-pointer rounded-xl bg-sky-500 px-5 text-sm font-medium text-white transition-colors duration-200 hover:bg-sky-400"
-                    >
-                        Make a comment
-                    </button>
-                </div>
-
-                <ul className="flex flex-col gap-4">
-                    {selectedPost.comments.map((comment) => {
-                        return (
-                            <Comment
-                                key={comment.id}
-                                comment={comment}
-                            />
-                        )
+                <PostItem
+                    post={selectedPost}
+                    isLike={isLike}
+                    mutation={changePostLikeState}
+                    onClickMutation={() => changePostLikeState.mutate({
+                        postId: selectedPost.id,
+                        isLike: !isLike
                     })}
-                </ul>
-            </section>
+                />
 
-            {/* Create comment modal */}
-            {isOpen && (
-                <>
-                    <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/60 px-4 backdrop-blur-sm">
-                        <section className="w-full max-w-2xl rounded-3xl border border-neutral-800 bg-neutral-900 p-6">
-                            <div className="flex items-center justify-between">
-                                <div>
-                                    <h2 className="text-xl font-semibold text-white">
-                                        Add Comment
-                                    </h2>
-                                    <p className="mt-1 text-sm text-neutral-400">
-                                        Share your thoughts on this post.
-                                    </p>
-                                </div>
-
-                                <button
-                                    onClick={() => setIsOpen(false)}
-                                    className="flex cursor-pointer h-10 w-10 items-center justify-center rounded-full text-neutral-400 transition-colors duration-200 hover:bg-neutral-800 hover:text-white"
-                                >
-                                    ✕
-                                </button>
-                            </div>
-
-                            <div className="mt-6 flex items-center gap-3">
-                                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-sky-500 text-sm font-semibold text-white">
-                                    {currentUser.name[0]?.toUpperCase()}
-                                </div>
-                                <div>
-                                    <h3 className="text-sm font-semibold text-white">
-                                        {currentUser.name}
-                                    </h3>
-                                    <p className="text-xs text-neutral-400">
-                                        {currentUser.username ?? `@${currentUser.name.toLowerCase().replace(/\s/g, "")}`}
-                                    </p>
-                                </div>
-                            </div>
-
-                            <textarea
-                                value={commentContent}
-                                onChange={(event) => setCommentContent(event.target.value)}
-                                placeholder="Write a comment..."
-                                className="mt-5 h-40 w-full resize-none bg-transparent text-[15px] leading-7 text-white outline-none placeholder:text-neutral-500"
-                            />
-
-                            <div className="mt-6 flex xxs:flex-col xxs:gap-2 xs:flex-row xs:items-center xs:justify-between border-t border-neutral-800 pt-4">
-                                <p className="text-sm text-neutral-500">
-                                    Keep it respectful and meaningful.
-                                </p>
-
-                                <button
-                                    disabled={createComment.isPending || commentContent === ""}
-                                    onClick={() => createComment.mutate({ postId: params.postId, commentContent })}
-                                    type="submit"
-                                    className="h-11 disabled:hover:bg-neutral-800 cursor-pointer rounded-xl bg-sky-500 px-5 text-sm font-medium text-white transition-colors duration-200 hover:bg-sky-400 disabled:cursor-not-allowed disabled:bg-neutral-800 disabled:text-neutral-500"
-                                >
-                                    Comment
-                                </button>
-
-                            </div>
-                        </section>
+                <section className="mt-6 w-[92%] mx-auto max-w-112.5">
+                    <div className="mb-4 flex items-center justify-between">
+                        <h2 className="text-[15px] font-semibold text-white">
+                            Comments
+                        </h2>
+                        <button
+                            onClick={() => setIsOpen(true)}
+                            className="h-9 cursor-pointer rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 px-4 text-[13px] font-medium text-white shadow-md shadow-blue-500/20 transition-all duration-200 hover:brightness-110 active:scale-95"
+                        >
+                            Make a comment
+                        </button>
                     </div>
-                </>
-            )}
+
+                    <ul className="flex flex-col gap-3">
+                        {selectedPost.comments.map((comment) => {
+                            return (
+                                <Comment
+                                    key={comment.id}
+                                    comment={comment}
+                                />
+                            )
+                        })}
+                    </ul>
+                </section>
+
+                {/* Create comment modal */}
+                {isOpen && (
+                    <>
+                        <div className="fixed inset-0 z-9999 flex items-center justify-center bg-black/70 px-4 backdrop-blur-sm">
+                            <section className="w-full max-w-2xl rounded-3xl border border-white/[0.06] bg-zinc-900/80 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.45)] backdrop-blur-xl">
+                                <div className="flex items-center justify-between">
+                                    <div>
+                                        <h2 className="text-xl font-semibold tracking-tight text-white">
+                                            Add comment
+                                        </h2>
+                                        <p className="mt-1 text-[13px] text-zinc-500">
+                                            Share your thoughts on this post.
+                                        </p>
+                                    </div>
+
+                                    <button
+                                        onClick={() => setIsOpen(false)}
+                                        className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full text-zinc-500 transition-colors duration-200 hover:bg-white/5 hover:text-white"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="size-4">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <div className="mt-6 flex items-center gap-3">
+                                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-[15px] font-semibold text-white shadow-md shadow-blue-500/20">
+                                        {currentUser.name[0]?.toUpperCase()}
+                                    </div>
+                                    <div>
+                                        <h3 className="text-[14px] font-semibold text-white">
+                                            {currentUser.name}
+                                        </h3>
+                                        <p className="text-[12px] text-zinc-500">
+                                            {currentUser.username ?? `@${currentUser.name.toLowerCase().replace(/\s/g, "")}`}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <textarea
+                                    value={commentContent}
+                                    onChange={(event) => setCommentContent(event.target.value)}
+                                    placeholder="Write a comment..."
+                                    className="mt-5 h-40 w-full resize-none bg-transparent text-[15px] leading-7 text-white outline-none placeholder:text-zinc-500"
+                                />
+
+                                <div className="mt-6 flex flex-col gap-3 border-t border-white/[0.06] pt-4 xs:flex-row xs:items-center xs:justify-between">
+                                    <p className="text-[13px] text-zinc-500">
+                                        Keep it respectful and meaningful.
+                                    </p>
+
+                                    <button
+                                        disabled={createComment.isPending || commentContent === ""}
+                                        onClick={() => createComment.mutate({ postId: params.postId, commentContent })}
+                                        type="submit"
+                                        className="h-10 cursor-pointer rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 px-5 text-[14px] font-medium text-white shadow-md shadow-blue-500/20 transition-all duration-200 hover:brightness-110 active:scale-95 disabled:cursor-not-allowed disabled:bg-none disabled:bg-zinc-800 disabled:text-zinc-500 disabled:shadow-none"
+                                    >
+                                        Comment
+                                    </button>
+
+                                </div>
+                            </section>
+                        </div>
+                    </>
+                )}
+            </div>
         </>
     )
 }

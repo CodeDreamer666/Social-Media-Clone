@@ -81,32 +81,33 @@ export default function HomePage() {
 
     return (
         <>
+            <div className="min-h-screen bg-black pb-10">
+                <StatusMessage
+                    message={message}
+                    isSuccess={isSuccess}
+                    closeMessage={closeMessage}
+                />
 
-            <StatusMessage
-                message={message}
-                isSuccess={isSuccess}
-                closeMessage={closeMessage}
-            />
+                <ul className="flex flex-col gap-2">
+                    {postsData.map((post) => {
+                        const isLike = post.likes.some((like) => {
+                            return like.postId === post.id && like.userId === currentUser.user.id
+                        });
 
-            <ul>
-                {postsData.map((post) => {
-                    const isLike = post.likes.some((like) => {
-                        return like.postId === post.id && like.userId === currentUser.user.id
-                    });
-
-                    return <PostItem
-                        key={post.id}
-                        post={post}
-                        isLike={isLike}
-                        mutation={changePostLikeState}
-                        onClickMutation={() => changePostLikeState.mutate({
-                            postId: post.id,
-                            isLike: !isLike
-                        })}
-                    />
-                })}
-            </ul>
-
+                        return <PostItem
+                            key={post.id}
+                            post={post}
+                            isLike={isLike}
+                            mutation={changePostLikeState}
+                            onClickMutation={() => changePostLikeState.mutate({
+                                postId: post.id,
+                                isLike: !isLike
+                            })}
+                        />
+                    })}
+                </ul>
+            </div>
         </>
     )
 }
+

@@ -33,7 +33,7 @@ export default function PostEditForm({ post, setIsSuccess, setMessage }: Post) {
             setIsSuccess(newData.success);
             setMessage(newData.message)
         },
-        
+
         onMutate: async (newData) => {
             await utils.user.getUserInfo.cancel();
 
@@ -67,20 +67,20 @@ export default function PostEditForm({ post, setIsSuccess, setMessage }: Post) {
     });
 
     return (
-        <section className="rounded-2xl border border-neutral-800 bg-neutral-950 p-5">
-            <p className="text-sm leading-7 text-neutral-200">
+        <section className="rounded-2xl border border-white/[0.06] bg-black/30 p-5">
+            <p className="text-[14px] leading-7 text-zinc-200">
                 {post.content}
             </p>
 
-            <div className="mt-5 flex items-center justify-between">
-                <span className="text-xs text-neutral-500">
+            <div className="mt-4 flex items-center justify-between border-t border-white/[0.06] pt-4">
+                <span className="text-[12px] text-zinc-500">
                     Posted {postTimeAgo} ago
                 </span>
 
                 <button
                     disabled={editUserPosts.isPending}
                     onClick={() => editUserPosts.mutate({ postId: post.id })}
-                    className="text-sm disabled:bg-neutral-800 disabled:text-neutral-500 disabled:cursor-not-allowed disabled:hover:bg-neutral-800 font-medium cursor-pointer bg-red-500 px-4 py-2 rounded-xl transition-all duration-200 hover:bg-red-600"
+                    className="text-[13px] disabled:bg-zinc-800 disabled:text-zinc-500 disabled:cursor-not-allowed disabled:hover:bg-zinc-800 font-medium cursor-pointer bg-[#ff453a]/10 text-[#ff453a] px-4 py-2 rounded-full transition-all duration-200 hover:bg-[#ff453a]/20"
                 >
                     {editUserPosts.isPending ? (
                         <div className="flex gap-2 items-center">
