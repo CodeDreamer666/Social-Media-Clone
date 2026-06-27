@@ -6,24 +6,15 @@ export type SinglePost = {
         updatedAt: Date;
         username: string | null;
         bio: string;
-        followersCount: number;
-        followingCount: number;
         postsCount: number;
         email: string;
         emailVerified: boolean;
         image: string | null;
         isPublic: boolean;
     },
-    likes: {
-        id: string;
-        userId: string;
-        postId: string;
-    }[],
     id: string,
     userId: string,
     content: string,
-    likeCount: number,
-    commentCount: number,
     createdAt: Date,
     updatedAt: Date,
 }

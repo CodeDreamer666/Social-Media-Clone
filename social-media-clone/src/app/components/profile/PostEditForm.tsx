@@ -12,8 +12,6 @@ type Post = {
         id: string;
         userId: string;
         content: string;
-        likeCount: number;
-        commentCount: number;
         createdAt: Date;
         updatedAt: Date;
     },

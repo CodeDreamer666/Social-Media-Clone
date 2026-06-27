@@ -9,7 +9,6 @@ import ServerError from "~/app/components/shared/ServerError"
 import Loader from "~/app/components/shared/Loader"
 import handleTRPCError from "~/app/libs/handleTRPCError"
 import PostItem from "~/app/components/posts/PostItem"
-import { updatePostLike } from "~/app/libs/likeUpdater"
 
 export default function Page() {
     const [isOpen, setIsOpen] = useState(false);
@@ -37,42 +36,6 @@ export default function Page() {
         isLoading: isCurrentUserLoading,
         error: currentUserError
     } = api.user.getUserInfo.useQuery();
-
-    // Like or unlike post
-    const changePostLikeState = api.like.changePostLikeState.useMutation({
-        onMutate: async (newData) => {
-            await utils.post.getSelectedPost.cancel({ postId: params.postId });
-
-            const previousInfo = utils.post.getSelectedPost.getData({ postId: params.postId });
-
-            utils.post.getSelectedPost.setData({ postId: params.postId }, (old) => {
-                if (!old || !currentUser) return old;
-
-                return updatePostLike(old, {
-                    currentUserId: currentUser.id,
-                    isLike: newData.isLike,
-                    postId: newData.postId
-                })
-
-            });
-
-            return { previousInfo };
-        },
-
-        onError: (error, newData, context) => {
-            if (context?.previousInfo) {
-                utils.post.getSelectedPost.setData({ postId: params.postId }, context.previousInfo);
-            }
-
-            handleTRPCError({
-                error, setMessage, setIsSuccess, router, pathname
-            })
-        },
-
-        onSettled: async () => {
-            await utils.invalidate()
-        }
-    });
 
     // Create comment mutation
     const createComment = api.comment.createComment.useMutation({
@@ -146,10 +109,6 @@ export default function Page() {
         !selectedPost
     ) return <ServerError />
 
-    let isLike = selectedPost.likes.some((like) => {
-        return like.postId === selectedPost.id && like.userId === currentUser.id
-    })
-
     return (
         <>
             <StatusMessage
@@ -162,12 +121,6 @@ export default function Page() {
 
                 <PostItem
                     post={selectedPost}
-                    isLike={isLike}
-                    mutation={changePostLikeState}
-                    onClickMutation={() => changePostLikeState.mutate({
-                        postId: selectedPost.id,
-                        isLike: !isLike
-                    })}
                 />
 
                 <section className="mt-6 w-[92%] mx-auto max-w-112.5">

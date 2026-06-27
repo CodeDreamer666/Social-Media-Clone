@@ -124,16 +124,8 @@ exports.Prisma.PostScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
   content: 'content',
-  likeCount: 'likeCount',
-  commentCount: 'commentCount',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
-};
-
-exports.Prisma.LikeScalarFieldEnum = {
-  id: 'id',
-  userId: 'userId',
-  postId: 'postId'
 };
 
 exports.Prisma.CommentScalarFieldEnum = {
@@ -150,8 +142,6 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   username: 'username',
   bio: 'bio',
-  followersCount: 'followersCount',
-  followingCount: 'followingCount',
   postsCount: 'postsCount',
   email: 'email',
   emailVerified: 'emailVerified',
@@ -215,7 +205,6 @@ exports.Prisma.NullsOrder = {
 
 exports.Prisma.ModelName = {
   Post: 'Post',
-  Like: 'Like',
   Comment: 'Comment',
   User: 'User',
   Session: 'Session',

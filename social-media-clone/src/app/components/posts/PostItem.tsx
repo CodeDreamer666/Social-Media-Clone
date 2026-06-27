@@ -3,20 +3,13 @@ import useTimeAgo from "~/app/hooks/useTimeAgo"
 import Link from "next/link"
 import type { SinglePost } from "~/app/types/types"
 import CommentIcon from "../shared/CommentIcon"
-import LikeIcon from "../shared/LikeIcon"
 
 type Post = {
     post: SinglePost,
-    mutation: any,
-    onClickMutation: any,
-    isLike: boolean
 }
 
 export default function PostItem({
     post,
-    mutation,
-    onClickMutation,
-    isLike
 }: Post) {
     const postTimeAgo = useTimeAgo(new Date(post.createdAt))
 
@@ -48,15 +41,7 @@ export default function PostItem({
             </p>
 
             <div className="mt-4 flex items-center gap-6 border-t border-white/[0.06] pt-4">
-                <LikeIcon
-                    postLikeCount={post.likeCount}
-                    isLike={isLike}
-                    mutation={mutation}
-                    onClickMutation={onClickMutation}
-                />
-
                 <CommentIcon
-                    postCommentCount={post.commentCount}
                     postId={post.id}
                 />
             </div>

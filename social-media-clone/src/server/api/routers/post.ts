@@ -50,7 +50,6 @@ export const postRouter = createTRPCRouter({
             return await ctx.db.post.findMany({
                 include: {
                     user: true,
-                    likes: true
                 },
                 orderBy: {
                     id: "desc"
@@ -67,7 +66,6 @@ export const postRouter = createTRPCRouter({
                 },
                 include: {
                     user: true,
-                    likes: true,
                     comments: {
                         include: {
                             user: true

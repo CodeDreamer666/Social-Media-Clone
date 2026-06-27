@@ -15,26 +15,13 @@ datasource db {
 }
 
 model Post {
-  id           String    @id @default(uuid())
-  user         User      @relation(fields: [userId], references: [id])
-  userId       String
-  content      String
-  likeCount    Int       @default(0)
-  commentCount Int       @default(0)
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  comments     Comment[]
-  likes        Like[]
-}
-
-model Like {
-  id     String @id @default(uuid())
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
-  postId String
-  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
-
-  @@unique([userId, postId])
+  id        String    @id @default(uuid())
+  user      User      @relation(fields: [userId], references: [id])
+  userId    String
+  content   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  comments  Comment[]
 }
 
 model Comment {
@@ -49,24 +36,21 @@ model Comment {
 }
 
 model User {
-  id             String    @id @default(uuid())
-  name           String //@db.Text
-  username       String?
-  bio            String    @default("A new social media user")
-  followersCount Int       @default(0)
-  followingCount Int       @default(0)
-  postsCount     Int       @default(0)
-  email          String    @unique
-  emailVerified  Boolean   @default(false)
-  image          String? //@db.Text
-  isPublic       Boolean   @default(true)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @default(now()) @updatedAt
-  sessions       Session[]
-  accounts       Account[]
-  posts          Post[]
-  comments       Comment[]
-  likes          Like[]
+  id            String    @id @default(uuid())
+  name          String //@db.Text
+  username      String?
+  bio           String    @default("A new social media user")
+  postsCount    Int       @default(0)
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String? //@db.Text
+  isPublic      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @default(now()) @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+  posts         Post[]
+  comments      Comment[]
 
   @@map("user")
 }

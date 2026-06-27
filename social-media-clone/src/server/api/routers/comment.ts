@@ -44,19 +44,6 @@ export const commentRouter = createTRPCRouter({
                         postId: input.postId
                     }
                 });
-
-                await tx.post.update({
-                    where: {
-                        id: input.postId
-                    },
-                    data: {
-                        commentCount: await tx.comment.count({
-                            where: {
-                                postId: input.postId
-                            }
-                        })
-                    }
-                })
             });
 
             return { success: true }

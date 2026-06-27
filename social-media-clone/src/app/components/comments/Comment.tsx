@@ -9,8 +9,6 @@ type CommentParameter = {
             updatedAt: Date;
             username: string | null;
             bio: string;
-            followersCount: number;
-            followingCount: number;
             postsCount: number;
             email: string;
             emailVerified: boolean;
