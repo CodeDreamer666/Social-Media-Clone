@@ -65,6 +65,7 @@ export default function Page() {
                                 followingCount: 0,
                                 postsCount: 0,
                                 email: "",
+                                interest: [],
                                 emailVerified: true,
                                 image: null,
                                 isPublic: true,

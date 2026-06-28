@@ -107,18 +107,7 @@ export const userRouter = createTRPCRouter({
                     id: input.postId
                 }
             });
-
-            await ctx.db.user.update({
-                where: {
-                    id: userId
-                },
-                data: {
-                    postsCount: {
-                        decrement: 1
-                    }
-                }
-            })
-
+            
             return {
                 success: true,
                 message: "Delete post successfully"

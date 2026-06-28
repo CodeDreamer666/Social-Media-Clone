@@ -36,14 +36,12 @@ export const commentRouter = createTRPCRouter({
                 })
             }
 
-            await ctx.db.$transaction(async (tx) => {
-                await tx.comment.create({
-                    data: {
-                        userId,
-                        content: cleanCommentContentInput,
-                        postId: input.postId
-                    }
-                });
+            await ctx.db.comment.create({
+                data: {
+                    userId,
+                    content: cleanCommentContentInput,
+                    postId: input.postId
+                }
             });
 
             return { success: true }

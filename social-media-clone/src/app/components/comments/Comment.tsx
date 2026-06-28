@@ -9,7 +9,6 @@ type CommentParameter = {
             updatedAt: Date;
             username: string | null;
             bio: string;
-            postsCount: number;
             email: string;
             emailVerified: boolean;
             image: string | null;

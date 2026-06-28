@@ -11,33 +11,65 @@ import {
 export const postRouter = createTRPCRouter({
     createPost: protectedProcedure
         .input(z.object({
-            content: z.string().trim().nonempty("Post content cannot be empty")
+            content: z.string().trim().nonempty("Post content cannot be empty"),
+            interest: z.enum([
+                "Coding",
+                "Design",
+                "Psychology",
+                "Finance",
+                "Books",
+                "Study",
+                "Productivity",
+                "Life_thoughts",
+                "Business",
+                "Art",
+                "Technology",
+                "Self_improvement",
+            ], {
+                message: "Please choose an interest",
+            }),
+            imageUrl: z
+                .string()
+                .url()
+                .refine((url) => url.startsWith("https://gateway.pinata.cloud/ipfs/"), {
+                    message: "Invalid image URL.",
+                })
+                .optional(),
+            imageCid: z
+                .string()
+                .min(10, "Invalid image CID")
+                .max(120, "Invalid image CID")
+                .optional(),
         }))
         .mutation(async ({ ctx, input }) => {
-            const userId = ctx.session.user.id;
+            if ((input.imageUrl && !input.imageCid) || (!input.imageUrl && input.imageCid)) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Invalid image data",
+                });
+            }
 
-            const cleanInput = sanitizeHtml(input.content, {
+            const cleanContent = sanitizeHtml(input.content, {
+                allowedTags: [],
                 allowedAttributes: {},
-                allowedTags: []
-            })
+            }).trim();
+
+            if (!cleanContent) {
+                throw new TRPCError({
+                    code: "BAD_REQUEST",
+                    message: "Post content cannot be empty",
+                });
+            }
 
             await ctx.db.post.create({
                 data: {
-                    content: cleanInput,
-                    userId,
-                }
-            });
-
-            await ctx.db.user.update({
-                where: {
-                    id: userId
+                    content: cleanContent,
+                    interest: input.interest,
+                    imageUrl: input.imageUrl ?? null,
+                    imageCid: input.imageCid ?? null,
+                    userId: ctx.session.user.id,
                 },
-                data: {
-                    postsCount: {
-                        increment: 1
-                    }
-                }
-            })
+            });
 
             return {
                 success: true,

@@ -33,27 +33,27 @@ export default function useTimeAgo(createdAt: Date) {
             const days = Math.floor(hours / 24);
 
             if (days < 7) {
-                setTimeAgo(`${days}d`);
+                setTimeAgo(`${days} day`);
                 return;
             }
 
             const weeks = Math.floor(days / 7);
 
             if (weeks < 4) {
-                setTimeAgo(`${weeks}w`);
+                setTimeAgo(`${weeks} week`);
                 return;
             }
 
             const months = Math.floor(days / 30);
 
             if (months < 12) {
-                setTimeAgo(`${months}mo`);
+                setTimeAgo(`${months} month`);
                 return;
             }
 
             const years = Math.floor(days / 365);
 
-            setTimeAgo(`${years}y`);
+            setTimeAgo(`${years} year`);
         }
 
         updateTimeAgo();

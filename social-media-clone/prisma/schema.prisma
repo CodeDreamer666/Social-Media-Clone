@@ -2,8 +2,8 @@
 // learn more: https://better-auth.com/docs/concepts/database
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../generated/prisma"
+    provider = "prisma-client-js"
+    output   = "../generated/prisma"
 }
 
 // NOTE: When using mysql or sqlserver, uncomment the //@db.Text annotations in model Account below
@@ -11,91 +11,125 @@ generator client {
 // https://www.prisma.io/docs/reference/api-reference/prisma-schema-reference#string
 
 datasource db {
-  provider = "postgresql"
+    provider = "postgresql"
 }
 
 model Post {
-  id           String    @id @default(uuid())
-  user         User      @relation(fields: [userId], references: [id])
-  userId       String
-  content      String
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  comments     Comment[]
+    id             String          @id @default(uuid())
+    user           User            @relation(fields: [userId], references: [id])
+    interest       Interests?
+    userId         String
+    content        String
+    imageUrl       String?
+    imageCid       String?
+    createdAt      DateTime        @default(now())
+    updatedAt      DateTime        @updatedAt
+    comments       Comment[]
+    uploadedImages UploadedImage[]
 }
 
-
 model Comment {
-  id        String   @id @default(uuid())
-  postId    String
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
-  content   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+    id        String   @id @default(uuid())
+    postId    String
+    post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+    content   String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 }
 
 model User {
-  id             String    @id @default(uuid())
-  name           String //@db.Text
-  username       String?   
-  bio            String    @default("A new social media user")
-  postsCount     Int       @default(0)
-  email          String    @unique
-  emailVerified  Boolean   @default(false)
-  image          String? //@db.Text
-  isPublic       Boolean   @default(true)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @default(now()) @updatedAt
-  sessions       Session[]
-  accounts       Account[]
-  posts          Post[]
-  comments       Comment[]
-  @@map("user")
+    id             String          @id @default(uuid())
+    name           String //@db.Text
+    username       String?
+    bio            String          @default("A new social media user")
+    email          String          @unique
+    emailVerified  Boolean         @default(false)
+    image          String? //@db.Text
+    isPublic       Boolean         @default(true)
+    interest       Interests[]
+    createdAt      DateTime        @default(now())
+    updatedAt      DateTime        @default(now()) @updatedAt
+    sessions       Session[]
+    accounts       Account[]
+    posts          Post[]
+    comments       Comment[]
+    uploadedImages UploadedImage[]
+
+    @@map("user")
+}
+
+model UploadedImage {
+    id              String   @id @default(uuid())
+    userId          String
+    user            User     @relation(fields: [userId], references: [id])
+    imageUrl        String
+    imageId         String
+    imageCid        String
+    isIncludeInPost Boolean  @default(false)
+    postId          String?
+    post            Post?     @relation(fields: [postId], references: [id])
+    createdAt       DateTime @default(now())
+    updatedAt       DateTime @updatedAt
 }
 
 model Session {
-  id        String   @id
-  expiresAt DateTime
-  token     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  ipAddress String? //@db.Text
-  userAgent String? //@db.Text
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+    id        String   @id
+    expiresAt DateTime
+    token     String
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    ipAddress String? //@db.Text
+    userAgent String? //@db.Text
+    userId    String
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  @@unique([token])
-  @@map("session")
+    @@unique([token])
+    @@map("session")
 }
 
 model Account {
-  id                    String    @id
-  accountId             String //@db.Text
-  providerId            String //@db.Text
-  userId                String
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  accessToken           String? //@db.Text
-  refreshToken          String? //@db.Text
-  idToken               String? //@db.Text
-  accessTokenExpiresAt  DateTime?
-  refreshTokenExpiresAt DateTime?
-  scope                 String? //@db.Text
-  password              String? //@db.Text
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
+    id                    String    @id
+    accountId             String //@db.Text
+    providerId            String //@db.Text
+    userId                String
+    user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+    accessToken           String? //@db.Text
+    refreshToken          String? //@db.Text
+    idToken               String? //@db.Text
+    accessTokenExpiresAt  DateTime?
+    refreshTokenExpiresAt DateTime?
+    scope                 String? //@db.Text
+    password              String? //@db.Text
+    createdAt             DateTime  @default(now())
+    updatedAt             DateTime  @updatedAt
 
-  @@map("account")
+    @@map("account")
 }
 
 model Verification {
-  id         String   @id
-  identifier String //@db.Text
-  value      String //@db.Text
-  expiresAt  DateTime
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @default(now()) @updatedAt
+    id         String   @id
+    identifier String //@db.Text
+    value      String //@db.Text
+    expiresAt  DateTime
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @default(now()) @updatedAt
 
-  @@map("verification")
+    @@map("verification")
+}
+
+enum Interests {
+    Coding
+    Design
+    Psychology
+    Finance
+    Books
+    Study
+    Productivity
+    Life_thoughts
+    Business
+    Art
+    Technology
+    Self_improvement
 }

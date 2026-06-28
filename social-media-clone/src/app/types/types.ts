@@ -1,22 +1,23 @@
 export type SinglePost = {
-    user: {
-        name: string;
-        id: string;
-        createdAt: Date;
-        updatedAt: Date;
-        username: string | null;
-        bio: string;
-        postsCount: number;
-        email: string;
-        emailVerified: boolean;
-        image: string | null;
-        isPublic: boolean;
-    },
+    user: UserBase,
     id: string,
     userId: string,
     content: string,
     createdAt: Date,
     updatedAt: Date,
+}
+
+type UserBase = {
+    name: string;
+    id: string;
+    createdAt: Date;
+    updatedAt: Date;
+    username: string | null;
+    bio: string;
+    email: string;
+    emailVerified: boolean;
+    image: string | null;
+    isPublic: boolean;
 }
 
 export type User = {
@@ -29,32 +30,11 @@ export type User = {
             updatedAt: Date;
             postId: string;
         }[];
-        likes: {
-            id: string;
-            userId: string;
-            postId: string;
-        }[];
     } & {
         id: string;
         userId: string;
         content: string;
-        likeCount: number;
-        commentCount: number;
         createdAt: Date;
         updatedAt: Date;
     })[];
-} & {
-    name: string;
-    id: string;
-    createdAt: Date;
-    updatedAt: Date;
-    username: string | null;
-    bio: string;
-    followersCount: number;
-    followingCount: number;
-    postsCount: number;
-    email: string;
-    emailVerified: boolean;
-    image: string | null;
-    isPublic: boolean;
-}
+} & UserBase

@@ -122,8 +122,11 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.PostScalarFieldEnum = {
   id: 'id',
+  interest: 'interest',
   userId: 'userId',
   content: 'content',
+  imageUrl: 'imageUrl',
+  imageCid: 'imageCid',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -142,11 +145,23 @@ exports.Prisma.UserScalarFieldEnum = {
   name: 'name',
   username: 'username',
   bio: 'bio',
-  postsCount: 'postsCount',
   email: 'email',
   emailVerified: 'emailVerified',
   image: 'image',
   isPublic: 'isPublic',
+  interest: 'interest',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.UploadedImageScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  imageUrl: 'imageUrl',
+  imageId: 'imageId',
+  imageCid: 'imageCid',
+  isIncludeInPost: 'isIncludeInPost',
+  postId: 'postId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -201,12 +216,26 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.Interests = exports.$Enums.Interests = {
+  Coding: 'Coding',
+  Design: 'Design',
+  Psychology: 'Psychology',
+  Finance: 'Finance',
+  Books: 'Books',
+  Study: 'Study',
+  Productivity: 'Productivity',
+  Life_thoughts: 'Life_thoughts',
+  Business: 'Business',
+  Art: 'Art',
+  Technology: 'Technology',
+  Self_improvement: 'Self_improvement'
+};
 
 exports.Prisma.ModelName = {
   Post: 'Post',
   Comment: 'Comment',
   User: 'User',
+  UploadedImage: 'UploadedImage',
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification'

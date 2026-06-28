@@ -29,6 +29,11 @@ export type Comment = $Result.DefaultSelection<Prisma.$CommentPayload>
  */
 export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 /**
+ * Model UploadedImage
+ * 
+ */
+export type UploadedImage = $Result.DefaultSelection<Prisma.$UploadedImagePayload>
+/**
  * Model Session
  * 
  */
@@ -43,6 +48,33 @@ export type Account = $Result.DefaultSelection<Prisma.$AccountPayload>
  * 
  */
 export type Verification = $Result.DefaultSelection<Prisma.$VerificationPayload>
+
+/**
+ * Enums
+ */
+export namespace $Enums {
+  export const Interests: {
+  Coding: 'Coding',
+  Design: 'Design',
+  Psychology: 'Psychology',
+  Finance: 'Finance',
+  Books: 'Books',
+  Study: 'Study',
+  Productivity: 'Productivity',
+  Life_thoughts: 'Life_thoughts',
+  Business: 'Business',
+  Art: 'Art',
+  Technology: 'Technology',
+  Self_improvement: 'Self_improvement'
+};
+
+export type Interests = (typeof Interests)[keyof typeof Interests]
+
+}
+
+export type Interests = $Enums.Interests
+
+export const Interests: typeof $Enums.Interests
 
 /**
  * ##  Prisma Client ʲˢ
@@ -194,6 +226,16 @@ export class PrismaClient<
     * ```
     */
   get user(): Prisma.UserDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.uploadedImage`: Exposes CRUD operations for the **UploadedImage** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more UploadedImages
+    * const uploadedImages = await prisma.uploadedImage.findMany()
+    * ```
+    */
+  get uploadedImage(): Prisma.UploadedImageDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.session`: Exposes CRUD operations for the **Session** model.
@@ -661,6 +703,7 @@ export namespace Prisma {
     Post: 'Post',
     Comment: 'Comment',
     User: 'User',
+    UploadedImage: 'UploadedImage',
     Session: 'Session',
     Account: 'Account',
     Verification: 'Verification'
@@ -679,7 +722,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "post" | "comment" | "user" | "session" | "account" | "verification"
+      modelProps: "post" | "comment" | "user" | "uploadedImage" | "session" | "account" | "verification"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -902,6 +945,80 @@ export namespace Prisma {
           count: {
             args: Prisma.UserCountArgs<ExtArgs>
             result: $Utils.Optional<UserCountAggregateOutputType> | number
+          }
+        }
+      }
+      UploadedImage: {
+        payload: Prisma.$UploadedImagePayload<ExtArgs>
+        fields: Prisma.UploadedImageFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.UploadedImageFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedImagePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.UploadedImageFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedImagePayload>
+          }
+          findFirst: {
+            args: Prisma.UploadedImageFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedImagePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.UploadedImageFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedImagePayload>
+          }
+          findMany: {
+            args: Prisma.UploadedImageFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedImagePayload>[]
+          }
+          create: {
+            args: Prisma.UploadedImageCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedImagePayload>
+          }
+          createMany: {
+            args: Prisma.UploadedImageCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.UploadedImageCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedImagePayload>[]
+          }
+          delete: {
+            args: Prisma.UploadedImageDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedImagePayload>
+          }
+          update: {
+            args: Prisma.UploadedImageUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedImagePayload>
+          }
+          deleteMany: {
+            args: Prisma.UploadedImageDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.UploadedImageUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.UploadedImageUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedImagePayload>[]
+          }
+          upsert: {
+            args: Prisma.UploadedImageUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$UploadedImagePayload>
+          }
+          aggregate: {
+            args: Prisma.UploadedImageAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateUploadedImage>
+          }
+          groupBy: {
+            args: Prisma.UploadedImageGroupByArgs<ExtArgs>
+            result: $Utils.Optional<UploadedImageGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.UploadedImageCountArgs<ExtArgs>
+            result: $Utils.Optional<UploadedImageCountAggregateOutputType> | number
           }
         }
       }
@@ -1238,6 +1355,7 @@ export namespace Prisma {
     post?: PostOmit
     comment?: CommentOmit
     user?: UserOmit
+    uploadedImage?: UploadedImageOmit
     session?: SessionOmit
     account?: AccountOmit
     verification?: VerificationOmit
@@ -1322,10 +1440,12 @@ export namespace Prisma {
 
   export type PostCountOutputType = {
     comments: number
+    uploadedImages: number
   }
 
   export type PostCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     comments?: boolean | PostCountOutputTypeCountCommentsArgs
+    uploadedImages?: boolean | PostCountOutputTypeCountUploadedImagesArgs
   }
 
   // Custom InputTypes
@@ -1346,6 +1466,13 @@ export namespace Prisma {
     where?: CommentWhereInput
   }
 
+  /**
+   * PostCountOutputType without action
+   */
+  export type PostCountOutputTypeCountUploadedImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UploadedImageWhereInput
+  }
+
 
   /**
    * Count Type UserCountOutputType
@@ -1356,6 +1483,7 @@ export namespace Prisma {
     accounts: number
     posts: number
     comments: number
+    uploadedImages: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1363,6 +1491,7 @@ export namespace Prisma {
     accounts?: boolean | UserCountOutputTypeCountAccountsArgs
     posts?: boolean | UserCountOutputTypeCountPostsArgs
     comments?: boolean | UserCountOutputTypeCountCommentsArgs
+    uploadedImages?: boolean | UserCountOutputTypeCountUploadedImagesArgs
   }
 
   // Custom InputTypes
@@ -1404,6 +1533,13 @@ export namespace Prisma {
     where?: CommentWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountUploadedImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UploadedImageWhereInput
+  }
+
 
   /**
    * Models
@@ -1421,24 +1557,33 @@ export namespace Prisma {
 
   export type PostMinAggregateOutputType = {
     id: string | null
+    interest: $Enums.Interests | null
     userId: string | null
     content: string | null
+    imageUrl: string | null
+    imageCid: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type PostMaxAggregateOutputType = {
     id: string | null
+    interest: $Enums.Interests | null
     userId: string | null
     content: string | null
+    imageUrl: string | null
+    imageCid: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type PostCountAggregateOutputType = {
     id: number
+    interest: number
     userId: number
     content: number
+    imageUrl: number
+    imageCid: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -1447,24 +1592,33 @@ export namespace Prisma {
 
   export type PostMinAggregateInputType = {
     id?: true
+    interest?: true
     userId?: true
     content?: true
+    imageUrl?: true
+    imageCid?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type PostMaxAggregateInputType = {
     id?: true
+    interest?: true
     userId?: true
     content?: true
+    imageUrl?: true
+    imageCid?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type PostCountAggregateInputType = {
     id?: true
+    interest?: true
     userId?: true
     content?: true
+    imageUrl?: true
+    imageCid?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -1544,8 +1698,11 @@ export namespace Prisma {
 
   export type PostGroupByOutputType = {
     id: string
+    interest: $Enums.Interests | null
     userId: string
     content: string
+    imageUrl: string | null
+    imageCid: string | null
     createdAt: Date
     updatedAt: Date
     _count: PostCountAggregateOutputType | null
@@ -1569,19 +1726,26 @@ export namespace Prisma {
 
   export type PostSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    interest?: boolean
     userId?: boolean
     content?: boolean
+    imageUrl?: boolean
+    imageCid?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
     comments?: boolean | Post$commentsArgs<ExtArgs>
+    uploadedImages?: boolean | Post$uploadedImagesArgs<ExtArgs>
     _count?: boolean | PostCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["post"]>
 
   export type PostSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    interest?: boolean
     userId?: boolean
     content?: boolean
+    imageUrl?: boolean
+    imageCid?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -1589,8 +1753,11 @@ export namespace Prisma {
 
   export type PostSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    interest?: boolean
     userId?: boolean
     content?: boolean
+    imageUrl?: boolean
+    imageCid?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -1598,16 +1765,20 @@ export namespace Prisma {
 
   export type PostSelectScalar = {
     id?: boolean
+    interest?: boolean
     userId?: boolean
     content?: boolean
+    imageUrl?: boolean
+    imageCid?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "content" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
+  export type PostOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "interest" | "userId" | "content" | "imageUrl" | "imageCid" | "createdAt" | "updatedAt", ExtArgs["result"]["post"]>
   export type PostInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     comments?: boolean | Post$commentsArgs<ExtArgs>
+    uploadedImages?: boolean | Post$uploadedImagesArgs<ExtArgs>
     _count?: boolean | PostCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PostIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -1622,11 +1793,15 @@ export namespace Prisma {
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
       comments: Prisma.$CommentPayload<ExtArgs>[]
+      uploadedImages: Prisma.$UploadedImagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      interest: $Enums.Interests | null
       userId: string
       content: string
+      imageUrl: string | null
+      imageCid: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["post"]>
@@ -2025,6 +2200,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     comments<T extends Post$commentsArgs<ExtArgs> = {}>(args?: Subset<T, Post$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    uploadedImages<T extends Post$uploadedImagesArgs<ExtArgs> = {}>(args?: Subset<T, Post$uploadedImagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UploadedImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2055,8 +2231,11 @@ export namespace Prisma {
    */
   interface PostFieldRefs {
     readonly id: FieldRef<"Post", 'String'>
+    readonly interest: FieldRef<"Post", 'Interests'>
     readonly userId: FieldRef<"Post", 'String'>
     readonly content: FieldRef<"Post", 'String'>
+    readonly imageUrl: FieldRef<"Post", 'String'>
+    readonly imageCid: FieldRef<"Post", 'String'>
     readonly createdAt: FieldRef<"Post", 'DateTime'>
     readonly updatedAt: FieldRef<"Post", 'DateTime'>
   }
@@ -2481,6 +2660,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: CommentScalarFieldEnum | CommentScalarFieldEnum[]
+  }
+
+  /**
+   * Post.uploadedImages
+   */
+  export type Post$uploadedImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedImage
+     */
+    select?: UploadedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedImage
+     */
+    omit?: UploadedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedImageInclude<ExtArgs> | null
+    where?: UploadedImageWhereInput
+    orderBy?: UploadedImageOrderByWithRelationInput | UploadedImageOrderByWithRelationInput[]
+    cursor?: UploadedImageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UploadedImageScalarFieldEnum | UploadedImageScalarFieldEnum[]
   }
 
   /**
@@ -3592,18 +3795,8 @@ export namespace Prisma {
 
   export type AggregateUser = {
     _count: UserCountAggregateOutputType | null
-    _avg: UserAvgAggregateOutputType | null
-    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
-  }
-
-  export type UserAvgAggregateOutputType = {
-    postsCount: number | null
-  }
-
-  export type UserSumAggregateOutputType = {
-    postsCount: number | null
   }
 
   export type UserMinAggregateOutputType = {
@@ -3611,7 +3804,6 @@ export namespace Prisma {
     name: string | null
     username: string | null
     bio: string | null
-    postsCount: number | null
     email: string | null
     emailVerified: boolean | null
     image: string | null
@@ -3625,7 +3817,6 @@ export namespace Prisma {
     name: string | null
     username: string | null
     bio: string | null
-    postsCount: number | null
     email: string | null
     emailVerified: boolean | null
     image: string | null
@@ -3639,31 +3830,22 @@ export namespace Prisma {
     name: number
     username: number
     bio: number
-    postsCount: number
     email: number
     emailVerified: number
     image: number
     isPublic: number
+    interest: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
 
-  export type UserAvgAggregateInputType = {
-    postsCount?: true
-  }
-
-  export type UserSumAggregateInputType = {
-    postsCount?: true
-  }
-
   export type UserMinAggregateInputType = {
     id?: true
     name?: true
     username?: true
     bio?: true
-    postsCount?: true
     email?: true
     emailVerified?: true
     image?: true
@@ -3677,7 +3859,6 @@ export namespace Prisma {
     name?: true
     username?: true
     bio?: true
-    postsCount?: true
     email?: true
     emailVerified?: true
     image?: true
@@ -3691,11 +3872,11 @@ export namespace Prisma {
     name?: true
     username?: true
     bio?: true
-    postsCount?: true
     email?: true
     emailVerified?: true
     image?: true
     isPublic?: true
+    interest?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3739,18 +3920,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
-     * Select which fields to average
-    **/
-    _avg?: UserAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: UserSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
      * Select which fields to find the minimum value
     **/
     _min?: UserMinAggregateInputType
@@ -3781,8 +3950,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: UserCountAggregateInputType | true
-    _avg?: UserAvgAggregateInputType
-    _sum?: UserSumAggregateInputType
     _min?: UserMinAggregateInputType
     _max?: UserMaxAggregateInputType
   }
@@ -3792,16 +3959,14 @@ export namespace Prisma {
     name: string
     username: string | null
     bio: string
-    postsCount: number
     email: string
     emailVerified: boolean
     image: string | null
     isPublic: boolean
+    interest: $Enums.Interests[]
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
-    _avg: UserAvgAggregateOutputType | null
-    _sum: UserSumAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
   }
@@ -3825,17 +3990,18 @@ export namespace Prisma {
     name?: boolean
     username?: boolean
     bio?: boolean
-    postsCount?: boolean
     email?: boolean
     emailVerified?: boolean
     image?: boolean
     isPublic?: boolean
+    interest?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
     comments?: boolean | User$commentsArgs<ExtArgs>
+    uploadedImages?: boolean | User$uploadedImagesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -3844,11 +4010,11 @@ export namespace Prisma {
     name?: boolean
     username?: boolean
     bio?: boolean
-    postsCount?: boolean
     email?: boolean
     emailVerified?: boolean
     image?: boolean
     isPublic?: boolean
+    interest?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -3858,11 +4024,11 @@ export namespace Prisma {
     name?: boolean
     username?: boolean
     bio?: boolean
-    postsCount?: boolean
     email?: boolean
     emailVerified?: boolean
     image?: boolean
     isPublic?: boolean
+    interest?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -3872,21 +4038,22 @@ export namespace Prisma {
     name?: boolean
     username?: boolean
     bio?: boolean
-    postsCount?: boolean
     email?: boolean
     emailVerified?: boolean
     image?: boolean
     isPublic?: boolean
+    interest?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "username" | "bio" | "postsCount" | "email" | "emailVerified" | "image" | "isPublic" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "username" | "bio" | "email" | "emailVerified" | "image" | "isPublic" | "interest" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
     posts?: boolean | User$postsArgs<ExtArgs>
     comments?: boolean | User$commentsArgs<ExtArgs>
+    uploadedImages?: boolean | User$uploadedImagesArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -3899,17 +4066,18 @@ export namespace Prisma {
       accounts: Prisma.$AccountPayload<ExtArgs>[]
       posts: Prisma.$PostPayload<ExtArgs>[]
       comments: Prisma.$CommentPayload<ExtArgs>[]
+      uploadedImages: Prisma.$UploadedImagePayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
       username: string | null
       bio: string
-      postsCount: number
       email: string
       emailVerified: boolean
       image: string | null
       isPublic: boolean
+      interest: $Enums.Interests[]
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -4310,6 +4478,7 @@ export namespace Prisma {
     accounts<T extends User$accountsArgs<ExtArgs> = {}>(args?: Subset<T, User$accountsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     posts<T extends User$postsArgs<ExtArgs> = {}>(args?: Subset<T, User$postsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     comments<T extends User$commentsArgs<ExtArgs> = {}>(args?: Subset<T, User$commentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CommentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    uploadedImages<T extends User$uploadedImagesArgs<ExtArgs> = {}>(args?: Subset<T, User$uploadedImagesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UploadedImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4343,11 +4512,11 @@ export namespace Prisma {
     readonly name: FieldRef<"User", 'String'>
     readonly username: FieldRef<"User", 'String'>
     readonly bio: FieldRef<"User", 'String'>
-    readonly postsCount: FieldRef<"User", 'Int'>
     readonly email: FieldRef<"User", 'String'>
     readonly emailVerified: FieldRef<"User", 'Boolean'>
     readonly image: FieldRef<"User", 'String'>
     readonly isPublic: FieldRef<"User", 'Boolean'>
+    readonly interest: FieldRef<"User", 'Interests[]'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
@@ -4839,6 +5008,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.uploadedImages
+   */
+  export type User$uploadedImagesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedImage
+     */
+    select?: UploadedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedImage
+     */
+    omit?: UploadedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedImageInclude<ExtArgs> | null
+    where?: UploadedImageWhereInput
+    orderBy?: UploadedImageOrderByWithRelationInput | UploadedImageOrderByWithRelationInput[]
+    cursor?: UploadedImageWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: UploadedImageScalarFieldEnum | UploadedImageScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4854,6 +5047,1148 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: UserInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model UploadedImage
+   */
+
+  export type AggregateUploadedImage = {
+    _count: UploadedImageCountAggregateOutputType | null
+    _min: UploadedImageMinAggregateOutputType | null
+    _max: UploadedImageMaxAggregateOutputType | null
+  }
+
+  export type UploadedImageMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    imageUrl: string | null
+    imageId: string | null
+    imageCid: string | null
+    isIncludeInPost: boolean | null
+    postId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UploadedImageMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    imageUrl: string | null
+    imageId: string | null
+    imageCid: string | null
+    isIncludeInPost: boolean | null
+    postId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type UploadedImageCountAggregateOutputType = {
+    id: number
+    userId: number
+    imageUrl: number
+    imageId: number
+    imageCid: number
+    isIncludeInPost: number
+    postId: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type UploadedImageMinAggregateInputType = {
+    id?: true
+    userId?: true
+    imageUrl?: true
+    imageId?: true
+    imageCid?: true
+    isIncludeInPost?: true
+    postId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UploadedImageMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    imageUrl?: true
+    imageId?: true
+    imageCid?: true
+    isIncludeInPost?: true
+    postId?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type UploadedImageCountAggregateInputType = {
+    id?: true
+    userId?: true
+    imageUrl?: true
+    imageId?: true
+    imageCid?: true
+    isIncludeInPost?: true
+    postId?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type UploadedImageAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UploadedImage to aggregate.
+     */
+    where?: UploadedImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UploadedImages to fetch.
+     */
+    orderBy?: UploadedImageOrderByWithRelationInput | UploadedImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: UploadedImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UploadedImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UploadedImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned UploadedImages
+    **/
+    _count?: true | UploadedImageCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: UploadedImageMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: UploadedImageMaxAggregateInputType
+  }
+
+  export type GetUploadedImageAggregateType<T extends UploadedImageAggregateArgs> = {
+        [P in keyof T & keyof AggregateUploadedImage]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateUploadedImage[P]>
+      : GetScalarType<T[P], AggregateUploadedImage[P]>
+  }
+
+
+
+
+  export type UploadedImageGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: UploadedImageWhereInput
+    orderBy?: UploadedImageOrderByWithAggregationInput | UploadedImageOrderByWithAggregationInput[]
+    by: UploadedImageScalarFieldEnum[] | UploadedImageScalarFieldEnum
+    having?: UploadedImageScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: UploadedImageCountAggregateInputType | true
+    _min?: UploadedImageMinAggregateInputType
+    _max?: UploadedImageMaxAggregateInputType
+  }
+
+  export type UploadedImageGroupByOutputType = {
+    id: string
+    userId: string
+    imageUrl: string
+    imageId: string
+    imageCid: string
+    isIncludeInPost: boolean
+    postId: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: UploadedImageCountAggregateOutputType | null
+    _min: UploadedImageMinAggregateOutputType | null
+    _max: UploadedImageMaxAggregateOutputType | null
+  }
+
+  type GetUploadedImageGroupByPayload<T extends UploadedImageGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<UploadedImageGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof UploadedImageGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], UploadedImageGroupByOutputType[P]>
+            : GetScalarType<T[P], UploadedImageGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type UploadedImageSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    imageUrl?: boolean
+    imageId?: boolean
+    imageCid?: boolean
+    isIncludeInPost?: boolean
+    postId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | UploadedImage$postArgs<ExtArgs>
+  }, ExtArgs["result"]["uploadedImage"]>
+
+  export type UploadedImageSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    imageUrl?: boolean
+    imageId?: boolean
+    imageCid?: boolean
+    isIncludeInPost?: boolean
+    postId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | UploadedImage$postArgs<ExtArgs>
+  }, ExtArgs["result"]["uploadedImage"]>
+
+  export type UploadedImageSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    imageUrl?: boolean
+    imageId?: boolean
+    imageCid?: boolean
+    isIncludeInPost?: boolean
+    postId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | UploadedImage$postArgs<ExtArgs>
+  }, ExtArgs["result"]["uploadedImage"]>
+
+  export type UploadedImageSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    imageUrl?: boolean
+    imageId?: boolean
+    imageCid?: boolean
+    isIncludeInPost?: boolean
+    postId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type UploadedImageOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "imageUrl" | "imageId" | "imageCid" | "isIncludeInPost" | "postId" | "createdAt" | "updatedAt", ExtArgs["result"]["uploadedImage"]>
+  export type UploadedImageInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | UploadedImage$postArgs<ExtArgs>
+  }
+  export type UploadedImageIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | UploadedImage$postArgs<ExtArgs>
+  }
+  export type UploadedImageIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+    post?: boolean | UploadedImage$postArgs<ExtArgs>
+  }
+
+  export type $UploadedImagePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "UploadedImage"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+      post: Prisma.$PostPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      imageUrl: string
+      imageId: string
+      imageCid: string
+      isIncludeInPost: boolean
+      postId: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["uploadedImage"]>
+    composites: {}
+  }
+
+  type UploadedImageGetPayload<S extends boolean | null | undefined | UploadedImageDefaultArgs> = $Result.GetResult<Prisma.$UploadedImagePayload, S>
+
+  type UploadedImageCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<UploadedImageFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: UploadedImageCountAggregateInputType | true
+    }
+
+  export interface UploadedImageDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['UploadedImage'], meta: { name: 'UploadedImage' } }
+    /**
+     * Find zero or one UploadedImage that matches the filter.
+     * @param {UploadedImageFindUniqueArgs} args - Arguments to find a UploadedImage
+     * @example
+     * // Get one UploadedImage
+     * const uploadedImage = await prisma.uploadedImage.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends UploadedImageFindUniqueArgs>(args: SelectSubset<T, UploadedImageFindUniqueArgs<ExtArgs>>): Prisma__UploadedImageClient<$Result.GetResult<Prisma.$UploadedImagePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one UploadedImage that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {UploadedImageFindUniqueOrThrowArgs} args - Arguments to find a UploadedImage
+     * @example
+     * // Get one UploadedImage
+     * const uploadedImage = await prisma.uploadedImage.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends UploadedImageFindUniqueOrThrowArgs>(args: SelectSubset<T, UploadedImageFindUniqueOrThrowArgs<ExtArgs>>): Prisma__UploadedImageClient<$Result.GetResult<Prisma.$UploadedImagePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UploadedImage that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UploadedImageFindFirstArgs} args - Arguments to find a UploadedImage
+     * @example
+     * // Get one UploadedImage
+     * const uploadedImage = await prisma.uploadedImage.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends UploadedImageFindFirstArgs>(args?: SelectSubset<T, UploadedImageFindFirstArgs<ExtArgs>>): Prisma__UploadedImageClient<$Result.GetResult<Prisma.$UploadedImagePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first UploadedImage that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UploadedImageFindFirstOrThrowArgs} args - Arguments to find a UploadedImage
+     * @example
+     * // Get one UploadedImage
+     * const uploadedImage = await prisma.uploadedImage.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends UploadedImageFindFirstOrThrowArgs>(args?: SelectSubset<T, UploadedImageFindFirstOrThrowArgs<ExtArgs>>): Prisma__UploadedImageClient<$Result.GetResult<Prisma.$UploadedImagePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more UploadedImages that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UploadedImageFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all UploadedImages
+     * const uploadedImages = await prisma.uploadedImage.findMany()
+     * 
+     * // Get first 10 UploadedImages
+     * const uploadedImages = await prisma.uploadedImage.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const uploadedImageWithIdOnly = await prisma.uploadedImage.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends UploadedImageFindManyArgs>(args?: SelectSubset<T, UploadedImageFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UploadedImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a UploadedImage.
+     * @param {UploadedImageCreateArgs} args - Arguments to create a UploadedImage.
+     * @example
+     * // Create one UploadedImage
+     * const UploadedImage = await prisma.uploadedImage.create({
+     *   data: {
+     *     // ... data to create a UploadedImage
+     *   }
+     * })
+     * 
+     */
+    create<T extends UploadedImageCreateArgs>(args: SelectSubset<T, UploadedImageCreateArgs<ExtArgs>>): Prisma__UploadedImageClient<$Result.GetResult<Prisma.$UploadedImagePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many UploadedImages.
+     * @param {UploadedImageCreateManyArgs} args - Arguments to create many UploadedImages.
+     * @example
+     * // Create many UploadedImages
+     * const uploadedImage = await prisma.uploadedImage.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends UploadedImageCreateManyArgs>(args?: SelectSubset<T, UploadedImageCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many UploadedImages and returns the data saved in the database.
+     * @param {UploadedImageCreateManyAndReturnArgs} args - Arguments to create many UploadedImages.
+     * @example
+     * // Create many UploadedImages
+     * const uploadedImage = await prisma.uploadedImage.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many UploadedImages and only return the `id`
+     * const uploadedImageWithIdOnly = await prisma.uploadedImage.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends UploadedImageCreateManyAndReturnArgs>(args?: SelectSubset<T, UploadedImageCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UploadedImagePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a UploadedImage.
+     * @param {UploadedImageDeleteArgs} args - Arguments to delete one UploadedImage.
+     * @example
+     * // Delete one UploadedImage
+     * const UploadedImage = await prisma.uploadedImage.delete({
+     *   where: {
+     *     // ... filter to delete one UploadedImage
+     *   }
+     * })
+     * 
+     */
+    delete<T extends UploadedImageDeleteArgs>(args: SelectSubset<T, UploadedImageDeleteArgs<ExtArgs>>): Prisma__UploadedImageClient<$Result.GetResult<Prisma.$UploadedImagePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one UploadedImage.
+     * @param {UploadedImageUpdateArgs} args - Arguments to update one UploadedImage.
+     * @example
+     * // Update one UploadedImage
+     * const uploadedImage = await prisma.uploadedImage.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends UploadedImageUpdateArgs>(args: SelectSubset<T, UploadedImageUpdateArgs<ExtArgs>>): Prisma__UploadedImageClient<$Result.GetResult<Prisma.$UploadedImagePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more UploadedImages.
+     * @param {UploadedImageDeleteManyArgs} args - Arguments to filter UploadedImages to delete.
+     * @example
+     * // Delete a few UploadedImages
+     * const { count } = await prisma.uploadedImage.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends UploadedImageDeleteManyArgs>(args?: SelectSubset<T, UploadedImageDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UploadedImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UploadedImageUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many UploadedImages
+     * const uploadedImage = await prisma.uploadedImage.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends UploadedImageUpdateManyArgs>(args: SelectSubset<T, UploadedImageUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more UploadedImages and returns the data updated in the database.
+     * @param {UploadedImageUpdateManyAndReturnArgs} args - Arguments to update many UploadedImages.
+     * @example
+     * // Update many UploadedImages
+     * const uploadedImage = await prisma.uploadedImage.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more UploadedImages and only return the `id`
+     * const uploadedImageWithIdOnly = await prisma.uploadedImage.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends UploadedImageUpdateManyAndReturnArgs>(args: SelectSubset<T, UploadedImageUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UploadedImagePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one UploadedImage.
+     * @param {UploadedImageUpsertArgs} args - Arguments to update or create a UploadedImage.
+     * @example
+     * // Update or create a UploadedImage
+     * const uploadedImage = await prisma.uploadedImage.upsert({
+     *   create: {
+     *     // ... data to create a UploadedImage
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the UploadedImage we want to update
+     *   }
+     * })
+     */
+    upsert<T extends UploadedImageUpsertArgs>(args: SelectSubset<T, UploadedImageUpsertArgs<ExtArgs>>): Prisma__UploadedImageClient<$Result.GetResult<Prisma.$UploadedImagePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of UploadedImages.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UploadedImageCountArgs} args - Arguments to filter UploadedImages to count.
+     * @example
+     * // Count the number of UploadedImages
+     * const count = await prisma.uploadedImage.count({
+     *   where: {
+     *     // ... the filter for the UploadedImages we want to count
+     *   }
+     * })
+    **/
+    count<T extends UploadedImageCountArgs>(
+      args?: Subset<T, UploadedImageCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], UploadedImageCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a UploadedImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UploadedImageAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends UploadedImageAggregateArgs>(args: Subset<T, UploadedImageAggregateArgs>): Prisma.PrismaPromise<GetUploadedImageAggregateType<T>>
+
+    /**
+     * Group by UploadedImage.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {UploadedImageGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends UploadedImageGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: UploadedImageGroupByArgs['orderBy'] }
+        : { orderBy?: UploadedImageGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, UploadedImageGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetUploadedImageGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the UploadedImage model
+   */
+  readonly fields: UploadedImageFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for UploadedImage.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__UploadedImageClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    post<T extends UploadedImage$postArgs<ExtArgs> = {}>(args?: Subset<T, UploadedImage$postArgs<ExtArgs>>): Prisma__PostClient<$Result.GetResult<Prisma.$PostPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the UploadedImage model
+   */
+  interface UploadedImageFieldRefs {
+    readonly id: FieldRef<"UploadedImage", 'String'>
+    readonly userId: FieldRef<"UploadedImage", 'String'>
+    readonly imageUrl: FieldRef<"UploadedImage", 'String'>
+    readonly imageId: FieldRef<"UploadedImage", 'String'>
+    readonly imageCid: FieldRef<"UploadedImage", 'String'>
+    readonly isIncludeInPost: FieldRef<"UploadedImage", 'Boolean'>
+    readonly postId: FieldRef<"UploadedImage", 'String'>
+    readonly createdAt: FieldRef<"UploadedImage", 'DateTime'>
+    readonly updatedAt: FieldRef<"UploadedImage", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * UploadedImage findUnique
+   */
+  export type UploadedImageFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedImage
+     */
+    select?: UploadedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedImage
+     */
+    omit?: UploadedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedImageInclude<ExtArgs> | null
+    /**
+     * Filter, which UploadedImage to fetch.
+     */
+    where: UploadedImageWhereUniqueInput
+  }
+
+  /**
+   * UploadedImage findUniqueOrThrow
+   */
+  export type UploadedImageFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedImage
+     */
+    select?: UploadedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedImage
+     */
+    omit?: UploadedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedImageInclude<ExtArgs> | null
+    /**
+     * Filter, which UploadedImage to fetch.
+     */
+    where: UploadedImageWhereUniqueInput
+  }
+
+  /**
+   * UploadedImage findFirst
+   */
+  export type UploadedImageFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedImage
+     */
+    select?: UploadedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedImage
+     */
+    omit?: UploadedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedImageInclude<ExtArgs> | null
+    /**
+     * Filter, which UploadedImage to fetch.
+     */
+    where?: UploadedImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UploadedImages to fetch.
+     */
+    orderBy?: UploadedImageOrderByWithRelationInput | UploadedImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UploadedImages.
+     */
+    cursor?: UploadedImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UploadedImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UploadedImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UploadedImages.
+     */
+    distinct?: UploadedImageScalarFieldEnum | UploadedImageScalarFieldEnum[]
+  }
+
+  /**
+   * UploadedImage findFirstOrThrow
+   */
+  export type UploadedImageFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedImage
+     */
+    select?: UploadedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedImage
+     */
+    omit?: UploadedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedImageInclude<ExtArgs> | null
+    /**
+     * Filter, which UploadedImage to fetch.
+     */
+    where?: UploadedImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UploadedImages to fetch.
+     */
+    orderBy?: UploadedImageOrderByWithRelationInput | UploadedImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for UploadedImages.
+     */
+    cursor?: UploadedImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UploadedImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UploadedImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UploadedImages.
+     */
+    distinct?: UploadedImageScalarFieldEnum | UploadedImageScalarFieldEnum[]
+  }
+
+  /**
+   * UploadedImage findMany
+   */
+  export type UploadedImageFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedImage
+     */
+    select?: UploadedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedImage
+     */
+    omit?: UploadedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedImageInclude<ExtArgs> | null
+    /**
+     * Filter, which UploadedImages to fetch.
+     */
+    where?: UploadedImageWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of UploadedImages to fetch.
+     */
+    orderBy?: UploadedImageOrderByWithRelationInput | UploadedImageOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing UploadedImages.
+     */
+    cursor?: UploadedImageWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` UploadedImages from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` UploadedImages.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of UploadedImages.
+     */
+    distinct?: UploadedImageScalarFieldEnum | UploadedImageScalarFieldEnum[]
+  }
+
+  /**
+   * UploadedImage create
+   */
+  export type UploadedImageCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedImage
+     */
+    select?: UploadedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedImage
+     */
+    omit?: UploadedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedImageInclude<ExtArgs> | null
+    /**
+     * The data needed to create a UploadedImage.
+     */
+    data: XOR<UploadedImageCreateInput, UploadedImageUncheckedCreateInput>
+  }
+
+  /**
+   * UploadedImage createMany
+   */
+  export type UploadedImageCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many UploadedImages.
+     */
+    data: UploadedImageCreateManyInput | UploadedImageCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * UploadedImage createManyAndReturn
+   */
+  export type UploadedImageCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedImage
+     */
+    select?: UploadedImageSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedImage
+     */
+    omit?: UploadedImageOmit<ExtArgs> | null
+    /**
+     * The data used to create many UploadedImages.
+     */
+    data: UploadedImageCreateManyInput | UploadedImageCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedImageIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UploadedImage update
+   */
+  export type UploadedImageUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedImage
+     */
+    select?: UploadedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedImage
+     */
+    omit?: UploadedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedImageInclude<ExtArgs> | null
+    /**
+     * The data needed to update a UploadedImage.
+     */
+    data: XOR<UploadedImageUpdateInput, UploadedImageUncheckedUpdateInput>
+    /**
+     * Choose, which UploadedImage to update.
+     */
+    where: UploadedImageWhereUniqueInput
+  }
+
+  /**
+   * UploadedImage updateMany
+   */
+  export type UploadedImageUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update UploadedImages.
+     */
+    data: XOR<UploadedImageUpdateManyMutationInput, UploadedImageUncheckedUpdateManyInput>
+    /**
+     * Filter which UploadedImages to update
+     */
+    where?: UploadedImageWhereInput
+    /**
+     * Limit how many UploadedImages to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * UploadedImage updateManyAndReturn
+   */
+  export type UploadedImageUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedImage
+     */
+    select?: UploadedImageSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedImage
+     */
+    omit?: UploadedImageOmit<ExtArgs> | null
+    /**
+     * The data used to update UploadedImages.
+     */
+    data: XOR<UploadedImageUpdateManyMutationInput, UploadedImageUncheckedUpdateManyInput>
+    /**
+     * Filter which UploadedImages to update
+     */
+    where?: UploadedImageWhereInput
+    /**
+     * Limit how many UploadedImages to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedImageIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * UploadedImage upsert
+   */
+  export type UploadedImageUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedImage
+     */
+    select?: UploadedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedImage
+     */
+    omit?: UploadedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedImageInclude<ExtArgs> | null
+    /**
+     * The filter to search for the UploadedImage to update in case it exists.
+     */
+    where: UploadedImageWhereUniqueInput
+    /**
+     * In case the UploadedImage found by the `where` argument doesn't exist, create a new UploadedImage with this data.
+     */
+    create: XOR<UploadedImageCreateInput, UploadedImageUncheckedCreateInput>
+    /**
+     * In case the UploadedImage was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<UploadedImageUpdateInput, UploadedImageUncheckedUpdateInput>
+  }
+
+  /**
+   * UploadedImage delete
+   */
+  export type UploadedImageDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedImage
+     */
+    select?: UploadedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedImage
+     */
+    omit?: UploadedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedImageInclude<ExtArgs> | null
+    /**
+     * Filter which UploadedImage to delete.
+     */
+    where: UploadedImageWhereUniqueInput
+  }
+
+  /**
+   * UploadedImage deleteMany
+   */
+  export type UploadedImageDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which UploadedImages to delete
+     */
+    where?: UploadedImageWhereInput
+    /**
+     * Limit how many UploadedImages to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * UploadedImage.post
+   */
+  export type UploadedImage$postArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Post
+     */
+    select?: PostSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Post
+     */
+    omit?: PostOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: PostInclude<ExtArgs> | null
+    where?: PostWhereInput
+  }
+
+  /**
+   * UploadedImage without action
+   */
+  export type UploadedImageDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UploadedImage
+     */
+    select?: UploadedImageSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the UploadedImage
+     */
+    omit?: UploadedImageOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UploadedImageInclude<ExtArgs> | null
   }
 
 
@@ -8155,8 +9490,11 @@ export namespace Prisma {
 
   export const PostScalarFieldEnum: {
     id: 'id',
+    interest: 'interest',
     userId: 'userId',
     content: 'content',
+    imageUrl: 'imageUrl',
+    imageCid: 'imageCid',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -8181,16 +9519,31 @@ export namespace Prisma {
     name: 'name',
     username: 'username',
     bio: 'bio',
-    postsCount: 'postsCount',
     email: 'email',
     emailVerified: 'emailVerified',
     image: 'image',
     isPublic: 'isPublic',
+    interest: 'interest',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
+  export const UploadedImageScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    imageUrl: 'imageUrl',
+    imageId: 'imageId',
+    imageCid: 'imageCid',
+    isIncludeInPost: 'isIncludeInPost',
+    postId: 'postId',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type UploadedImageScalarFieldEnum = (typeof UploadedImageScalarFieldEnum)[keyof typeof UploadedImageScalarFieldEnum]
 
 
   export const SessionScalarFieldEnum: {
@@ -8282,6 +9635,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Interests'
+   */
+  export type EnumInterestsFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Interests'>
+    
+
+
+  /**
+   * Reference to a field of type 'Interests[]'
+   */
+  export type ListEnumInterestsFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Interests[]'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -8292,6 +9659,13 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -8307,27 +9681,6 @@ export namespace Prisma {
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
-
-
-  /**
-   * Reference to a field of type 'Boolean'
-   */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float'
-   */
-  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
-    
-
-
-  /**
-   * Reference to a field of type 'Float[]'
-   */
-  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
-    
   /**
    * Deep Input Types
    */
@@ -8338,22 +9691,30 @@ export namespace Prisma {
     OR?: PostWhereInput[]
     NOT?: PostWhereInput | PostWhereInput[]
     id?: StringFilter<"Post"> | string
+    interest?: EnumInterestsNullableFilter<"Post"> | $Enums.Interests | null
     userId?: StringFilter<"Post"> | string
     content?: StringFilter<"Post"> | string
+    imageUrl?: StringNullableFilter<"Post"> | string | null
+    imageCid?: StringNullableFilter<"Post"> | string | null
     createdAt?: DateTimeFilter<"Post"> | Date | string
     updatedAt?: DateTimeFilter<"Post"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     comments?: CommentListRelationFilter
+    uploadedImages?: UploadedImageListRelationFilter
   }
 
   export type PostOrderByWithRelationInput = {
     id?: SortOrder
+    interest?: SortOrderInput | SortOrder
     userId?: SortOrder
     content?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    imageCid?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
     comments?: CommentOrderByRelationAggregateInput
+    uploadedImages?: UploadedImageOrderByRelationAggregateInput
   }
 
   export type PostWhereUniqueInput = Prisma.AtLeast<{
@@ -8361,18 +9722,25 @@ export namespace Prisma {
     AND?: PostWhereInput | PostWhereInput[]
     OR?: PostWhereInput[]
     NOT?: PostWhereInput | PostWhereInput[]
+    interest?: EnumInterestsNullableFilter<"Post"> | $Enums.Interests | null
     userId?: StringFilter<"Post"> | string
     content?: StringFilter<"Post"> | string
+    imageUrl?: StringNullableFilter<"Post"> | string | null
+    imageCid?: StringNullableFilter<"Post"> | string | null
     createdAt?: DateTimeFilter<"Post"> | Date | string
     updatedAt?: DateTimeFilter<"Post"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     comments?: CommentListRelationFilter
+    uploadedImages?: UploadedImageListRelationFilter
   }, "id">
 
   export type PostOrderByWithAggregationInput = {
     id?: SortOrder
+    interest?: SortOrderInput | SortOrder
     userId?: SortOrder
     content?: SortOrder
+    imageUrl?: SortOrderInput | SortOrder
+    imageCid?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: PostCountOrderByAggregateInput
@@ -8385,8 +9753,11 @@ export namespace Prisma {
     OR?: PostScalarWhereWithAggregatesInput[]
     NOT?: PostScalarWhereWithAggregatesInput | PostScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Post"> | string
+    interest?: EnumInterestsNullableWithAggregatesFilter<"Post"> | $Enums.Interests | null
     userId?: StringWithAggregatesFilter<"Post"> | string
     content?: StringWithAggregatesFilter<"Post"> | string
+    imageUrl?: StringNullableWithAggregatesFilter<"Post"> | string | null
+    imageCid?: StringNullableWithAggregatesFilter<"Post"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Post"> | Date | string
   }
@@ -8462,17 +9833,18 @@ export namespace Prisma {
     name?: StringFilter<"User"> | string
     username?: StringNullableFilter<"User"> | string | null
     bio?: StringFilter<"User"> | string
-    postsCount?: IntFilter<"User"> | number
     email?: StringFilter<"User"> | string
     emailVerified?: BoolFilter<"User"> | boolean
     image?: StringNullableFilter<"User"> | string | null
     isPublic?: BoolFilter<"User"> | boolean
+    interest?: EnumInterestsNullableListFilter<"User">
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
     posts?: PostListRelationFilter
     comments?: CommentListRelationFilter
+    uploadedImages?: UploadedImageListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -8480,17 +9852,18 @@ export namespace Prisma {
     name?: SortOrder
     username?: SortOrderInput | SortOrder
     bio?: SortOrder
-    postsCount?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrderInput | SortOrder
     isPublic?: SortOrder
+    interest?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sessions?: SessionOrderByRelationAggregateInput
     accounts?: AccountOrderByRelationAggregateInput
     posts?: PostOrderByRelationAggregateInput
     comments?: CommentOrderByRelationAggregateInput
+    uploadedImages?: UploadedImageOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -8502,16 +9875,17 @@ export namespace Prisma {
     name?: StringFilter<"User"> | string
     username?: StringNullableFilter<"User"> | string | null
     bio?: StringFilter<"User"> | string
-    postsCount?: IntFilter<"User"> | number
     emailVerified?: BoolFilter<"User"> | boolean
     image?: StringNullableFilter<"User"> | string | null
     isPublic?: BoolFilter<"User"> | boolean
+    interest?: EnumInterestsNullableListFilter<"User">
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     sessions?: SessionListRelationFilter
     accounts?: AccountListRelationFilter
     posts?: PostListRelationFilter
     comments?: CommentListRelationFilter
+    uploadedImages?: UploadedImageListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -8519,18 +9893,16 @@ export namespace Prisma {
     name?: SortOrder
     username?: SortOrderInput | SortOrder
     bio?: SortOrder
-    postsCount?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrderInput | SortOrder
     isPublic?: SortOrder
+    interest?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
-    _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
-    _sum?: UserSumOrderByAggregateInput
   }
 
   export type UserScalarWhereWithAggregatesInput = {
@@ -8541,13 +9913,91 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"User"> | string
     username?: StringNullableWithAggregatesFilter<"User"> | string | null
     bio?: StringWithAggregatesFilter<"User"> | string
-    postsCount?: IntWithAggregatesFilter<"User"> | number
     email?: StringWithAggregatesFilter<"User"> | string
     emailVerified?: BoolWithAggregatesFilter<"User"> | boolean
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     isPublic?: BoolWithAggregatesFilter<"User"> | boolean
+    interest?: EnumInterestsNullableListFilter<"User">
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+  }
+
+  export type UploadedImageWhereInput = {
+    AND?: UploadedImageWhereInput | UploadedImageWhereInput[]
+    OR?: UploadedImageWhereInput[]
+    NOT?: UploadedImageWhereInput | UploadedImageWhereInput[]
+    id?: StringFilter<"UploadedImage"> | string
+    userId?: StringFilter<"UploadedImage"> | string
+    imageUrl?: StringFilter<"UploadedImage"> | string
+    imageId?: StringFilter<"UploadedImage"> | string
+    imageCid?: StringFilter<"UploadedImage"> | string
+    isIncludeInPost?: BoolFilter<"UploadedImage"> | boolean
+    postId?: StringNullableFilter<"UploadedImage"> | string | null
+    createdAt?: DateTimeFilter<"UploadedImage"> | Date | string
+    updatedAt?: DateTimeFilter<"UploadedImage"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    post?: XOR<PostNullableScalarRelationFilter, PostWhereInput> | null
+  }
+
+  export type UploadedImageOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    imageUrl?: SortOrder
+    imageId?: SortOrder
+    imageCid?: SortOrder
+    isIncludeInPost?: SortOrder
+    postId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+    post?: PostOrderByWithRelationInput
+  }
+
+  export type UploadedImageWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: UploadedImageWhereInput | UploadedImageWhereInput[]
+    OR?: UploadedImageWhereInput[]
+    NOT?: UploadedImageWhereInput | UploadedImageWhereInput[]
+    userId?: StringFilter<"UploadedImage"> | string
+    imageUrl?: StringFilter<"UploadedImage"> | string
+    imageId?: StringFilter<"UploadedImage"> | string
+    imageCid?: StringFilter<"UploadedImage"> | string
+    isIncludeInPost?: BoolFilter<"UploadedImage"> | boolean
+    postId?: StringNullableFilter<"UploadedImage"> | string | null
+    createdAt?: DateTimeFilter<"UploadedImage"> | Date | string
+    updatedAt?: DateTimeFilter<"UploadedImage"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    post?: XOR<PostNullableScalarRelationFilter, PostWhereInput> | null
+  }, "id">
+
+  export type UploadedImageOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    imageUrl?: SortOrder
+    imageId?: SortOrder
+    imageCid?: SortOrder
+    isIncludeInPost?: SortOrder
+    postId?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: UploadedImageCountOrderByAggregateInput
+    _max?: UploadedImageMaxOrderByAggregateInput
+    _min?: UploadedImageMinOrderByAggregateInput
+  }
+
+  export type UploadedImageScalarWhereWithAggregatesInput = {
+    AND?: UploadedImageScalarWhereWithAggregatesInput | UploadedImageScalarWhereWithAggregatesInput[]
+    OR?: UploadedImageScalarWhereWithAggregatesInput[]
+    NOT?: UploadedImageScalarWhereWithAggregatesInput | UploadedImageScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"UploadedImage"> | string
+    userId?: StringWithAggregatesFilter<"UploadedImage"> | string
+    imageUrl?: StringWithAggregatesFilter<"UploadedImage"> | string
+    imageId?: StringWithAggregatesFilter<"UploadedImage"> | string
+    imageCid?: StringWithAggregatesFilter<"UploadedImage"> | string
+    isIncludeInPost?: BoolWithAggregatesFilter<"UploadedImage"> | boolean
+    postId?: StringNullableWithAggregatesFilter<"UploadedImage"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"UploadedImage"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"UploadedImage"> | Date | string
   }
 
   export type SessionWhereInput = {
@@ -8774,59 +10224,84 @@ export namespace Prisma {
 
   export type PostCreateInput = {
     id?: string
+    interest?: $Enums.Interests | null
     content: string
+    imageUrl?: string | null
+    imageCid?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutPostsInput
     comments?: CommentCreateNestedManyWithoutPostInput
+    uploadedImages?: UploadedImageCreateNestedManyWithoutPostInput
   }
 
   export type PostUncheckedCreateInput = {
     id?: string
+    interest?: $Enums.Interests | null
     userId: string
     content: string
+    imageUrl?: string | null
+    imageCid?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     comments?: CommentUncheckedCreateNestedManyWithoutPostInput
+    uploadedImages?: UploadedImageUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type PostUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    interest?: NullableEnumInterestsFieldUpdateOperationsInput | $Enums.Interests | null
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageCid?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutPostsNestedInput
     comments?: CommentUpdateManyWithoutPostNestedInput
+    uploadedImages?: UploadedImageUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    interest?: NullableEnumInterestsFieldUpdateOperationsInput | $Enums.Interests | null
     userId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageCid?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
+    uploadedImages?: UploadedImageUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type PostCreateManyInput = {
     id?: string
+    interest?: $Enums.Interests | null
     userId: string
     content: string
+    imageUrl?: string | null
+    imageCid?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type PostUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    interest?: NullableEnumInterestsFieldUpdateOperationsInput | $Enums.Interests | null
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageCid?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PostUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    interest?: NullableEnumInterestsFieldUpdateOperationsInput | $Enums.Interests | null
     userId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageCid?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8897,17 +10372,18 @@ export namespace Prisma {
     name: string
     username?: string | null
     bio?: string
-    postsCount?: number
     email: string
     emailVerified?: boolean
     image?: string | null
     isPublic?: boolean
+    interest?: UserCreateinterestInput | $Enums.Interests[]
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
     comments?: CommentCreateNestedManyWithoutUserInput
+    uploadedImages?: UploadedImageCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -8915,17 +10391,18 @@ export namespace Prisma {
     name: string
     username?: string | null
     bio?: string
-    postsCount?: number
     email: string
     emailVerified?: boolean
     image?: string | null
     isPublic?: boolean
+    interest?: UserCreateinterestInput | $Enums.Interests[]
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    uploadedImages?: UploadedImageUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -8933,17 +10410,18 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     username?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: StringFieldUpdateOperationsInput | string
-    postsCount?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
+    interest?: UserUpdateinterestInput | $Enums.Interests[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
+    uploadedImages?: UploadedImageUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -8951,17 +10429,18 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     username?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: StringFieldUpdateOperationsInput | string
-    postsCount?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
+    interest?: UserUpdateinterestInput | $Enums.Interests[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedImages?: UploadedImageUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -8969,11 +10448,11 @@ export namespace Prisma {
     name: string
     username?: string | null
     bio?: string
-    postsCount?: number
     email: string
     emailVerified?: boolean
     image?: string | null
     isPublic?: boolean
+    interest?: UserCreateinterestInput | $Enums.Interests[]
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8983,11 +10462,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     username?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: StringFieldUpdateOperationsInput | string
-    postsCount?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
+    interest?: UserUpdateinterestInput | $Enums.Interests[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8997,11 +10476,93 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     username?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: StringFieldUpdateOperationsInput | string
-    postsCount?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
+    interest?: UserUpdateinterestInput | $Enums.Interests[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UploadedImageCreateInput = {
+    id?: string
+    imageUrl: string
+    imageId: string
+    imageCid: string
+    isIncludeInPost?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutUploadedImagesInput
+    post?: PostCreateNestedOneWithoutUploadedImagesInput
+  }
+
+  export type UploadedImageUncheckedCreateInput = {
+    id?: string
+    userId: string
+    imageUrl: string
+    imageId: string
+    imageCid: string
+    isIncludeInPost?: boolean
+    postId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UploadedImageUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageId?: StringFieldUpdateOperationsInput | string
+    imageCid?: StringFieldUpdateOperationsInput | string
+    isIncludeInPost?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutUploadedImagesNestedInput
+    post?: PostUpdateOneWithoutUploadedImagesNestedInput
+  }
+
+  export type UploadedImageUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageId?: StringFieldUpdateOperationsInput | string
+    imageCid?: StringFieldUpdateOperationsInput | string
+    isIncludeInPost?: BoolFieldUpdateOperationsInput | boolean
+    postId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UploadedImageCreateManyInput = {
+    id?: string
+    userId: string
+    imageUrl: string
+    imageId: string
+    imageCid: string
+    isIncludeInPost?: boolean
+    postId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UploadedImageUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageId?: StringFieldUpdateOperationsInput | string
+    imageCid?: StringFieldUpdateOperationsInput | string
+    isIncludeInPost?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UploadedImageUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageId?: StringFieldUpdateOperationsInput | string
+    imageCid?: StringFieldUpdateOperationsInput | string
+    isIncludeInPost?: BoolFieldUpdateOperationsInput | boolean
+    postId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -9271,6 +10832,28 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type EnumInterestsNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.Interests | EnumInterestsFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Interests[] | ListEnumInterestsFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Interests[] | ListEnumInterestsFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumInterestsNullableFilter<$PrismaModel> | $Enums.Interests | null
+  }
+
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -9293,30 +10876,54 @@ export namespace Prisma {
     none?: CommentWhereInput
   }
 
+  export type UploadedImageListRelationFilter = {
+    every?: UploadedImageWhereInput
+    some?: UploadedImageWhereInput
+    none?: UploadedImageWhereInput
+  }
+
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type CommentOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type UploadedImageOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
   export type PostCountOrderByAggregateInput = {
     id?: SortOrder
+    interest?: SortOrder
     userId?: SortOrder
     content?: SortOrder
+    imageUrl?: SortOrder
+    imageCid?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type PostMaxOrderByAggregateInput = {
     id?: SortOrder
+    interest?: SortOrder
     userId?: SortOrder
     content?: SortOrder
+    imageUrl?: SortOrder
+    imageCid?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type PostMinOrderByAggregateInput = {
     id?: SortOrder
+    interest?: SortOrder
     userId?: SortOrder
     content?: SortOrder
+    imageUrl?: SortOrder
+    imageCid?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -9337,6 +10944,34 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type EnumInterestsNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Interests | EnumInterestsFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Interests[] | ListEnumInterestsFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Interests[] | ListEnumInterestsFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumInterestsNullableWithAggregatesFilter<$PrismaModel> | $Enums.Interests | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumInterestsNullableFilter<$PrismaModel>
+    _max?: NestedEnumInterestsNullableFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
   export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -9385,35 +11020,17 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type StringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type BoolFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type EnumInterestsNullableListFilter<$PrismaModel = never> = {
+    equals?: $Enums.Interests[] | ListEnumInterestsFieldRefInput<$PrismaModel> | null
+    has?: $Enums.Interests | EnumInterestsFieldRefInput<$PrismaModel> | null
+    hasEvery?: $Enums.Interests[] | ListEnumInterestsFieldRefInput<$PrismaModel>
+    hasSome?: $Enums.Interests[] | ListEnumInterestsFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
   }
 
   export type SessionListRelationFilter = {
@@ -9434,11 +11051,6 @@ export namespace Prisma {
     none?: PostWhereInput
   }
 
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
-  }
-
   export type SessionOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -9456,17 +11068,13 @@ export namespace Prisma {
     name?: SortOrder
     username?: SortOrder
     bio?: SortOrder
-    postsCount?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
     isPublic?: SortOrder
+    interest?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type UserAvgOrderByAggregateInput = {
-    postsCount?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -9474,7 +11082,6 @@ export namespace Prisma {
     name?: SortOrder
     username?: SortOrder
     bio?: SortOrder
-    postsCount?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
@@ -9488,7 +11095,6 @@ export namespace Prisma {
     name?: SortOrder
     username?: SortOrder
     bio?: SortOrder
-    postsCount?: SortOrder
     email?: SortOrder
     emailVerified?: SortOrder
     image?: SortOrder
@@ -9497,50 +11103,53 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type UserSumOrderByAggregateInput = {
-    postsCount?: SortOrder
-  }
-
-  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
   export type BoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type PostNullableScalarRelationFilter = {
+    is?: PostWhereInput | null
+    isNot?: PostWhereInput | null
+  }
+
+  export type UploadedImageCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    imageUrl?: SortOrder
+    imageId?: SortOrder
+    imageCid?: SortOrder
+    isIncludeInPost?: SortOrder
+    postId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UploadedImageMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    imageUrl?: SortOrder
+    imageId?: SortOrder
+    imageCid?: SortOrder
+    isIncludeInPost?: SortOrder
+    postId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type UploadedImageMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    imageUrl?: SortOrder
+    imageId?: SortOrder
+    imageCid?: SortOrder
+    isIncludeInPost?: SortOrder
+    postId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type SessionCountOrderByAggregateInput = {
@@ -9689,6 +11298,13 @@ export namespace Prisma {
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
   }
 
+  export type UploadedImageCreateNestedManyWithoutPostInput = {
+    create?: XOR<UploadedImageCreateWithoutPostInput, UploadedImageUncheckedCreateWithoutPostInput> | UploadedImageCreateWithoutPostInput[] | UploadedImageUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: UploadedImageCreateOrConnectWithoutPostInput | UploadedImageCreateOrConnectWithoutPostInput[]
+    createMany?: UploadedImageCreateManyPostInputEnvelope
+    connect?: UploadedImageWhereUniqueInput | UploadedImageWhereUniqueInput[]
+  }
+
   export type CommentUncheckedCreateNestedManyWithoutPostInput = {
     create?: XOR<CommentCreateWithoutPostInput, CommentUncheckedCreateWithoutPostInput> | CommentCreateWithoutPostInput[] | CommentUncheckedCreateWithoutPostInput[]
     connectOrCreate?: CommentCreateOrConnectWithoutPostInput | CommentCreateOrConnectWithoutPostInput[]
@@ -9696,8 +11312,23 @@ export namespace Prisma {
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
   }
 
+  export type UploadedImageUncheckedCreateNestedManyWithoutPostInput = {
+    create?: XOR<UploadedImageCreateWithoutPostInput, UploadedImageUncheckedCreateWithoutPostInput> | UploadedImageCreateWithoutPostInput[] | UploadedImageUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: UploadedImageCreateOrConnectWithoutPostInput | UploadedImageCreateOrConnectWithoutPostInput[]
+    createMany?: UploadedImageCreateManyPostInputEnvelope
+    connect?: UploadedImageWhereUniqueInput | UploadedImageWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
+  }
+
+  export type NullableEnumInterestsFieldUpdateOperationsInput = {
+    set?: $Enums.Interests | null
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -9726,6 +11357,20 @@ export namespace Prisma {
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
+  export type UploadedImageUpdateManyWithoutPostNestedInput = {
+    create?: XOR<UploadedImageCreateWithoutPostInput, UploadedImageUncheckedCreateWithoutPostInput> | UploadedImageCreateWithoutPostInput[] | UploadedImageUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: UploadedImageCreateOrConnectWithoutPostInput | UploadedImageCreateOrConnectWithoutPostInput[]
+    upsert?: UploadedImageUpsertWithWhereUniqueWithoutPostInput | UploadedImageUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: UploadedImageCreateManyPostInputEnvelope
+    set?: UploadedImageWhereUniqueInput | UploadedImageWhereUniqueInput[]
+    disconnect?: UploadedImageWhereUniqueInput | UploadedImageWhereUniqueInput[]
+    delete?: UploadedImageWhereUniqueInput | UploadedImageWhereUniqueInput[]
+    connect?: UploadedImageWhereUniqueInput | UploadedImageWhereUniqueInput[]
+    update?: UploadedImageUpdateWithWhereUniqueWithoutPostInput | UploadedImageUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: UploadedImageUpdateManyWithWhereWithoutPostInput | UploadedImageUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: UploadedImageScalarWhereInput | UploadedImageScalarWhereInput[]
+  }
+
   export type CommentUncheckedUpdateManyWithoutPostNestedInput = {
     create?: XOR<CommentCreateWithoutPostInput, CommentUncheckedCreateWithoutPostInput> | CommentCreateWithoutPostInput[] | CommentUncheckedCreateWithoutPostInput[]
     connectOrCreate?: CommentCreateOrConnectWithoutPostInput | CommentCreateOrConnectWithoutPostInput[]
@@ -9738,6 +11383,20 @@ export namespace Prisma {
     update?: CommentUpdateWithWhereUniqueWithoutPostInput | CommentUpdateWithWhereUniqueWithoutPostInput[]
     updateMany?: CommentUpdateManyWithWhereWithoutPostInput | CommentUpdateManyWithWhereWithoutPostInput[]
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
+  }
+
+  export type UploadedImageUncheckedUpdateManyWithoutPostNestedInput = {
+    create?: XOR<UploadedImageCreateWithoutPostInput, UploadedImageUncheckedCreateWithoutPostInput> | UploadedImageCreateWithoutPostInput[] | UploadedImageUncheckedCreateWithoutPostInput[]
+    connectOrCreate?: UploadedImageCreateOrConnectWithoutPostInput | UploadedImageCreateOrConnectWithoutPostInput[]
+    upsert?: UploadedImageUpsertWithWhereUniqueWithoutPostInput | UploadedImageUpsertWithWhereUniqueWithoutPostInput[]
+    createMany?: UploadedImageCreateManyPostInputEnvelope
+    set?: UploadedImageWhereUniqueInput | UploadedImageWhereUniqueInput[]
+    disconnect?: UploadedImageWhereUniqueInput | UploadedImageWhereUniqueInput[]
+    delete?: UploadedImageWhereUniqueInput | UploadedImageWhereUniqueInput[]
+    connect?: UploadedImageWhereUniqueInput | UploadedImageWhereUniqueInput[]
+    update?: UploadedImageUpdateWithWhereUniqueWithoutPostInput | UploadedImageUpdateWithWhereUniqueWithoutPostInput[]
+    updateMany?: UploadedImageUpdateManyWithWhereWithoutPostInput | UploadedImageUpdateManyWithWhereWithoutPostInput[]
+    deleteMany?: UploadedImageScalarWhereInput | UploadedImageScalarWhereInput[]
   }
 
   export type PostCreateNestedOneWithoutCommentsInput = {
@@ -9768,6 +11427,10 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutCommentsInput, UserUpdateWithoutCommentsInput>, UserUncheckedUpdateWithoutCommentsInput>
   }
 
+  export type UserCreateinterestInput = {
+    set: $Enums.Interests[]
+  }
+
   export type SessionCreateNestedManyWithoutUserInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -9794,6 +11457,13 @@ export namespace Prisma {
     connectOrCreate?: CommentCreateOrConnectWithoutUserInput | CommentCreateOrConnectWithoutUserInput[]
     createMany?: CommentCreateManyUserInputEnvelope
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
+  }
+
+  export type UploadedImageCreateNestedManyWithoutUserInput = {
+    create?: XOR<UploadedImageCreateWithoutUserInput, UploadedImageUncheckedCreateWithoutUserInput> | UploadedImageCreateWithoutUserInput[] | UploadedImageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UploadedImageCreateOrConnectWithoutUserInput | UploadedImageCreateOrConnectWithoutUserInput[]
+    createMany?: UploadedImageCreateManyUserInputEnvelope
+    connect?: UploadedImageWhereUniqueInput | UploadedImageWhereUniqueInput[]
   }
 
   export type SessionUncheckedCreateNestedManyWithoutUserInput = {
@@ -9824,20 +11494,20 @@ export namespace Prisma {
     connect?: CommentWhereUniqueInput | CommentWhereUniqueInput[]
   }
 
-  export type NullableStringFieldUpdateOperationsInput = {
-    set?: string | null
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type UploadedImageUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<UploadedImageCreateWithoutUserInput, UploadedImageUncheckedCreateWithoutUserInput> | UploadedImageCreateWithoutUserInput[] | UploadedImageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UploadedImageCreateOrConnectWithoutUserInput | UploadedImageCreateOrConnectWithoutUserInput[]
+    createMany?: UploadedImageCreateManyUserInputEnvelope
+    connect?: UploadedImageWhereUniqueInput | UploadedImageWhereUniqueInput[]
   }
 
   export type BoolFieldUpdateOperationsInput = {
     set?: boolean
+  }
+
+  export type UserUpdateinterestInput = {
+    set?: $Enums.Interests[]
+    push?: $Enums.Interests | $Enums.Interests[]
   }
 
   export type SessionUpdateManyWithoutUserNestedInput = {
@@ -9896,6 +11566,20 @@ export namespace Prisma {
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
+  export type UploadedImageUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UploadedImageCreateWithoutUserInput, UploadedImageUncheckedCreateWithoutUserInput> | UploadedImageCreateWithoutUserInput[] | UploadedImageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UploadedImageCreateOrConnectWithoutUserInput | UploadedImageCreateOrConnectWithoutUserInput[]
+    upsert?: UploadedImageUpsertWithWhereUniqueWithoutUserInput | UploadedImageUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UploadedImageCreateManyUserInputEnvelope
+    set?: UploadedImageWhereUniqueInput | UploadedImageWhereUniqueInput[]
+    disconnect?: UploadedImageWhereUniqueInput | UploadedImageWhereUniqueInput[]
+    delete?: UploadedImageWhereUniqueInput | UploadedImageWhereUniqueInput[]
+    connect?: UploadedImageWhereUniqueInput | UploadedImageWhereUniqueInput[]
+    update?: UploadedImageUpdateWithWhereUniqueWithoutUserInput | UploadedImageUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UploadedImageUpdateManyWithWhereWithoutUserInput | UploadedImageUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UploadedImageScalarWhereInput | UploadedImageScalarWhereInput[]
+  }
+
   export type SessionUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -9952,6 +11636,50 @@ export namespace Prisma {
     deleteMany?: CommentScalarWhereInput | CommentScalarWhereInput[]
   }
 
+  export type UploadedImageUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<UploadedImageCreateWithoutUserInput, UploadedImageUncheckedCreateWithoutUserInput> | UploadedImageCreateWithoutUserInput[] | UploadedImageUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: UploadedImageCreateOrConnectWithoutUserInput | UploadedImageCreateOrConnectWithoutUserInput[]
+    upsert?: UploadedImageUpsertWithWhereUniqueWithoutUserInput | UploadedImageUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: UploadedImageCreateManyUserInputEnvelope
+    set?: UploadedImageWhereUniqueInput | UploadedImageWhereUniqueInput[]
+    disconnect?: UploadedImageWhereUniqueInput | UploadedImageWhereUniqueInput[]
+    delete?: UploadedImageWhereUniqueInput | UploadedImageWhereUniqueInput[]
+    connect?: UploadedImageWhereUniqueInput | UploadedImageWhereUniqueInput[]
+    update?: UploadedImageUpdateWithWhereUniqueWithoutUserInput | UploadedImageUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: UploadedImageUpdateManyWithWhereWithoutUserInput | UploadedImageUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: UploadedImageScalarWhereInput | UploadedImageScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutUploadedImagesInput = {
+    create?: XOR<UserCreateWithoutUploadedImagesInput, UserUncheckedCreateWithoutUploadedImagesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUploadedImagesInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type PostCreateNestedOneWithoutUploadedImagesInput = {
+    create?: XOR<PostCreateWithoutUploadedImagesInput, PostUncheckedCreateWithoutUploadedImagesInput>
+    connectOrCreate?: PostCreateOrConnectWithoutUploadedImagesInput
+    connect?: PostWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutUploadedImagesNestedInput = {
+    create?: XOR<UserCreateWithoutUploadedImagesInput, UserUncheckedCreateWithoutUploadedImagesInput>
+    connectOrCreate?: UserCreateOrConnectWithoutUploadedImagesInput
+    upsert?: UserUpsertWithoutUploadedImagesInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutUploadedImagesInput, UserUpdateWithoutUploadedImagesInput>, UserUncheckedUpdateWithoutUploadedImagesInput>
+  }
+
+  export type PostUpdateOneWithoutUploadedImagesNestedInput = {
+    create?: XOR<PostCreateWithoutUploadedImagesInput, PostUncheckedCreateWithoutUploadedImagesInput>
+    connectOrCreate?: PostCreateOrConnectWithoutUploadedImagesInput
+    upsert?: PostUpsertWithoutUploadedImagesInput
+    disconnect?: PostWhereInput | boolean
+    delete?: PostWhereInput | boolean
+    connect?: PostWhereUniqueInput
+    update?: XOR<XOR<PostUpdateToOneWithWhereWithoutUploadedImagesInput, PostUpdateWithoutUploadedImagesInput>, PostUncheckedUpdateWithoutUploadedImagesInput>
+  }
+
   export type UserCreateNestedOneWithoutSessionsInput = {
     create?: XOR<UserCreateWithoutSessionsInput, UserUncheckedCreateWithoutSessionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutSessionsInput
@@ -9998,6 +11726,27 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type NestedEnumInterestsNullableFilter<$PrismaModel = never> = {
+    equals?: $Enums.Interests | EnumInterestsFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Interests[] | ListEnumInterestsFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Interests[] | ListEnumInterestsFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumInterestsNullableFilter<$PrismaModel> | $Enums.Interests | null
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -10037,37 +11786,25 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
+  export type NestedEnumInterestsNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.Interests | EnumInterestsFieldRefInput<$PrismaModel> | null
+    in?: $Enums.Interests[] | ListEnumInterestsFieldRefInput<$PrismaModel> | null
+    notIn?: $Enums.Interests[] | ListEnumInterestsFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumInterestsNullableWithAggregatesFilter<$PrismaModel> | $Enums.Interests | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumInterestsNullableFilter<$PrismaModel>
+    _max?: NestedEnumInterestsNullableFilter<$PrismaModel>
   }
 
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -10087,42 +11824,23 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
-  }
-
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
     _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedFloatFilter<$PrismaModel = never> = {
-    equals?: number | FloatFieldRefInput<$PrismaModel>
-    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
-    lt?: number | FloatFieldRefInput<$PrismaModel>
-    lte?: number | FloatFieldRefInput<$PrismaModel>
-    gt?: number | FloatFieldRefInput<$PrismaModel>
-    gte?: number | FloatFieldRefInput<$PrismaModel>
-    not?: NestedFloatFilter<$PrismaModel> | number
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
@@ -10163,16 +11881,17 @@ export namespace Prisma {
     name: string
     username?: string | null
     bio?: string
-    postsCount?: number
     email: string
     emailVerified?: boolean
     image?: string | null
     isPublic?: boolean
+    interest?: UserCreateinterestInput | $Enums.Interests[]
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     comments?: CommentCreateNestedManyWithoutUserInput
+    uploadedImages?: UploadedImageCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutPostsInput = {
@@ -10180,16 +11899,17 @@ export namespace Prisma {
     name: string
     username?: string | null
     bio?: string
-    postsCount?: number
     email: string
     emailVerified?: boolean
     image?: string | null
     isPublic?: boolean
+    interest?: UserCreateinterestInput | $Enums.Interests[]
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    uploadedImages?: UploadedImageUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutPostsInput = {
@@ -10223,6 +11943,38 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UploadedImageCreateWithoutPostInput = {
+    id?: string
+    imageUrl: string
+    imageId: string
+    imageCid: string
+    isIncludeInPost?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutUploadedImagesInput
+  }
+
+  export type UploadedImageUncheckedCreateWithoutPostInput = {
+    id?: string
+    userId: string
+    imageUrl: string
+    imageId: string
+    imageCid: string
+    isIncludeInPost?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UploadedImageCreateOrConnectWithoutPostInput = {
+    where: UploadedImageWhereUniqueInput
+    create: XOR<UploadedImageCreateWithoutPostInput, UploadedImageUncheckedCreateWithoutPostInput>
+  }
+
+  export type UploadedImageCreateManyPostInputEnvelope = {
+    data: UploadedImageCreateManyPostInput | UploadedImageCreateManyPostInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutPostsInput = {
     update: XOR<UserUpdateWithoutPostsInput, UserUncheckedUpdateWithoutPostsInput>
     create: XOR<UserCreateWithoutPostsInput, UserUncheckedCreateWithoutPostsInput>
@@ -10239,16 +11991,17 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     username?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: StringFieldUpdateOperationsInput | string
-    postsCount?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
+    interest?: UserUpdateinterestInput | $Enums.Interests[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
+    uploadedImages?: UploadedImageUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutPostsInput = {
@@ -10256,16 +12009,17 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     username?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: StringFieldUpdateOperationsInput | string
-    postsCount?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
+    interest?: UserUpdateinterestInput | $Enums.Interests[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedImages?: UploadedImageUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommentUpsertWithWhereUniqueWithoutPostInput = {
@@ -10296,20 +12050,59 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Comment"> | Date | string
   }
 
+  export type UploadedImageUpsertWithWhereUniqueWithoutPostInput = {
+    where: UploadedImageWhereUniqueInput
+    update: XOR<UploadedImageUpdateWithoutPostInput, UploadedImageUncheckedUpdateWithoutPostInput>
+    create: XOR<UploadedImageCreateWithoutPostInput, UploadedImageUncheckedCreateWithoutPostInput>
+  }
+
+  export type UploadedImageUpdateWithWhereUniqueWithoutPostInput = {
+    where: UploadedImageWhereUniqueInput
+    data: XOR<UploadedImageUpdateWithoutPostInput, UploadedImageUncheckedUpdateWithoutPostInput>
+  }
+
+  export type UploadedImageUpdateManyWithWhereWithoutPostInput = {
+    where: UploadedImageScalarWhereInput
+    data: XOR<UploadedImageUpdateManyMutationInput, UploadedImageUncheckedUpdateManyWithoutPostInput>
+  }
+
+  export type UploadedImageScalarWhereInput = {
+    AND?: UploadedImageScalarWhereInput | UploadedImageScalarWhereInput[]
+    OR?: UploadedImageScalarWhereInput[]
+    NOT?: UploadedImageScalarWhereInput | UploadedImageScalarWhereInput[]
+    id?: StringFilter<"UploadedImage"> | string
+    userId?: StringFilter<"UploadedImage"> | string
+    imageUrl?: StringFilter<"UploadedImage"> | string
+    imageId?: StringFilter<"UploadedImage"> | string
+    imageCid?: StringFilter<"UploadedImage"> | string
+    isIncludeInPost?: BoolFilter<"UploadedImage"> | boolean
+    postId?: StringNullableFilter<"UploadedImage"> | string | null
+    createdAt?: DateTimeFilter<"UploadedImage"> | Date | string
+    updatedAt?: DateTimeFilter<"UploadedImage"> | Date | string
+  }
+
   export type PostCreateWithoutCommentsInput = {
     id?: string
+    interest?: $Enums.Interests | null
     content: string
+    imageUrl?: string | null
+    imageCid?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutPostsInput
+    uploadedImages?: UploadedImageCreateNestedManyWithoutPostInput
   }
 
   export type PostUncheckedCreateWithoutCommentsInput = {
     id?: string
+    interest?: $Enums.Interests | null
     userId: string
     content: string
+    imageUrl?: string | null
+    imageCid?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    uploadedImages?: UploadedImageUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type PostCreateOrConnectWithoutCommentsInput = {
@@ -10322,16 +12115,17 @@ export namespace Prisma {
     name: string
     username?: string | null
     bio?: string
-    postsCount?: number
     email: string
     emailVerified?: boolean
     image?: string | null
     isPublic?: boolean
+    interest?: UserCreateinterestInput | $Enums.Interests[]
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     accounts?: AccountCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
+    uploadedImages?: UploadedImageCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCommentsInput = {
@@ -10339,16 +12133,17 @@ export namespace Prisma {
     name: string
     username?: string | null
     bio?: string
-    postsCount?: number
     email: string
     emailVerified?: boolean
     image?: string | null
     isPublic?: boolean
+    interest?: UserCreateinterestInput | $Enums.Interests[]
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
+    uploadedImages?: UploadedImageUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCommentsInput = {
@@ -10369,18 +12164,26 @@ export namespace Prisma {
 
   export type PostUpdateWithoutCommentsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    interest?: NullableEnumInterestsFieldUpdateOperationsInput | $Enums.Interests | null
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageCid?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutPostsNestedInput
+    uploadedImages?: UploadedImageUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateWithoutCommentsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    interest?: NullableEnumInterestsFieldUpdateOperationsInput | $Enums.Interests | null
     userId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageCid?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    uploadedImages?: UploadedImageUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type UserUpsertWithoutCommentsInput = {
@@ -10399,16 +12202,17 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     username?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: StringFieldUpdateOperationsInput | string
-    postsCount?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
+    interest?: UserUpdateinterestInput | $Enums.Interests[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     accounts?: AccountUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
+    uploadedImages?: UploadedImageUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCommentsInput = {
@@ -10416,16 +12220,17 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     username?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: StringFieldUpdateOperationsInput | string
-    postsCount?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
+    interest?: UserUpdateinterestInput | $Enums.Interests[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
+    uploadedImages?: UploadedImageUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SessionCreateWithoutUserInput = {
@@ -10500,18 +12305,26 @@ export namespace Prisma {
 
   export type PostCreateWithoutUserInput = {
     id?: string
+    interest?: $Enums.Interests | null
     content: string
+    imageUrl?: string | null
+    imageCid?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     comments?: CommentCreateNestedManyWithoutPostInput
+    uploadedImages?: UploadedImageCreateNestedManyWithoutPostInput
   }
 
   export type PostUncheckedCreateWithoutUserInput = {
     id?: string
+    interest?: $Enums.Interests | null
     content: string
+    imageUrl?: string | null
+    imageCid?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     comments?: CommentUncheckedCreateNestedManyWithoutPostInput
+    uploadedImages?: UploadedImageUncheckedCreateNestedManyWithoutPostInput
   }
 
   export type PostCreateOrConnectWithoutUserInput = {
@@ -10547,6 +12360,38 @@ export namespace Prisma {
 
   export type CommentCreateManyUserInputEnvelope = {
     data: CommentCreateManyUserInput | CommentCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type UploadedImageCreateWithoutUserInput = {
+    id?: string
+    imageUrl: string
+    imageId: string
+    imageCid: string
+    isIncludeInPost?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    post?: PostCreateNestedOneWithoutUploadedImagesInput
+  }
+
+  export type UploadedImageUncheckedCreateWithoutUserInput = {
+    id?: string
+    imageUrl: string
+    imageId: string
+    imageCid: string
+    isIncludeInPost?: boolean
+    postId?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UploadedImageCreateOrConnectWithoutUserInput = {
+    where: UploadedImageWhereUniqueInput
+    create: XOR<UploadedImageCreateWithoutUserInput, UploadedImageUncheckedCreateWithoutUserInput>
+  }
+
+  export type UploadedImageCreateManyUserInputEnvelope = {
+    data: UploadedImageCreateManyUserInput | UploadedImageCreateManyUserInput[]
     skipDuplicates?: boolean
   }
 
@@ -10636,8 +12481,11 @@ export namespace Prisma {
     OR?: PostScalarWhereInput[]
     NOT?: PostScalarWhereInput | PostScalarWhereInput[]
     id?: StringFilter<"Post"> | string
+    interest?: EnumInterestsNullableFilter<"Post"> | $Enums.Interests | null
     userId?: StringFilter<"Post"> | string
     content?: StringFilter<"Post"> | string
+    imageUrl?: StringNullableFilter<"Post"> | string | null
+    imageCid?: StringNullableFilter<"Post"> | string | null
     createdAt?: DateTimeFilter<"Post"> | Date | string
     updatedAt?: DateTimeFilter<"Post"> | Date | string
   }
@@ -10658,21 +12506,190 @@ export namespace Prisma {
     data: XOR<CommentUpdateManyMutationInput, CommentUncheckedUpdateManyWithoutUserInput>
   }
 
+  export type UploadedImageUpsertWithWhereUniqueWithoutUserInput = {
+    where: UploadedImageWhereUniqueInput
+    update: XOR<UploadedImageUpdateWithoutUserInput, UploadedImageUncheckedUpdateWithoutUserInput>
+    create: XOR<UploadedImageCreateWithoutUserInput, UploadedImageUncheckedCreateWithoutUserInput>
+  }
+
+  export type UploadedImageUpdateWithWhereUniqueWithoutUserInput = {
+    where: UploadedImageWhereUniqueInput
+    data: XOR<UploadedImageUpdateWithoutUserInput, UploadedImageUncheckedUpdateWithoutUserInput>
+  }
+
+  export type UploadedImageUpdateManyWithWhereWithoutUserInput = {
+    where: UploadedImageScalarWhereInput
+    data: XOR<UploadedImageUpdateManyMutationInput, UploadedImageUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type UserCreateWithoutUploadedImagesInput = {
+    id?: string
+    name: string
+    username?: string | null
+    bio?: string
+    email: string
+    emailVerified?: boolean
+    image?: string | null
+    isPublic?: boolean
+    interest?: UserCreateinterestInput | $Enums.Interests[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    posts?: PostCreateNestedManyWithoutUserInput
+    comments?: CommentCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutUploadedImagesInput = {
+    id?: string
+    name: string
+    username?: string | null
+    bio?: string
+    email: string
+    emailVerified?: boolean
+    image?: string | null
+    isPublic?: boolean
+    interest?: UserCreateinterestInput | $Enums.Interests[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    posts?: PostUncheckedCreateNestedManyWithoutUserInput
+    comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutUploadedImagesInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutUploadedImagesInput, UserUncheckedCreateWithoutUploadedImagesInput>
+  }
+
+  export type PostCreateWithoutUploadedImagesInput = {
+    id?: string
+    interest?: $Enums.Interests | null
+    content: string
+    imageUrl?: string | null
+    imageCid?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutPostsInput
+    comments?: CommentCreateNestedManyWithoutPostInput
+  }
+
+  export type PostUncheckedCreateWithoutUploadedImagesInput = {
+    id?: string
+    interest?: $Enums.Interests | null
+    userId: string
+    content: string
+    imageUrl?: string | null
+    imageCid?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    comments?: CommentUncheckedCreateNestedManyWithoutPostInput
+  }
+
+  export type PostCreateOrConnectWithoutUploadedImagesInput = {
+    where: PostWhereUniqueInput
+    create: XOR<PostCreateWithoutUploadedImagesInput, PostUncheckedCreateWithoutUploadedImagesInput>
+  }
+
+  export type UserUpsertWithoutUploadedImagesInput = {
+    update: XOR<UserUpdateWithoutUploadedImagesInput, UserUncheckedUpdateWithoutUploadedImagesInput>
+    create: XOR<UserCreateWithoutUploadedImagesInput, UserUncheckedCreateWithoutUploadedImagesInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutUploadedImagesInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutUploadedImagesInput, UserUncheckedUpdateWithoutUploadedImagesInput>
+  }
+
+  export type UserUpdateWithoutUploadedImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    interest?: UserUpdateinterestInput | $Enums.Interests[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    posts?: PostUpdateManyWithoutUserNestedInput
+    comments?: CommentUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutUploadedImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    username?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: BoolFieldUpdateOperationsInput | boolean
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    isPublic?: BoolFieldUpdateOperationsInput | boolean
+    interest?: UserUpdateinterestInput | $Enums.Interests[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    posts?: PostUncheckedUpdateManyWithoutUserNestedInput
+    comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type PostUpsertWithoutUploadedImagesInput = {
+    update: XOR<PostUpdateWithoutUploadedImagesInput, PostUncheckedUpdateWithoutUploadedImagesInput>
+    create: XOR<PostCreateWithoutUploadedImagesInput, PostUncheckedCreateWithoutUploadedImagesInput>
+    where?: PostWhereInput
+  }
+
+  export type PostUpdateToOneWithWhereWithoutUploadedImagesInput = {
+    where?: PostWhereInput
+    data: XOR<PostUpdateWithoutUploadedImagesInput, PostUncheckedUpdateWithoutUploadedImagesInput>
+  }
+
+  export type PostUpdateWithoutUploadedImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    interest?: NullableEnumInterestsFieldUpdateOperationsInput | $Enums.Interests | null
+    content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageCid?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutPostsNestedInput
+    comments?: CommentUpdateManyWithoutPostNestedInput
+  }
+
+  export type PostUncheckedUpdateWithoutUploadedImagesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    interest?: NullableEnumInterestsFieldUpdateOperationsInput | $Enums.Interests | null
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageCid?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
+  }
+
   export type UserCreateWithoutSessionsInput = {
     id?: string
     name: string
     username?: string | null
     bio?: string
-    postsCount?: number
     email: string
     emailVerified?: boolean
     image?: string | null
     isPublic?: boolean
+    interest?: UserCreateinterestInput | $Enums.Interests[]
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
     comments?: CommentCreateNestedManyWithoutUserInput
+    uploadedImages?: UploadedImageCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -10680,16 +12697,17 @@ export namespace Prisma {
     name: string
     username?: string | null
     bio?: string
-    postsCount?: number
     email: string
     emailVerified?: boolean
     image?: string | null
     isPublic?: boolean
+    interest?: UserCreateinterestInput | $Enums.Interests[]
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    uploadedImages?: UploadedImageUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -10713,16 +12731,17 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     username?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: StringFieldUpdateOperationsInput | string
-    postsCount?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
+    interest?: UserUpdateinterestInput | $Enums.Interests[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
+    uploadedImages?: UploadedImageUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -10730,16 +12749,17 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     username?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: StringFieldUpdateOperationsInput | string
-    postsCount?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
+    interest?: UserUpdateinterestInput | $Enums.Interests[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedImages?: UploadedImageUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutAccountsInput = {
@@ -10747,16 +12767,17 @@ export namespace Prisma {
     name: string
     username?: string | null
     bio?: string
-    postsCount?: number
     email: string
     emailVerified?: boolean
     image?: string | null
     isPublic?: boolean
+    interest?: UserCreateinterestInput | $Enums.Interests[]
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
     posts?: PostCreateNestedManyWithoutUserInput
     comments?: CommentCreateNestedManyWithoutUserInput
+    uploadedImages?: UploadedImageCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -10764,16 +12785,17 @@ export namespace Prisma {
     name: string
     username?: string | null
     bio?: string
-    postsCount?: number
     email: string
     emailVerified?: boolean
     image?: string | null
     isPublic?: boolean
+    interest?: UserCreateinterestInput | $Enums.Interests[]
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
     posts?: PostUncheckedCreateNestedManyWithoutUserInput
     comments?: CommentUncheckedCreateNestedManyWithoutUserInput
+    uploadedImages?: UploadedImageUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -10797,16 +12819,17 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     username?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: StringFieldUpdateOperationsInput | string
-    postsCount?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
+    interest?: UserUpdateinterestInput | $Enums.Interests[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
     posts?: PostUpdateManyWithoutUserNestedInput
     comments?: CommentUpdateManyWithoutUserNestedInput
+    uploadedImages?: UploadedImageUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -10814,22 +12837,34 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     username?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: StringFieldUpdateOperationsInput | string
-    postsCount?: IntFieldUpdateOperationsInput | number
     email?: StringFieldUpdateOperationsInput | string
     emailVerified?: BoolFieldUpdateOperationsInput | boolean
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
+    interest?: UserUpdateinterestInput | $Enums.Interests[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
     posts?: PostUncheckedUpdateManyWithoutUserNestedInput
     comments?: CommentUncheckedUpdateManyWithoutUserNestedInput
+    uploadedImages?: UploadedImageUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type CommentCreateManyPostInput = {
     id?: string
     userId: string
     content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UploadedImageCreateManyPostInput = {
+    id?: string
+    userId: string
+    imageUrl: string
+    imageId: string
+    imageCid: string
+    isIncludeInPost?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10854,6 +12889,39 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UploadedImageUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageId?: StringFieldUpdateOperationsInput | string
+    imageCid?: StringFieldUpdateOperationsInput | string
+    isIncludeInPost?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutUploadedImagesNestedInput
+  }
+
+  export type UploadedImageUncheckedUpdateWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageId?: StringFieldUpdateOperationsInput | string
+    imageCid?: StringFieldUpdateOperationsInput | string
+    isIncludeInPost?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UploadedImageUncheckedUpdateManyWithoutPostInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageId?: StringFieldUpdateOperationsInput | string
+    imageCid?: StringFieldUpdateOperationsInput | string
+    isIncludeInPost?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -10885,7 +12953,10 @@ export namespace Prisma {
 
   export type PostCreateManyUserInput = {
     id?: string
+    interest?: $Enums.Interests | null
     content: string
+    imageUrl?: string | null
+    imageCid?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10894,6 +12965,17 @@ export namespace Prisma {
     id?: string
     postId: string
     content: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type UploadedImageCreateManyUserInput = {
+    id?: string
+    imageUrl: string
+    imageId: string
+    imageCid: string
+    isIncludeInPost?: boolean
+    postId?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -10975,23 +13057,34 @@ export namespace Prisma {
 
   export type PostUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    interest?: NullableEnumInterestsFieldUpdateOperationsInput | $Enums.Interests | null
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageCid?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     comments?: CommentUpdateManyWithoutPostNestedInput
+    uploadedImages?: UploadedImageUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    interest?: NullableEnumInterestsFieldUpdateOperationsInput | $Enums.Interests | null
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageCid?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     comments?: CommentUncheckedUpdateManyWithoutPostNestedInput
+    uploadedImages?: UploadedImageUncheckedUpdateManyWithoutPostNestedInput
   }
 
   export type PostUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    interest?: NullableEnumInterestsFieldUpdateOperationsInput | $Enums.Interests | null
     content?: StringFieldUpdateOperationsInput | string
+    imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    imageCid?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11016,6 +13109,39 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     postId?: StringFieldUpdateOperationsInput | string
     content?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UploadedImageUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageId?: StringFieldUpdateOperationsInput | string
+    imageCid?: StringFieldUpdateOperationsInput | string
+    isIncludeInPost?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    post?: PostUpdateOneWithoutUploadedImagesNestedInput
+  }
+
+  export type UploadedImageUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageId?: StringFieldUpdateOperationsInput | string
+    imageCid?: StringFieldUpdateOperationsInput | string
+    isIncludeInPost?: BoolFieldUpdateOperationsInput | boolean
+    postId?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type UploadedImageUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    imageUrl?: StringFieldUpdateOperationsInput | string
+    imageId?: StringFieldUpdateOperationsInput | string
+    imageCid?: StringFieldUpdateOperationsInput | string
+    isIncludeInPost?: BoolFieldUpdateOperationsInput | boolean
+    postId?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

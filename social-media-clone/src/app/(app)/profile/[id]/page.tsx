@@ -66,18 +66,6 @@ export default function Page() {
                                 </p>
                             </div>
                         </div>
-
-                        <div className="flex items-center gap-6">
-                            <div className="text-center">
-                                <h3 className="text-xl font-semibold text-white">
-                                    {user.postsCount}
-                                </h3>
-
-                                <p className="text-[12px] text-zinc-500">
-                                    Posts
-                                </p>
-                            </div>
-                        </div>
                     </div>
 
                     <p className="mt-5 max-w-lg text-[14px] leading-7 text-zinc-300">
