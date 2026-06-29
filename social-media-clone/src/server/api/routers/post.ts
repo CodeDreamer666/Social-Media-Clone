@@ -31,7 +31,7 @@ export const postRouter = createTRPCRouter({
             imageUrl: z
                 .string()
                 .url()
-                .refine((url) => url.startsWith("https://gateway.pinata.cloud/ipfs/"), {
+                .refine((url) => url.startsWith("https://tomato-voluntary-clam-90.mypinata.cloud/ipfs/"), {
                     message: "Invalid image URL.",
                 })
                 .optional(),
@@ -61,15 +61,29 @@ export const postRouter = createTRPCRouter({
                 });
             }
 
-            await ctx.db.post.create({
-                data: {
-                    content: cleanContent,
-                    interest: input.interest,
-                    imageUrl: input.imageUrl ?? null,
-                    imageCid: input.imageCid ?? null,
-                    userId: ctx.session.user.id,
-                },
-            });
+            await ctx.db.$transaction(async (tx) => {
+                const post = await tx.post.create({
+                    data: {
+                        content: cleanContent,
+                        interest: input.interest,
+                        imageUrl: input.imageUrl ?? null,
+                        imageCid: input.imageCid ?? null,
+                        userId: ctx.session.user.id,
+                    },
+                });
+
+                await tx.uploadedImage.updateMany({
+                    where: {
+                        userId: ctx.session.user.id,
+                        imageUrl: input.imageUrl,
+                        imageCid: input.imageCid
+                    },
+                    data: {
+                        isIncludeInPost: true,
+                        postId: post.id
+                    }
+                })
+            })
 
             return {
                 success: true,

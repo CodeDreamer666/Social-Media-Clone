@@ -4,6 +4,7 @@ import {
     publicProcedure,
 } from "~/server/api/trpc";
 import { z } from "zod"
+import { TRPCError } from "@trpc/server";
 
 export const imageRouter = createTRPCRouter({
     uploadImage: protectedProcedure
@@ -11,7 +12,7 @@ export const imageRouter = createTRPCRouter({
             imageUrl: z
                 .string()
                 .url()
-                .refine((url) => url.startsWith("https://gateway.pinata.cloud/ipfs/"), {
+                .refine((url) => url.startsWith("https://tomato-voluntary-clam-90.mypinata.cloud/ipfs/"), {
                     message: "Invalid image URL.",
                 }),
             imageCid: z
@@ -36,5 +37,5 @@ export const imageRouter = createTRPCRouter({
             });
 
             return { success: true }
-        })
+        }),
 })

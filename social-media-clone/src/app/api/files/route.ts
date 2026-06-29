@@ -3,7 +3,7 @@ import { pinata } from "~/app/utils/config"
 import { fileTypeFromBuffer } from "file-type";
 import { auth } from "~/server/better-auth";
 import { headers } from "next/headers";
-import { api } from "~/trpc/server";
+import { db } from "~/server/db";
 
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
@@ -94,23 +94,44 @@ export async function DELETE(request: Request) {
 
         if (!imageCid || !imageId) {
             return NextResponse.json(
-                { error: "Image CID and Image ID is required" },
+                { error: "Image CID and Image ID are required" },
                 { status: 400 }
             );
         }
 
-        // 2. Check this image belongs to the current user
-        // 3. Check image is not already attached to a post
-        // 4. Unpin/delete from Pinata
-        // 5. Delete image record from your DB
+        const selectedImage = await db.uploadedImage.findFirst({
+            where: {
+                userId: currentUser.user.id,
+                imageCid,
+                imageId,
+            },
+        });
 
-        await pinata.files.public.delete([imageId])
+        if (!selectedImage) {
+            return NextResponse.json(
+                { error: "Image not found" },
+                { status: 404 }
+            );
+        }
+
+        if (selectedImage.isIncludeInPost) {
+            return NextResponse.json(
+                { error: "Image is already used in a post" },
+                { status: 400 }
+            );
+        }
+
+        await pinata.files.public.delete([selectedImage.imageId]);
+
+        await db.uploadedImage.delete({
+            where: {
+                id: selectedImage.id,
+            },
+        });
 
         return NextResponse.json({ success: true });
-
-
     } catch (error) {
-        console.log(error);
+        console.error(error);
 
         return NextResponse.json(
             { error: "Internal Server Error" },

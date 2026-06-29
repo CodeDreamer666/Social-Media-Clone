@@ -71,6 +71,18 @@ export default function Page() {
                     <p className="mt-5 max-w-lg text-[14px] leading-7 text-zinc-300">
                         {user.bio}
                     </p>
+
+                    <button
+                        type="button"
+                        className={[
+                            "mt-5 flex h-11 w-full cursor-pointer items-center justify-center rounded-full",
+                            "bg-gradient-to-br from-blue-500 to-indigo-600 px-6",
+                            "text-[14px] font-medium text-white shadow-md shadow-blue-500/20",
+                            "transition-all duration-200 hover:brightness-110 active:scale-[0.99]",
+                        ].join(" ")}
+                    >
+                        Connect
+                    </button>
                 </div>
 
                 <section className="mt-8">

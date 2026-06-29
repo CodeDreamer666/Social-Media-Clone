@@ -40,22 +40,24 @@ model Comment {
 }
 
 model User {
-    id             String          @id @default(uuid())
-    name           String //@db.Text
-    username       String?
-    bio            String          @default("A new social media user")
-    email          String          @unique
-    emailVerified  Boolean         @default(false)
-    image          String? //@db.Text
-    isPublic       Boolean         @default(true)
-    interest       Interests[]
-    createdAt      DateTime        @default(now())
-    updatedAt      DateTime        @default(now()) @updatedAt
-    sessions       Session[]
-    accounts       Account[]
-    posts          Post[]
-    comments       Comment[]
-    uploadedImages UploadedImage[]
+    id                  String          @id @default(uuid())
+    name                String //@db.Text
+    username            String?
+    bio                 String          @default("A new social media user")
+    email               String          @unique
+    emailVerified       Boolean         @default(false)
+    image               String? //@db.Text
+    isPublic            Boolean         @default(true)
+    interest            Interests[]
+    createdAt           DateTime        @default(now())
+    updatedAt           DateTime        @default(now()) @updatedAt
+    sessions            Session[]
+    accounts            Account[]
+    posts               Post[]
+    comments            Comment[]
+    uploadedImages      UploadedImage[]
+    sentConnections     Connection[]    @relation("SentConnections")
+    receivedConnections Connection[]    @relation("ReceivedConnections")
 
     @@map("user")
 }
@@ -64,14 +66,27 @@ model UploadedImage {
     id              String   @id @default(uuid())
     userId          String
     user            User     @relation(fields: [userId], references: [id])
-    imageUrl        String
-    imageId         String
+    imageUrl        String   
+    imageId         String  
     imageCid        String
     isIncludeInPost Boolean  @default(false)
-    postId          String?
-    post            Post?     @relation(fields: [postId], references: [id])
+    postId          String?  @unique
+    post            Post?    @relation(fields: [postId], references: [id])
     createdAt       DateTime @default(now())
     updatedAt       DateTime @updatedAt
+}
+
+model Connection {
+    id             String           @id @default(uuid())
+    requestUserId  String
+    requestUser    User             @relation("SentConnections", fields: [requestUserId], references: [id])
+    responseUserId String
+    responseUser   User             @relation("ReceivedConnections", fields: [responseUserId], references: [id])
+    status         ConnectionStatus @default(PENDING)
+    createdAt      DateTime         @default(now())
+    updatedAt      DateTime         @updatedAt
+
+    @@unique([requestUserId, responseUserId])
 }
 
 model Session {
@@ -132,4 +147,9 @@ enum Interests {
     Art
     Technology
     Self_improvement
+}
+
+enum ConnectionStatus {
+    PENDING
+    ACCEPTED
 }

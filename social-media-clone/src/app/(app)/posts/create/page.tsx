@@ -73,6 +73,20 @@ export default function CreatePost() {
         imageCid: z.string().nonempty(),
         imageId: z.string().nonempty()
     })
+    const postInterestOptions: { label: string; value: Interests }[] = [
+        { label: "Coding", value: "Coding" },
+        { label: "Design", value: "Design" },
+        { label: "Psychology", value: "Psychology" },
+        { label: "Finance", value: "Finance" },
+        { label: "Books", value: "Books" },
+        { label: "Study", value: "Study" },
+        { label: "Productivity", value: "Productivity" },
+        { label: "Life thoughts", value: "Life_thoughts" },
+        { label: "Business", value: "Business" },
+        { label: "Art", value: "Art" },
+        { label: "Technology", value: "Technology" },
+        { label: "Self improvement", value: "Self_improvement" },
+    ];
 
     if (isLoading) return <Loader />
 
@@ -131,39 +145,40 @@ export default function CreatePost() {
 
                     <div className="mt-6 grid gap-5">
                         <div>
-                            <label
-                                htmlFor="interest"
-                                className="mb-2 block text-[13px] font-medium text-zinc-300"
-                            >
-                                Post interest
-                            </label>
-                            <select
-                                id="interest"
-                                value={interest}
-                                onChange={(event) => {
-                                    setInterest(event.target.value as Interests || "");
-                                }}
-                                className={[
-                                    "w-full cursor-pointer rounded-2xl border border-white/6",
-                                    "bg-black/40 px-4 py-3 text-[14px] text-white outline-none",
-                                    "transition-colors duration-200 scheme-dark",
-                                    "focus:border-blue-500/50",
-                                ].join(" ")}
-                            >
-                                <option value="">Choose the topic that fits your post</option>
-                                <option value="Coding">Coding</option>
-                                <option value="Design">Design</option>
-                                <option value="Psychology">Psychology</option>
-                                <option value="Finance">Finance</option>
-                                <option value="Books">Books</option>
-                                <option value="Study">Study</option>
-                                <option value="Productivity">Productivity</option>
-                                <option value="Life_thoughts">Life thoughts</option>
-                                <option value="Business">Business</option>
-                                <option value="Art">Art</option>
-                                <option value="Technology">Technology</option>
-                                <option value="Self_improvement">Self improvement</option>
-                            </select>
+                            <div className="mb-3">
+                                <p className="text-[13px] font-medium text-zinc-300">
+                                    Categories
+                                </p>
+                                <p className="mt-1 text-[12px] text-zinc-500">
+                                    Choose one topic that fits your post.
+                                </p>
+                            </div>
+                            <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                                {postInterestOptions.map((option) => {
+                                    const isSelected = interest === option.value;
+
+                                    return (
+                                        <button
+                                            key={option.value}
+                                            type="button"
+                                            aria-pressed={isSelected}
+                                            onClick={() => {
+                                                setInterest(option.value);
+                                            }}
+                                            className={[
+                                                "min-h-11 cursor-pointer rounded-2xl border px-3 py-2",
+                                                "text-center text-[13px] font-medium transition-all duration-200",
+                                                "focus:outline-none focus:ring-2 focus:ring-blue-500/40",
+                                                isSelected
+                                                    ? "border-blue-500/60 bg-blue-500/15 text-blue-100 shadow-md shadow-blue-500/10"
+                                                    : "border-white/[0.06] bg-black/40 text-zinc-300 hover:border-blue-500/40 hover:bg-black/50 hover:text-white",
+                                            ].join(" ")}
+                                        >
+                                            {option.label}
+                                        </button>
+                                    )
+                                })}
+                            </div>
                         </div>
 
                         <div>
@@ -288,8 +303,18 @@ export default function CreatePost() {
                                         ].join(" ")}
                                     >
                                         {imageUrl ?
-                                            isImageLoading ? "Changing image..." : "Change image"
-                                            : isImageLoading ? "Uploading image..." : "Upload image"
+                                            isImageLoading ? (
+                                                <div className="flex gap-2 items-center">
+                                                    <LoadingIcon />
+                                                    Changing image...
+                                                </div>
+                                            ) : "Change image"
+                                            : isImageLoading ? (
+                                                <div className="flex gap-2 items-center">
+                                                    <LoadingIcon />
+                                                    Uploading image...
+                                                </div>
+                                            ) : "Upload image"
                                         }
                                     </button>
                                 </div>
@@ -326,7 +351,7 @@ export default function CreatePost() {
                             disabled={
                                 createPost.isPending
                                 || postContent === ""
-                                || !isImageLoading
+                                || isImageLoading
                                 || interest === ""
                             }
                             type="submit"

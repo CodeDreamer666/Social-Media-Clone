@@ -66,12 +66,30 @@ export default function Profile() {
                         {currentUser.bio}
                     </p>
 
-                    <Link
-                        href="/profile/edit"
-                        className="h-11 mt-5 flex items-center justify-center w-full rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 cursor-pointer px-6 text-[14px] font-medium text-white shadow-md shadow-blue-500/20 transition-all duration-200 hover:brightness-110 active:scale-[0.99]"
-                    >
-                        Edit profile
-                    </Link>
+                    <div className="mt-5 grid grid-cols-2 gap-3">
+                        <Link
+                            href="/profile/edit"
+                            className={[
+                                "flex h-11 w-full cursor-pointer items-center justify-center rounded-full",
+                                "bg-gradient-to-br from-blue-500 to-indigo-600 px-6",
+                                "text-[14px] font-medium text-white shadow-md shadow-blue-500/20",
+                                "transition-all duration-200 hover:brightness-110 active:scale-[0.99]",
+                            ].join(" ")}
+                        >
+                            Edit profile
+                        </Link>
+                        <button
+                            type="button"
+                            className={[
+                                "flex h-11 w-full cursor-pointer items-center justify-center rounded-full",
+                                "bg-gradient-to-br from-blue-500 to-indigo-600 px-6",
+                                "text-[14px] font-medium text-white shadow-md shadow-blue-500/20",
+                                "transition-all duration-200 hover:brightness-110 active:scale-[0.99]",
+                            ].join(" ")}
+                        >
+                            Connect
+                        </button>
+                    </div>
                 </section>
 
                 <section className="mt-8">

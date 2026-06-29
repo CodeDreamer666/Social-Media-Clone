@@ -3,9 +3,33 @@ import useTimeAgo from "~/app/hooks/useTimeAgo"
 import Link from "next/link"
 import type { SinglePost } from "~/app/types/types"
 import CommentIcon from "../shared/CommentIcon"
+import { Interests } from "../../../../generated/prisma"
 
 type Post = {
-    post: SinglePost,
+    post: {
+        user: {
+            id: string;
+            interest: Interests[];
+            name: string;
+            createdAt: Date;
+            updatedAt: Date;
+            username: string | null;
+            bio: string;
+            email: string;
+            emailVerified: boolean;
+            image: string | null;
+            isPublic: boolean;
+        };
+    } & {
+        id: string;
+        content: string;
+        interest: Interests | null;
+        imageUrl: string | null;
+        imageCid: string | null;
+        userId: string;
+        createdAt: Date;
+        updatedAt: Date;
+    }
 }
 
 export default function PostItem({
@@ -36,16 +60,20 @@ export default function PostItem({
                 </div>
             </Link>
 
+            {post.imageUrl ? (
+                <img src={post.imageUrl} className="mt-4" />
+            ) : ""}
+
             <p className="mt-4 text-[15px] leading-7 text-zinc-200">
                 {post.content}
             </p>
 
-            <div className="mt-4 flex items-center gap-6 border-t border-white/[0.06] pt-4">
+            <div className="mt-4 flex items-center justify-end gap-6 border-t border-white/[0.06] pt-4">
                 <CommentIcon
                     postId={post.id}
                 />
             </div>
-        </section>
+        </section >
     )
 }
 

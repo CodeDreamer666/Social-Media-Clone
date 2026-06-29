@@ -166,6 +166,15 @@ exports.Prisma.UploadedImageScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ConnectionScalarFieldEnum = {
+  id: 'id',
+  requestUserId: 'requestUserId',
+  responseUserId: 'responseUserId',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SessionScalarFieldEnum = {
   id: 'id',
   expiresAt: 'expiresAt',
@@ -231,11 +240,17 @@ exports.Interests = exports.$Enums.Interests = {
   Self_improvement: 'Self_improvement'
 };
 
+exports.ConnectionStatus = exports.$Enums.ConnectionStatus = {
+  PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED'
+};
+
 exports.Prisma.ModelName = {
   Post: 'Post',
   Comment: 'Comment',
   User: 'User',
   UploadedImage: 'UploadedImage',
+  Connection: 'Connection',
   Session: 'Session',
   Account: 'Account',
   Verification: 'Verification'
