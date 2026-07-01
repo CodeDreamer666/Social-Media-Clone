@@ -123,7 +123,12 @@ export default function CreatePost() {
                             return;
                         }
 
-                        createPost.mutate({ content: postContent, interest, imageUrl, imageCid })
+                        if (imageUrl && imageCid) {
+                            createPost.mutate({ content: postContent, interest, imageUrl, imageCid });
+                            return;
+                        }
+
+                        createPost.mutate({ content: postContent, interest })
                     }}
                     className="rounded-3xl border border-white/[0.06] bg-zinc-900/60 p-6 shadow-[0_8px_30px_rgba(0,0,0,0.35)] backdrop-blur-xl"
                 >

@@ -4,15 +4,18 @@ import useStatusMessage from "~/app/hooks/useStatusMessage"
 import { api } from "~/trpc/react"
 import Loader from "~/app/components/shared/Loader"
 import ServerError from "~/app/components/shared/ServerError"
-import { redirect, useParams, useRouter, usePathname } from "next/navigation"
+import { redirect, useParams, usePathname, useRouter } from "next/navigation"
 import CommentIcon from "~/app/components/shared/CommentIcon"
 import { authClient } from "~/server/better-auth/client"
+import handleTRPCError from "~/app/libs/handleTRPCError"
+import LoadingIcon from "~/app/components/shared/LoadingIcon"
+import { useState } from "react"
 
 export default function Page() {
     const params = useParams<{ id: string }>();
-    const utils = api.useUtils();
     const router = useRouter();
     const pathname = usePathname();
+    const [buttonState, setButtonState] = useState<"IDLE" | "SENT" | "PENDING" | "LOADING">("IDLE");
 
     const {
         data: user,
@@ -25,6 +28,34 @@ export default function Page() {
     } = authClient.useSession();
 
     const {
+        data: connectionState,
+        isLoading: isLoadingTwo,
+        error: errorTwo
+    } = api.connection.connectionBetweenTwoUser.useQuery({
+        userOneId: currentUser?.user.id ?? "",
+        userTwoId: user && "redirecting" in user ? "" : user?.id ?? "",
+    })
+
+    const requestConnection = api.connection.requestConnecction.useMutation({
+        onMutate: () => {
+            setButtonState("LOADING")
+        },
+
+        onSuccess: () => {
+            setButtonState("SENT");
+
+            setTimeout(() => {
+                setButtonState("PENDING");
+            }, 2000);
+        },
+
+        onError: (error) => {
+            setButtonState("IDLE")
+            handleTRPCError({ error, setMessage, setIsSuccess, router, pathname })
+        },
+    });
+
+    const {
         setIsSuccess,
         setMessage,
         isSuccess,
@@ -32,9 +63,9 @@ export default function Page() {
         closeMessage
     } = useStatusMessage();
 
-    if (isLoading) return <Loader />
+    if (isLoading || isLoadingTwo) return <Loader />
 
-    if (error || !user || !currentUser) return <ServerError />
+    if (error || errorTwo || !user || !currentUser) return <ServerError />
 
     if ("redirecting" in user) return redirect("/profile")
 
@@ -74,14 +105,56 @@ export default function Page() {
 
                     <button
                         type="button"
+                        onClick={() => {
+                            requestConnection.mutate({ responseUserId: user.id });
+                        }}
+                        disabled={
+                            buttonState === "LOADING" ||
+                            buttonState === "SENT" ||
+                            buttonState === "PENDING" ||
+                            connectionState?.requestUserId === currentUser.user.id
+                        }
                         className={[
-                            "mt-5 flex h-11 w-full cursor-pointer items-center justify-center rounded-full",
+                            "mt-5 flex h-11 w-full disabled:cursor-not-allowed items-center justify-center rounded-full",
                             "bg-gradient-to-br from-blue-500 to-indigo-600 px-6",
                             "text-[14px] font-medium text-white shadow-md shadow-blue-500/20",
-                            "transition-all duration-200 hover:brightness-110 active:scale-[0.99]",
+                            "transition-all duration-200 active:scale-[0.99]",
+                            buttonState === "IDLE"
+                                ? "cursor-pointer hover:brightness-110"
+                                : "cursor-not-allowed",
                         ].join(" ")}
                     >
-                        Connect
+                        <div className="flex min-w-[150px] items-center justify-center gap-2 transition-all duration-200">
+                            {buttonState === "LOADING" ? (
+                                <>
+                                    <LoadingIcon />
+                                    <span>Sending request...</span>
+                                </>
+                            ) : buttonState === "SENT" ? (
+                                <>
+                                    <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={2}
+                                        stroke="currentColor"
+                                        className="h-5 w-5"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            d="m4.5 12.75 6 6 9-13.5"
+                                        />
+                                    </svg>
+                                    <span>Request sent</span>
+                                </>
+                            ) : buttonState === "PENDING" ||
+                                connectionState?.requestUserId === currentUser.user.id ? (
+                                <span>Pending</span>
+                            ) : (
+                                <span>Connect</span>
+                            )}
+                        </div>
                     </button>
                 </div>
 
