@@ -9,7 +9,7 @@ export default function SignInClient() {
     const redirect = searchParams.get("redirect") ?? "/";
 
     return (
-        <section className="flex flex-col min-h-[80vh] items-center justify-center bg-black px-4">
+        <section className="flex flex-col min-h-[80vh] items-center lg:items-start lg:min-h-[90vh] justify-center bg-black px-4">
             <section className={[
                 "w-full max-w-md rounded-3xl border border-white/[0.06] bg-zinc-900/60 p-8",
                 "shadow-[0_8px_30px_rgba(0,0,0,0.35)] backdrop-blur-xl",
