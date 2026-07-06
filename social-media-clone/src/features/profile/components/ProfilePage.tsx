@@ -27,7 +27,7 @@ export default function ProfilePage() {
 
     return (
         <div className="min-h-screen bg-black pb-10">
-            <section className="max-w-2xl px-4">
+            <section className="max-lg:mx-auto max-w-2xl px-4">
                 <StatusMessage
                     closeMessage={closeMessage}
                     isSuccess={isSuccess}

@@ -43,7 +43,7 @@ export default function FeedPage() {
 
             {hasNoPostsForSelectedInterests && <EmptyInterestFeed />}
 
-            <ul className="flex max-w-xl flex-col items-stretch justify-center gap-4 px-4">
+            <ul className="max-lg:mx-auto flex max-w-xl flex-col items-stretch justify-center gap-4 px-4">
                 {postsData.map((post) => {
                     return (
                         <PostItem
