@@ -12,7 +12,7 @@ export default async function RootLayout({
     })
 
     if (!session) {
-        redirect("/login");
+        redirect("/auth");
     }
 
     return (
