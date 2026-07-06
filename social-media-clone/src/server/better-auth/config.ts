@@ -8,6 +8,11 @@ export const auth = betterAuth({
         provider: "postgresql", // or "sqlite" or "mysql"
     }),
 
+    trustedOrigins: [
+        "http://localhost:3000",
+        "https://social-media-clone-peach.vercel.app",
+    ],
+
     socialProviders: {
         google: {
             prompt: "select_account",
