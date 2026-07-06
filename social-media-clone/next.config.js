@@ -20,6 +20,10 @@ const config = {
                 protocol: "https",
                 hostname: "avatars.githubusercontent.com",
             },
+            {
+                protocol: "https",
+                hostname: "tomato-voluntary-clam-90.mypinata.cloud",
+            },
         ],
     },
 };

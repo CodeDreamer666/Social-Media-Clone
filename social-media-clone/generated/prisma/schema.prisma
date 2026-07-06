@@ -49,6 +49,7 @@ model User {
   image               String? //@db.Text
   isPublic            Boolean         @default(true)
   interest            Interests[]
+  interestsUpdatedAt  DateTime?
   createdAt           DateTime        @default(now())
   updatedAt           DateTime        @default(now()) @updatedAt
   sessions            Session[]
@@ -82,6 +83,7 @@ model Connection {
   requestUser    User             @relation("SentConnections", fields: [requestUserId], references: [id])
   responseUserId String
   responseUser   User             @relation("ReceivedConnections", fields: [responseUserId], references: [id])
+  pairKey        String           @unique
   status         ConnectionStatus @default(PENDING)
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt

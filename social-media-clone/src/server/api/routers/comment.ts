@@ -5,8 +5,8 @@ import sanitizeHtml from "sanitize-html"
 import {
     createTRPCRouter,
     protectedProcedure,
-    publicProcedure,
 } from "~/server/api/trpc";
+import { canViewPrivateContent } from "~/server/permissions";
 
 export const commentRouter = createTRPCRouter({
     createComment: protectedProcedure
@@ -20,6 +20,9 @@ export const commentRouter = createTRPCRouter({
             const post = await ctx.db.post.findUnique({
                 where: {
                     id: input.postId,
+                },
+                include: {
+                    user: true
                 }
             });
 
@@ -34,6 +37,20 @@ export const commentRouter = createTRPCRouter({
                     code: "BAD_REQUEST",
                     message: "Post not found"
                 })
+            }
+
+            const canComment = await canViewPrivateContent({
+                db: ctx.db,
+                viewerId: userId,
+                authorId: post.userId,
+                authorIsPublic: post.user.isPublic
+            });
+
+            if (!canComment) {
+                throw new TRPCError({
+                    code: "FORBIDDEN",
+                    message: "Connect with this user before commenting"
+                });
             }
 
             await ctx.db.comment.create({

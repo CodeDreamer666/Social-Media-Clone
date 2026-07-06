@@ -9,7 +9,7 @@
 
 import { initTRPC, TRPCError } from "@trpc/server";
 import superjson from "superjson";
-import { ZodError, z } from "zod";
+import { ZodError } from "zod";
 import { auth } from "~/server/better-auth";
 import { db } from "~/server/db";
 

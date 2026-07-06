@@ -150,6 +150,7 @@ exports.Prisma.UserScalarFieldEnum = {
   image: 'image',
   isPublic: 'isPublic',
   interest: 'interest',
+  interestsUpdatedAt: 'interestsUpdatedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -170,6 +171,7 @@ exports.Prisma.ConnectionScalarFieldEnum = {
   id: 'id',
   requestUserId: 'requestUserId',
   responseUserId: 'responseUserId',
+  pairKey: 'pairKey',
   status: 'status',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

@@ -1,7 +1,7 @@
 import { TRPCReactProvider } from "~/trpc/react";
-import Navbar from "~/app/components/shared/Navbar";
+import Navbar from "~/components/layout/Navbar";
 import "~/styles/globals.css"
-import RouteLoader from "~/app/components/shared/RouterLoader";
+import RouteLoader from "~/components/layout/RouterLoader";
 import { HydrateClient } from "~/trpc/server";
 
 export default async function RootLayout({
@@ -14,7 +14,9 @@ export default async function RootLayout({
                     <HydrateClient>
                         <RouteLoader>
                             <Navbar />
-                            {children}
+                            <main className="lg:pl-[17rem]">
+                                {children}
+                            </main>
                         </RouteLoader>
                     </HydrateClient>
                 </TRPCReactProvider>

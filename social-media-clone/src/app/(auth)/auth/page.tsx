@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import SignInClient from "./SignInClient";
+import SignInClient from "~/features/auth/components/SignInClient";
 
 export default function Page() {
     return (

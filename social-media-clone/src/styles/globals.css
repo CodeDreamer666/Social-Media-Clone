@@ -6,5 +6,35 @@
 }
 
 body {
-    @apply mt-16 min-h-[90vh] w-full bg-black text-white flex flex-col py-6
+    @apply min-h-[90vh] w-full bg-black text-white flex flex-col py-6
+}
+
+@media (max-width: 1024px) {
+    body {
+        margin-top: 60px;
+    }
+}
+
+.manage-posts-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(113, 113, 122, 0.55) rgba(255, 255, 255, 0.04);
+}
+
+.manage-posts-scrollbar::-webkit-scrollbar {
+    width: 10px;
+}
+
+.manage-posts-scrollbar::-webkit-scrollbar-track {
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.manage-posts-scrollbar::-webkit-scrollbar-thumb {
+    border: 2px solid rgba(9, 9, 11, 0.92);
+    border-radius: 999px;
+    background: rgba(113, 113, 122, 0.65);
+}
+
+.manage-posts-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(161, 161, 170, 0.8);
 }

@@ -3929,6 +3929,7 @@ export namespace Prisma {
     emailVerified: boolean | null
     image: string | null
     isPublic: boolean | null
+    interestsUpdatedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3942,6 +3943,7 @@ export namespace Prisma {
     emailVerified: boolean | null
     image: string | null
     isPublic: boolean | null
+    interestsUpdatedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3956,6 +3958,7 @@ export namespace Prisma {
     image: number
     isPublic: number
     interest: number
+    interestsUpdatedAt: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3971,6 +3974,7 @@ export namespace Prisma {
     emailVerified?: true
     image?: true
     isPublic?: true
+    interestsUpdatedAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3984,6 +3988,7 @@ export namespace Prisma {
     emailVerified?: true
     image?: true
     isPublic?: true
+    interestsUpdatedAt?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3998,6 +4003,7 @@ export namespace Prisma {
     image?: true
     isPublic?: true
     interest?: true
+    interestsUpdatedAt?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -4085,6 +4091,7 @@ export namespace Prisma {
     image: string | null
     isPublic: boolean
     interest: $Enums.Interests[]
+    interestsUpdatedAt: Date | null
     createdAt: Date
     updatedAt: Date
     _count: UserCountAggregateOutputType | null
@@ -4116,6 +4123,7 @@ export namespace Prisma {
     image?: boolean
     isPublic?: boolean
     interest?: boolean
+    interestsUpdatedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -4138,6 +4146,7 @@ export namespace Prisma {
     image?: boolean
     isPublic?: boolean
     interest?: boolean
+    interestsUpdatedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -4152,6 +4161,7 @@ export namespace Prisma {
     image?: boolean
     isPublic?: boolean
     interest?: boolean
+    interestsUpdatedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["user"]>
@@ -4166,11 +4176,12 @@ export namespace Prisma {
     image?: boolean
     isPublic?: boolean
     interest?: boolean
+    interestsUpdatedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "username" | "bio" | "email" | "emailVerified" | "image" | "isPublic" | "interest" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "username" | "bio" | "email" | "emailVerified" | "image" | "isPublic" | "interest" | "interestsUpdatedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     sessions?: boolean | User$sessionsArgs<ExtArgs>
     accounts?: boolean | User$accountsArgs<ExtArgs>
@@ -4205,6 +4216,7 @@ export namespace Prisma {
       image: string | null
       isPublic: boolean
       interest: $Enums.Interests[]
+      interestsUpdatedAt: Date | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["user"]>
@@ -4646,6 +4658,7 @@ export namespace Prisma {
     readonly image: FieldRef<"User", 'String'>
     readonly isPublic: FieldRef<"User", 'Boolean'>
     readonly interest: FieldRef<"User", 'Interests[]'>
+    readonly interestsUpdatedAt: FieldRef<"User", 'DateTime'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
   }
@@ -6383,6 +6396,7 @@ export namespace Prisma {
     id: string | null
     requestUserId: string | null
     responseUserId: string | null
+    pairKey: string | null
     status: $Enums.ConnectionStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -6392,6 +6406,7 @@ export namespace Prisma {
     id: string | null
     requestUserId: string | null
     responseUserId: string | null
+    pairKey: string | null
     status: $Enums.ConnectionStatus | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -6401,6 +6416,7 @@ export namespace Prisma {
     id: number
     requestUserId: number
     responseUserId: number
+    pairKey: number
     status: number
     createdAt: number
     updatedAt: number
@@ -6412,6 +6428,7 @@ export namespace Prisma {
     id?: true
     requestUserId?: true
     responseUserId?: true
+    pairKey?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -6421,6 +6438,7 @@ export namespace Prisma {
     id?: true
     requestUserId?: true
     responseUserId?: true
+    pairKey?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -6430,6 +6448,7 @@ export namespace Prisma {
     id?: true
     requestUserId?: true
     responseUserId?: true
+    pairKey?: true
     status?: true
     createdAt?: true
     updatedAt?: true
@@ -6512,6 +6531,7 @@ export namespace Prisma {
     id: string
     requestUserId: string
     responseUserId: string
+    pairKey: string
     status: $Enums.ConnectionStatus
     createdAt: Date
     updatedAt: Date
@@ -6538,6 +6558,7 @@ export namespace Prisma {
     id?: boolean
     requestUserId?: boolean
     responseUserId?: boolean
+    pairKey?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -6549,6 +6570,7 @@ export namespace Prisma {
     id?: boolean
     requestUserId?: boolean
     responseUserId?: boolean
+    pairKey?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -6560,6 +6582,7 @@ export namespace Prisma {
     id?: boolean
     requestUserId?: boolean
     responseUserId?: boolean
+    pairKey?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -6571,12 +6594,13 @@ export namespace Prisma {
     id?: boolean
     requestUserId?: boolean
     responseUserId?: boolean
+    pairKey?: boolean
     status?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type ConnectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "requestUserId" | "responseUserId" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["connection"]>
+  export type ConnectionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "requestUserId" | "responseUserId" | "pairKey" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["connection"]>
   export type ConnectionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     requestUser?: boolean | UserDefaultArgs<ExtArgs>
     responseUser?: boolean | UserDefaultArgs<ExtArgs>
@@ -6600,6 +6624,7 @@ export namespace Prisma {
       id: string
       requestUserId: string
       responseUserId: string
+      pairKey: string
       status: $Enums.ConnectionStatus
       createdAt: Date
       updatedAt: Date
@@ -7031,6 +7056,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Connection", 'String'>
     readonly requestUserId: FieldRef<"Connection", 'String'>
     readonly responseUserId: FieldRef<"Connection", 'String'>
+    readonly pairKey: FieldRef<"Connection", 'String'>
     readonly status: FieldRef<"Connection", 'ConnectionStatus'>
     readonly createdAt: FieldRef<"Connection", 'DateTime'>
     readonly updatedAt: FieldRef<"Connection", 'DateTime'>
@@ -10785,6 +10811,7 @@ export namespace Prisma {
     image: 'image',
     isPublic: 'isPublic',
     interest: 'interest',
+    interestsUpdatedAt: 'interestsUpdatedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -10811,6 +10838,7 @@ export namespace Prisma {
     id: 'id',
     requestUserId: 'requestUserId',
     responseUserId: 'responseUserId',
+    pairKey: 'pairKey',
     status: 'status',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -11125,6 +11153,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"User"> | string | null
     isPublic?: BoolFilter<"User"> | boolean
     interest?: EnumInterestsNullableListFilter<"User">
+    interestsUpdatedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     sessions?: SessionListRelationFilter
@@ -11146,6 +11175,7 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     isPublic?: SortOrder
     interest?: SortOrder
+    interestsUpdatedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sessions?: SessionOrderByRelationAggregateInput
@@ -11170,6 +11200,7 @@ export namespace Prisma {
     image?: StringNullableFilter<"User"> | string | null
     isPublic?: BoolFilter<"User"> | boolean
     interest?: EnumInterestsNullableListFilter<"User">
+    interestsUpdatedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     sessions?: SessionListRelationFilter
@@ -11191,6 +11222,7 @@ export namespace Prisma {
     image?: SortOrderInput | SortOrder
     isPublic?: SortOrder
     interest?: SortOrder
+    interestsUpdatedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: UserCountOrderByAggregateInput
@@ -11211,6 +11243,7 @@ export namespace Prisma {
     image?: StringNullableWithAggregatesFilter<"User"> | string | null
     isPublic?: BoolWithAggregatesFilter<"User"> | boolean
     interest?: EnumInterestsNullableListFilter<"User">
+    interestsUpdatedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
   }
@@ -11300,6 +11333,7 @@ export namespace Prisma {
     id?: StringFilter<"Connection"> | string
     requestUserId?: StringFilter<"Connection"> | string
     responseUserId?: StringFilter<"Connection"> | string
+    pairKey?: StringFilter<"Connection"> | string
     status?: EnumConnectionStatusFilter<"Connection"> | $Enums.ConnectionStatus
     createdAt?: DateTimeFilter<"Connection"> | Date | string
     updatedAt?: DateTimeFilter<"Connection"> | Date | string
@@ -11311,6 +11345,7 @@ export namespace Prisma {
     id?: SortOrder
     requestUserId?: SortOrder
     responseUserId?: SortOrder
+    pairKey?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -11320,6 +11355,7 @@ export namespace Prisma {
 
   export type ConnectionWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    pairKey?: string
     requestUserId_responseUserId?: ConnectionRequestUserIdResponseUserIdCompoundUniqueInput
     AND?: ConnectionWhereInput | ConnectionWhereInput[]
     OR?: ConnectionWhereInput[]
@@ -11331,12 +11367,13 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Connection"> | Date | string
     requestUser?: XOR<UserScalarRelationFilter, UserWhereInput>
     responseUser?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id" | "requestUserId_responseUserId">
+  }, "id" | "pairKey" | "requestUserId_responseUserId">
 
   export type ConnectionOrderByWithAggregationInput = {
     id?: SortOrder
     requestUserId?: SortOrder
     responseUserId?: SortOrder
+    pairKey?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -11352,6 +11389,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Connection"> | string
     requestUserId?: StringWithAggregatesFilter<"Connection"> | string
     responseUserId?: StringWithAggregatesFilter<"Connection"> | string
+    pairKey?: StringWithAggregatesFilter<"Connection"> | string
     status?: EnumConnectionStatusWithAggregatesFilter<"Connection"> | $Enums.ConnectionStatus
     createdAt?: DateTimeWithAggregatesFilter<"Connection"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Connection"> | Date | string
@@ -11734,6 +11772,7 @@ export namespace Prisma {
     image?: string | null
     isPublic?: boolean
     interest?: UserCreateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -11755,6 +11794,7 @@ export namespace Prisma {
     image?: string | null
     isPublic?: boolean
     interest?: UserCreateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -11776,6 +11816,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     interest?: UserUpdateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -11797,6 +11838,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     interest?: UserUpdateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -11818,6 +11860,7 @@ export namespace Prisma {
     image?: string | null
     isPublic?: boolean
     interest?: UserCreateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -11832,6 +11875,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     interest?: UserUpdateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11846,6 +11890,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     interest?: UserUpdateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -11934,6 +11979,7 @@ export namespace Prisma {
 
   export type ConnectionCreateInput = {
     id?: string
+    pairKey: string
     status?: $Enums.ConnectionStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11945,6 +11991,7 @@ export namespace Prisma {
     id?: string
     requestUserId: string
     responseUserId: string
+    pairKey: string
     status?: $Enums.ConnectionStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11952,6 +11999,7 @@ export namespace Prisma {
 
   export type ConnectionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pairKey?: StringFieldUpdateOperationsInput | string
     status?: EnumConnectionStatusFieldUpdateOperationsInput | $Enums.ConnectionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11963,6 +12011,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     requestUserId?: StringFieldUpdateOperationsInput | string
     responseUserId?: StringFieldUpdateOperationsInput | string
+    pairKey?: StringFieldUpdateOperationsInput | string
     status?: EnumConnectionStatusFieldUpdateOperationsInput | $Enums.ConnectionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11972,6 +12021,7 @@ export namespace Prisma {
     id?: string
     requestUserId: string
     responseUserId: string
+    pairKey: string
     status?: $Enums.ConnectionStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -11979,6 +12029,7 @@ export namespace Prisma {
 
   export type ConnectionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pairKey?: StringFieldUpdateOperationsInput | string
     status?: EnumConnectionStatusFieldUpdateOperationsInput | $Enums.ConnectionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11988,6 +12039,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     requestUserId?: StringFieldUpdateOperationsInput | string
     responseUserId?: StringFieldUpdateOperationsInput | string
+    pairKey?: StringFieldUpdateOperationsInput | string
     status?: EnumConnectionStatusFieldUpdateOperationsInput | $Enums.ConnectionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -12459,6 +12511,17 @@ export namespace Prisma {
     isEmpty?: boolean
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type SessionListRelationFilter = {
     every?: SessionWhereInput
     some?: SessionWhereInput
@@ -12509,6 +12572,7 @@ export namespace Prisma {
     image?: SortOrder
     isPublic?: SortOrder
     interest?: SortOrder
+    interestsUpdatedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -12522,6 +12586,7 @@ export namespace Prisma {
     emailVerified?: SortOrder
     image?: SortOrder
     isPublic?: SortOrder
+    interestsUpdatedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -12535,6 +12600,7 @@ export namespace Prisma {
     emailVerified?: SortOrder
     image?: SortOrder
     isPublic?: SortOrder
+    interestsUpdatedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -12545,6 +12611,20 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type PostNullableScalarRelationFilter = {
@@ -12604,6 +12684,7 @@ export namespace Prisma {
     id?: SortOrder
     requestUserId?: SortOrder
     responseUserId?: SortOrder
+    pairKey?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -12613,6 +12694,7 @@ export namespace Prisma {
     id?: SortOrder
     requestUserId?: SortOrder
     responseUserId?: SortOrder
+    pairKey?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -12622,6 +12704,7 @@ export namespace Prisma {
     id?: SortOrder
     requestUserId?: SortOrder
     responseUserId?: SortOrder
+    pairKey?: SortOrder
     status?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -12670,17 +12753,6 @@ export namespace Prisma {
     userId?: SortOrder
   }
 
-  export type DateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
   export type AccountCountOrderByAggregateInput = {
     id?: SortOrder
     accountId?: SortOrder
@@ -12727,20 +12799,6 @@ export namespace Prisma {
     password?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-  }
-
-  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type VerificationCountOrderByAggregateInput = {
@@ -13023,6 +13081,10 @@ export namespace Prisma {
     push?: $Enums.Interests | $Enums.Interests[]
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type SessionUpdateManyWithoutUserNestedInput = {
     create?: XOR<SessionCreateWithoutUserInput, SessionUncheckedCreateWithoutUserInput> | SessionCreateWithoutUserInput[] | SessionUncheckedCreateWithoutUserInput[]
     connectOrCreate?: SessionCreateOrConnectWithoutUserInput | SessionCreateOrConnectWithoutUserInput[]
@@ -13301,10 +13363,6 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
-  }
-
   export type UserUpdateOneRequiredWithoutAccountsNestedInput = {
     create?: XOR<UserCreateWithoutAccountsInput, UserUncheckedCreateWithoutAccountsInput>
     connectOrCreate?: UserCreateOrConnectWithoutAccountsInput
@@ -13444,12 +13502,37 @@ export namespace Prisma {
     not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
     equals?: boolean | BooleanFieldRefInput<$PrismaModel>
     not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedBoolFilter<$PrismaModel>
     _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type NestedEnumConnectionStatusFilter<$PrismaModel = never> = {
@@ -13469,31 +13552,6 @@ export namespace Prisma {
     _max?: NestedEnumConnectionStatusFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedDateTimeNullableFilter<$PrismaModel>
-    _max?: NestedDateTimeNullableFilter<$PrismaModel>
-  }
-
   export type UserCreateWithoutPostsInput = {
     id?: string
     name: string
@@ -13504,6 +13562,7 @@ export namespace Prisma {
     image?: string | null
     isPublic?: boolean
     interest?: UserCreateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -13524,6 +13583,7 @@ export namespace Prisma {
     image?: string | null
     isPublic?: boolean
     interest?: UserCreateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -13618,6 +13678,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     interest?: UserUpdateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -13638,6 +13699,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     interest?: UserUpdateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -13746,6 +13808,7 @@ export namespace Prisma {
     image?: string | null
     isPublic?: boolean
     interest?: UserCreateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -13766,6 +13829,7 @@ export namespace Prisma {
     image?: string | null
     isPublic?: boolean
     interest?: UserCreateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -13837,6 +13901,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     interest?: UserUpdateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -13857,6 +13922,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     interest?: UserUpdateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -14031,6 +14097,7 @@ export namespace Prisma {
 
   export type ConnectionCreateWithoutRequestUserInput = {
     id?: string
+    pairKey: string
     status?: $Enums.ConnectionStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14040,6 +14107,7 @@ export namespace Prisma {
   export type ConnectionUncheckedCreateWithoutRequestUserInput = {
     id?: string
     responseUserId: string
+    pairKey: string
     status?: $Enums.ConnectionStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14057,6 +14125,7 @@ export namespace Prisma {
 
   export type ConnectionCreateWithoutResponseUserInput = {
     id?: string
+    pairKey: string
     status?: $Enums.ConnectionStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14066,6 +14135,7 @@ export namespace Prisma {
   export type ConnectionUncheckedCreateWithoutResponseUserInput = {
     id?: string
     requestUserId: string
+    pairKey: string
     status?: $Enums.ConnectionStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14231,6 +14301,7 @@ export namespace Prisma {
     id?: StringFilter<"Connection"> | string
     requestUserId?: StringFilter<"Connection"> | string
     responseUserId?: StringFilter<"Connection"> | string
+    pairKey?: StringFilter<"Connection"> | string
     status?: EnumConnectionStatusFilter<"Connection"> | $Enums.ConnectionStatus
     createdAt?: DateTimeFilter<"Connection"> | Date | string
     updatedAt?: DateTimeFilter<"Connection"> | Date | string
@@ -14262,6 +14333,7 @@ export namespace Prisma {
     image?: string | null
     isPublic?: boolean
     interest?: UserCreateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -14282,6 +14354,7 @@ export namespace Prisma {
     image?: string | null
     isPublic?: boolean
     interest?: UserCreateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -14347,6 +14420,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     interest?: UserUpdateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -14367,6 +14441,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     interest?: UserUpdateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -14422,6 +14497,7 @@ export namespace Prisma {
     image?: string | null
     isPublic?: boolean
     interest?: UserCreateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -14442,6 +14518,7 @@ export namespace Prisma {
     image?: string | null
     isPublic?: boolean
     interest?: UserCreateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -14467,6 +14544,7 @@ export namespace Prisma {
     image?: string | null
     isPublic?: boolean
     interest?: UserCreateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -14487,6 +14565,7 @@ export namespace Prisma {
     image?: string | null
     isPublic?: boolean
     interest?: UserCreateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -14523,6 +14602,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     interest?: UserUpdateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -14543,6 +14623,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     interest?: UserUpdateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -14574,6 +14655,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     interest?: UserUpdateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -14594,6 +14676,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     interest?: UserUpdateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -14614,6 +14697,7 @@ export namespace Prisma {
     image?: string | null
     isPublic?: boolean
     interest?: UserCreateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountCreateNestedManyWithoutUserInput
@@ -14634,6 +14718,7 @@ export namespace Prisma {
     image?: string | null
     isPublic?: boolean
     interest?: UserCreateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
@@ -14670,6 +14755,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     interest?: UserUpdateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUpdateManyWithoutUserNestedInput
@@ -14690,6 +14776,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     interest?: UserUpdateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
@@ -14710,6 +14797,7 @@ export namespace Prisma {
     image?: string | null
     isPublic?: boolean
     interest?: UserCreateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionCreateNestedManyWithoutUserInput
@@ -14730,6 +14818,7 @@ export namespace Prisma {
     image?: string | null
     isPublic?: boolean
     interest?: UserCreateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
@@ -14766,6 +14855,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     interest?: UserUpdateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUpdateManyWithoutUserNestedInput
@@ -14786,6 +14876,7 @@ export namespace Prisma {
     image?: NullableStringFieldUpdateOperationsInput | string | null
     isPublic?: BoolFieldUpdateOperationsInput | boolean
     interest?: UserUpdateinterestInput | $Enums.Interests[]
+    interestsUpdatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
@@ -14929,6 +15020,7 @@ export namespace Prisma {
   export type ConnectionCreateManyRequestUserInput = {
     id?: string
     responseUserId: string
+    pairKey: string
     status?: $Enums.ConnectionStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -14937,6 +15029,7 @@ export namespace Prisma {
   export type ConnectionCreateManyResponseUserInput = {
     id?: string
     requestUserId: string
+    pairKey: string
     status?: $Enums.ConnectionStatus
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -15110,6 +15203,7 @@ export namespace Prisma {
 
   export type ConnectionUpdateWithoutRequestUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pairKey?: StringFieldUpdateOperationsInput | string
     status?: EnumConnectionStatusFieldUpdateOperationsInput | $Enums.ConnectionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15119,6 +15213,7 @@ export namespace Prisma {
   export type ConnectionUncheckedUpdateWithoutRequestUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     responseUserId?: StringFieldUpdateOperationsInput | string
+    pairKey?: StringFieldUpdateOperationsInput | string
     status?: EnumConnectionStatusFieldUpdateOperationsInput | $Enums.ConnectionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15127,6 +15222,7 @@ export namespace Prisma {
   export type ConnectionUncheckedUpdateManyWithoutRequestUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     responseUserId?: StringFieldUpdateOperationsInput | string
+    pairKey?: StringFieldUpdateOperationsInput | string
     status?: EnumConnectionStatusFieldUpdateOperationsInput | $Enums.ConnectionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15134,6 +15230,7 @@ export namespace Prisma {
 
   export type ConnectionUpdateWithoutResponseUserInput = {
     id?: StringFieldUpdateOperationsInput | string
+    pairKey?: StringFieldUpdateOperationsInput | string
     status?: EnumConnectionStatusFieldUpdateOperationsInput | $Enums.ConnectionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15143,6 +15240,7 @@ export namespace Prisma {
   export type ConnectionUncheckedUpdateWithoutResponseUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     requestUserId?: StringFieldUpdateOperationsInput | string
+    pairKey?: StringFieldUpdateOperationsInput | string
     status?: EnumConnectionStatusFieldUpdateOperationsInput | $Enums.ConnectionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -15151,6 +15249,7 @@ export namespace Prisma {
   export type ConnectionUncheckedUpdateManyWithoutResponseUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     requestUserId?: StringFieldUpdateOperationsInput | string
+    pairKey?: StringFieldUpdateOperationsInput | string
     status?: EnumConnectionStatusFieldUpdateOperationsInput | $Enums.ConnectionStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

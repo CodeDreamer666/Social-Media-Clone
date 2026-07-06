@@ -1,9 +1,10 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { pinata } from "~/app/utils/config"
+import { pinata } from "~/lib/pinata"
 import { fileTypeFromBuffer } from "file-type";
 import { auth } from "~/server/better-auth";
 import { headers } from "next/headers";
 import { db } from "~/server/db";
+import { z } from "zod";
 
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 
@@ -12,6 +13,11 @@ const ALLOWED_IMAGE_TYPES = [
     "image/png",
     "image/webp",
 ];
+
+const deleteImageRequestSchema = z.object({
+    imageCid: z.string().nonempty(),
+    imageId: z.string().nonempty(),
+});
 
 export async function POST(request: NextRequest) {
     try {
@@ -59,14 +65,13 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        const { cid } = await pinata.upload.public.file(file)
-        const files = await pinata.files.public.list()
-        const url = await pinata.gateways.public.convert(cid);
+        const uploadedImage = await pinata.upload.public.file(file)
+        const url = await pinata.gateways.public.convert(uploadedImage.cid);
 
         return NextResponse.json({
-            imageId: files.files[0]?.id,
+            imageId: uploadedImage.id,
             imageUrl: url,
-            imageCid: cid
+            imageCid: uploadedImage.cid
         }, {
             status: 200
         });
@@ -90,14 +95,17 @@ export async function DELETE(request: Request) {
             return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
         }
 
-        const { imageCid, imageId } = await request.json();
+        const json: unknown = await request.json();
+        const result = deleteImageRequestSchema.safeParse(json);
 
-        if (!imageCid || !imageId) {
+        if (!result.success) {
             return NextResponse.json(
                 { error: "Image CID and Image ID are required" },
                 { status: 400 }
             );
         }
+
+        const { imageCid, imageId } = result.data;
 
         const selectedImage = await db.uploadedImage.findFirst({
             where: {
