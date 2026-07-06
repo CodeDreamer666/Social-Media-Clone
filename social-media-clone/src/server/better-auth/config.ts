@@ -10,7 +10,7 @@ export const auth = betterAuth({
 
     trustedOrigins: [
         "http://localhost:3000",
-        "https://social-media-clone-peach.vercel.app",
+        "https://quietly-code-dreamers-projects-be33410e.vercel.app",
     ],
 
     socialProviders: {
