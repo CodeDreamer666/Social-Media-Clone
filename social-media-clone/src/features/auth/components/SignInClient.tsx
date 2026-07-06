@@ -6,7 +6,13 @@ import Image from "next/image";
 
 export default function SignInClient() {
     const searchParams = useSearchParams();
-    const redirect = searchParams.get("redirect") ?? "/";
+    const rawRedirect = searchParams.get("redirect");
+    const redirect =
+        rawRedirect &&
+        rawRedirect !== "/auth" &&
+        rawRedirect !== "/login"
+            ? rawRedirect
+            : "/";
 
     return (
         <section className="flex flex-col min-h-[80vh] items-center lg:items-start lg:min-h-[90vh] justify-center bg-black px-4">
