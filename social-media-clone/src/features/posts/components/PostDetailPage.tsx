@@ -55,31 +55,33 @@ export default function PostDetailPage() {
         closeMessage={closeMessage}
       />
 
-      <div className="min-h-screen bg-black pb-10">
-        <PostItem post={selectedPost} />
+      <main className="min-h-screen bg-black px-4 pt-4 pb-10 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-3xl">
+          <PostItem post={selectedPost} />
 
-        <section className="mx-auto mt-6 w-[92%] max-w-112.5">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="text-[15px] font-semibold text-white">Comments</h2>
-            <button
-              onClick={() => setIsOpen(true)}
-              className={[
-                "h-9 cursor-pointer rounded-full bg-gradient-to-br from-blue-500",
-                "to-indigo-600 px-4 text-[13px] font-medium text-white shadow-md",
-                "shadow-blue-500/20 transition-all duration-200 hover:brightness-110",
-                "active:scale-95",
-              ].join(" ")}
-            >
-              Make a comment
-            </button>
-          </div>
+          <section className="mt-6 w-full">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-[15px] font-semibold text-white">Comments</h2>
+              <button
+                onClick={() => setIsOpen(true)}
+                className={[
+                  "h-9 cursor-pointer rounded-full bg-gradient-to-br from-blue-500",
+                  "to-indigo-600 px-4 text-[13px] font-medium text-white shadow-md",
+                  "shadow-blue-500/20 transition-all duration-200 hover:brightness-110",
+                  "active:scale-95",
+                ].join(" ")}
+              >
+                Make a comment
+              </button>
+            </div>
 
-          <ul className="flex flex-col gap-3">
-            {selectedPost.comments.map((comment) => {
-              return <Comment key={comment.id} comment={comment} />;
-            })}
-          </ul>
-        </section>
+            <ul className="flex flex-col gap-3">
+              {selectedPost.comments.map((comment) => {
+                return <Comment key={comment.id} comment={comment} />;
+              })}
+            </ul>
+          </section>
+        </div>
 
         {isOpen && (
           <CreateCommentModal
@@ -99,7 +101,7 @@ export default function PostDetailPage() {
             }}
           />
         )}
-      </div>
+      </main>
     </>
   );
 }

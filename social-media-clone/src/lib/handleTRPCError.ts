@@ -61,7 +61,10 @@ export default function handleTRPCError({
       return;
 
     case "CONFLICT":
-      setMessage("This action conflicts with existing data.");
+      setMessage(
+        error.message ||
+          "That information is already in use. Please choose something different.",
+      );
       return;
 
     case "TOO_MANY_REQUESTS":
@@ -73,7 +76,7 @@ export default function handleTRPCError({
       return;
 
     default:
-      setMessage(error.message || "Something went wrong.");
+      setMessage("We couldn't complete that action. Please try again.");
       return;
   }
 }

@@ -38,7 +38,7 @@ export default function EditProfilePage() {
 
   useEffect(() => {
     function updateManagePostsMaxHeight() {
-      if (!leftColumnRef.current || window.innerWidth < 1024) {
+      if (!leftColumnRef.current || window.innerWidth < 1240) {
         setManagePostsHeight(null);
         return;
       }
@@ -89,7 +89,7 @@ export default function EditProfilePage() {
           </Link>
         </section>
 
-        <section className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(320px,420px)_1fr] lg:items-start">
+        <section className="grid grid-cols-1 gap-6 min-[1240px]:grid-cols-[minmax(320px,420px)_1fr] min-[1240px]:items-start">
           <div ref={leftColumnRef} className="flex flex-col gap-6">
             <ProfileInfoForm
               username={username}
