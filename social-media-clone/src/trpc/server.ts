@@ -1,4 +1,4 @@
-"use server"
+"use server";
 
 import { createHydrationHelpers } from "@trpc/react-query/rsc";
 import { headers } from "next/headers";

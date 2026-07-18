@@ -11281,20 +11281,20 @@ export namespace Prisma {
 
   export type UploadedImageWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    imageId?: string
     postId?: string
     AND?: UploadedImageWhereInput | UploadedImageWhereInput[]
     OR?: UploadedImageWhereInput[]
     NOT?: UploadedImageWhereInput | UploadedImageWhereInput[]
     userId?: StringFilter<"UploadedImage"> | string
     imageUrl?: StringFilter<"UploadedImage"> | string
-    imageId?: StringFilter<"UploadedImage"> | string
     imageCid?: StringFilter<"UploadedImage"> | string
     isIncludeInPost?: BoolFilter<"UploadedImage"> | boolean
     createdAt?: DateTimeFilter<"UploadedImage"> | Date | string
     updatedAt?: DateTimeFilter<"UploadedImage"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
     post?: XOR<PostNullableScalarRelationFilter, PostWhereInput> | null
-  }, "id" | "postId">
+  }, "id" | "imageId" | "postId">
 
   export type UploadedImageOrderByWithAggregationInput = {
     id?: SortOrder
@@ -11504,6 +11504,7 @@ export namespace Prisma {
 
   export type AccountWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    providerId_accountId?: AccountProviderIdAccountIdCompoundUniqueInput
     AND?: AccountWhereInput | AccountWhereInput[]
     OR?: AccountWhereInput[]
     NOT?: AccountWhereInput | AccountWhereInput[]
@@ -11520,7 +11521,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Account"> | Date | string
     updatedAt?: DateTimeFilter<"Account"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id">
+  }, "id" | "providerId_accountId">
 
   export type AccountOrderByWithAggregationInput = {
     id?: SortOrder
@@ -12751,6 +12752,11 @@ export namespace Prisma {
     ipAddress?: SortOrder
     userAgent?: SortOrder
     userId?: SortOrder
+  }
+
+  export type AccountProviderIdAccountIdCompoundUniqueInput = {
+    providerId: string
+    accountId: string
   }
 
   export type AccountCountOrderByAggregateInput = {

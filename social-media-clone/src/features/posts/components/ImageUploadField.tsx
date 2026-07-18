@@ -1,5 +1,4 @@
 "use client";
-
 import Image from "next/image";
 import type { RefObject } from "react";
 import LoadingIcon from "~/components/shared/LoadingIcon";
@@ -16,7 +15,7 @@ export default function ImageUploadField({
     imageUrl,
     isImageLoading,
     fileInputRef,
-    onUploadImage
+    onUploadImage,
 }: ImageUploadFieldProps) {
     const uploadButtonText = imageUrl ? "Change image" : "Upload image";
     const loadingText = imageUrl ? "Changing image..." : "Uploading image...";
@@ -51,6 +50,7 @@ export default function ImageUploadField({
                             width={1200}
                             height={900}
                             className="max-h-80 w-full object-contain"
+                            unoptimized
                         />
                     ) : (
                         <div className="px-6 py-12 text-center">
@@ -99,7 +99,9 @@ export default function ImageUploadField({
                                 <LoadingIcon />
                                 {loadingText}
                             </div>
-                        ) : uploadButtonText}
+                        ) : (
+                            uploadButtonText
+                        )}
                     </button>
                 </div>
             </div>

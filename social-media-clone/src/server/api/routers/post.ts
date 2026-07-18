@@ -1,207 +1,216 @@
 import { TRPCError } from "@trpc/server";
+import sanitizeHtml from "sanitize-html";
 import { z } from "zod";
-import sanitizeHtml from "sanitize-html"
-
+import { POST_CONTENT_MAX_LENGTH } from "~/lib/contentLimits";
+import { getFeedInterests, interestValues } from "~/lib/interests";
 import {
-    createTRPCRouter,
-    protectedProcedure,
-} from "~/server/api/trpc";
-import { interestValues } from "~/lib/interests";
+  getFeedVisibilityWhere,
+  rankFeedPostsByInterest,
+} from "~/server/api/feedVisibility";
+import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
+import { publicUserIdentitySelect } from "~/server/api/userSelections";
 import { canViewPrivateContent } from "~/server/permissions";
+import { protectPostImage } from "~/server/postPresentation";
+
+const postContentSchema = z
+  .string()
+  .trim()
+  .max(
+    POST_CONTENT_MAX_LENGTH,
+    `Posts can be up to ${POST_CONTENT_MAX_LENGTH.toLocaleString()} characters`,
+  );
 
 export const postRouter = createTRPCRouter({
-    createPost: protectedProcedure
-        .input(z.object({
-            content: z.string().trim(),
-            interest: z.enum(interestValues, {
-                message: "Please choose an interest",
-            }),
-            imageUrl: z
-                .string()
-                .url()
-                .refine((url) => url.startsWith("https://tomato-voluntary-clam-90.mypinata.cloud/ipfs/"), {
-                    message: "Invalid image URL.",
-                })
-                .optional(),
-            imageCid: z
-                .string()
-                .min(10, "Invalid image CID")
-                .max(120, "Invalid image CID")
-                .optional(),
-        }))
-        .mutation(async ({ ctx, input }) => {
-            const hasImage = Boolean(input.imageUrl && input.imageCid);
+  createPost: protectedProcedure
+    .input(
+      z.object({
+        content: postContentSchema,
+        interest: z.enum(interestValues, {
+          message: "Please choose an interest",
+        }),
+        uploadedImageId: z.string().uuid().optional(),
+      }),
+    )
+    .mutation(async ({ ctx, input }) => {
+      const userId = ctx.session.user.id;
+      const cleanContent = sanitizeHtml(input.content, {
+        allowedTags: [],
+        allowedAttributes: {},
+      }).trim();
 
-            if ((input.imageUrl && !input.imageCid) || (!input.imageUrl && input.imageCid)) {
-                throw new TRPCError({
-                    code: "BAD_REQUEST",
-                    message: "Invalid image data",
-                });
-            }
+      if (!cleanContent && !input.uploadedImageId) {
+        throw new TRPCError({
+          code: "BAD_REQUEST",
+          message: "Add text or an image",
+        });
+      }
 
-            const cleanContent = sanitizeHtml(input.content, {
-                allowedTags: [],
-                allowedAttributes: {},
-            }).trim();
-
-            if (!cleanContent && !hasImage) {
-                throw new TRPCError({
-                    code: "BAD_REQUEST",
-                    message: "Add text or an image",
-                });
-            }
-
-            await ctx.db.$transaction(async (tx) => {
-                const post = await tx.post.create({
-                    data: {
-                        content: cleanContent,
-                        interest: input.interest,
-                        imageUrl: input.imageUrl ?? null,
-                        imageCid: input.imageCid ?? null,
-                        userId: ctx.session.user.id,
-                    },
-                });
-
-                if (hasImage) {
-                    await tx.uploadedImage.updateMany({
-                        where: {
-                            userId: ctx.session.user.id,
-                            imageUrl: input.imageUrl,
-                            imageCid: input.imageCid
-                        },
-                        data: {
-                            isIncludeInPost: true,
-                            postId: post.id
-                        }
-                    })
-                }
+      await ctx.db.$transaction(async (tx) => {
+        const uploadedImage = input.uploadedImageId
+          ? await tx.uploadedImage.findFirst({
+              where: {
+                id: input.uploadedImageId,
+                userId,
+                isIncludeInPost: false,
+                postId: null,
+              },
+              select: {
+                id: true,
+                imageUrl: true,
+                imageCid: true,
+              },
             })
+          : null;
 
-            return {
-                success: true,
-                message: "Create post successfully"
-            }
-        }),
+        if (input.uploadedImageId && !uploadedImage) {
+          throw new TRPCError({
+            code: "BAD_REQUEST",
+            message: "The uploaded image is unavailable",
+          });
+        }
 
-    getAllPost: protectedProcedure
-        .query(async ({ ctx }) => {
-            const userId = ctx.session.user.id;
-            const currentUser = await ctx.db.user.findUnique({
-                where: {
-                    id: userId
-                },
-                select: {
-                    interest: true
-                }
+        const post = await tx.post.create({
+          data: {
+            content: cleanContent,
+            interest: input.interest,
+            imageUrl: uploadedImage?.imageUrl ?? null,
+            imageCid: uploadedImage?.imageCid ?? null,
+            userId,
+          },
+        });
+
+        if (uploadedImage) {
+          const claimedImage = await tx.uploadedImage.updateMany({
+            where: {
+              id: uploadedImage.id,
+              userId,
+              isIncludeInPost: false,
+              postId: null,
+            },
+            data: {
+              isIncludeInPost: true,
+              postId: post.id,
+            },
+          });
+
+          if (claimedImage.count !== 1) {
+            throw new TRPCError({
+              code: "CONFLICT",
+              message: "This image is already attached to a post",
             });
-            const selectedInterests = currentUser?.interest ?? [];
-            const hasSelectedInterests = selectedInterests.length > 0;
-            const interestFilter = hasSelectedInterests
-                ? {
-                    interest: {
-                        in: selectedInterests
-                    }
-                }
-                : {};
+          }
+        }
+      });
 
-            return await ctx.db.post.findMany({
-                where: {
-                    OR: [
-                        {
-                            userId
-                        },
-                        {
-                            userId: {
-                                not: userId
-                            },
-                            user: {
-                                isPublic: true
-                            },
-                            ...interestFilter
-                        },
-                        {
-                            userId: {
-                                not: userId
-                            },
-                            user: {
-                                isPublic: false,
-                                OR: [
-                                    {
-                                        sentConnections: {
-                                            some: {
-                                                responseUserId: userId,
-                                                status: "ACCEPTED"
-                                            }
-                                        }
-                                    },
-                                    {
-                                        receivedConnections: {
-                                            some: {
-                                                requestUserId: userId,
-                                                status: "ACCEPTED"
-                                            }
-                                        }
-                                    }
-                                ]
-                            },
-                            ...interestFilter
-                        }
-                    ]
-                },
-                include: {
-                    user: true,
-                },
-                orderBy: [
-                    {
-                        createdAt: "desc"
-                    },
-                    {
-                        id: "desc"
-                    }
-                ]
-            });
-        }),
+      return {
+        success: true,
+        message: "Post created",
+      };
+    }),
 
-    getSelectedPost: protectedProcedure
-        .input(z.object({ postId: z.string().trim().nonempty() }))
-        .query(async ({ ctx, input }) => {
-            const viewerId = ctx.session.user.id;
-            const selectedPost = await ctx.db.post.findUnique({
-                where: {
-                    id: input.postId
-                },
-                include: {
-                    user: true,
-                    comments: {
-                        include: {
-                            user: true
-                        }
-                    }
-                }
-            });
+  getAllPost: protectedProcedure.query(async ({ ctx }) => {
+    const userId = ctx.session.user.id;
+    const currentUser = await ctx.db.user.findUnique({
+      where: {
+        id: userId,
+      },
+      select: {
+        interest: true,
+      },
+    });
 
-            if (!selectedPost) {
-                throw new TRPCError({
-                    code: "BAD_REQUEST",
-                    message: "Post not found"
-                })
-            }
+    if (!currentUser) {
+      throw new TRPCError({
+        code: "UNAUTHORIZED",
+        message: "Your account is no longer available",
+      });
+    }
 
-            const canViewPost = await canViewPrivateContent({
-                db: ctx.db,
-                viewerId,
-                authorId: selectedPost.userId,
-                authorIsPublic: selectedPost.user.isPublic
-            });
+    const feedInterests = getFeedInterests(currentUser.interest);
 
-            if (!canViewPost) {
-                throw new TRPCError({
-                    code: "FORBIDDEN",
-                    message: "Connect with this user to view this post"
-                });
-            }
+    const posts = await ctx.db.post.findMany({
+      where: getFeedVisibilityWhere(userId, feedInterests),
+      select: {
+        id: true,
+        userId: true,
+        content: true,
+        interest: true,
+        imageUrl: true,
+        createdAt: true,
+        updatedAt: true,
+        user: {
+          select: {
+            ...publicUserIdentitySelect,
+            isPublic: true,
+          },
+        },
+      },
+      orderBy: [{ createdAt: "desc" }, { id: "desc" }],
+    });
 
-            return selectedPost;
-        })
+    return rankFeedPostsByInterest(posts, feedInterests).map(protectPostImage);
+  }),
 
+  getSelectedPost: protectedProcedure
+    .input(z.object({ postId: z.string().uuid() }))
+    .query(async ({ ctx, input }) => {
+      const viewerId = ctx.session.user.id;
+      const selectedPost = await ctx.db.post.findUnique({
+        where: {
+          id: input.postId,
+        },
+        select: {
+          id: true,
+          userId: true,
+          content: true,
+          interest: true,
+          imageUrl: true,
+          createdAt: true,
+          updatedAt: true,
+          user: {
+            select: {
+              ...publicUserIdentitySelect,
+              isPublic: true,
+            },
+          },
+          comments: {
+            select: {
+              id: true,
+              postId: true,
+              userId: true,
+              content: true,
+              createdAt: true,
+              updatedAt: true,
+              user: {
+                select: publicUserIdentitySelect,
+              },
+            },
+            orderBy: [{ createdAt: "asc" }, { id: "asc" }],
+          },
+        },
+      });
+
+      if (!selectedPost) {
+        throw new TRPCError({
+          code: "NOT_FOUND",
+          message: "Post not found",
+        });
+      }
+
+      const canViewPost = await canViewPrivateContent({
+        db: ctx.db,
+        viewerId,
+        authorId: selectedPost.userId,
+        authorIsPublic: selectedPost.user.isPublic,
+      });
+
+      if (!canViewPost) {
+        throw new TRPCError({
+          code: "FORBIDDEN",
+          message: "Connect with this user to view this post",
+        });
+      }
+
+      return protectPostImage(selectedPost);
+    }),
 });

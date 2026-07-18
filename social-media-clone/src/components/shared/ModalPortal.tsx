@@ -1,22 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 
 type ModalPortalProps = {
-    children: React.ReactNode;
+  children: React.ReactNode;
 };
 
 export default function ModalPortal({ children }: ModalPortalProps) {
-    const [isMounted, setIsMounted] = useState(false);
+  if (typeof document === "undefined") {
+    return null;
+  }
 
-    useEffect(() => {
-        setIsMounted(true);
-    }, []);
-
-    if (!isMounted) {
-        return null;
-    }
-
-    return createPortal(children, document.body);
+  return createPortal(children, document.body);
 }

@@ -9,41 +9,31 @@ import ProfilePostList from "./ProfilePostList";
 import ProfileSummaryCard from "./ProfileSummaryCard";
 
 export default function ProfilePage() {
-    const {
-        data: currentUser,
-        isLoading,
-        error
-    } = api.user.getUserInfo.useQuery();
+  const {
+    data: currentUser,
+    isLoading,
+    error,
+  } = api.user.getUserInfo.useQuery();
 
-    const {
-        isSuccess,
-        message,
-        closeMessage
-    } = useStatusMessage();
+  const { isSuccess, message, closeMessage } = useStatusMessage();
 
-    if (isLoading) return <Loader />;
+  if (isLoading) return <Loader />;
 
-    if (error || !currentUser) return <ServerError />;
+  if (error || !currentUser) return <ServerError />;
 
-    return (
-        <div className="min-h-screen bg-black pb-10">
-            <section className="max-lg:mx-auto max-w-2xl px-4">
-                <StatusMessage
-                    closeMessage={closeMessage}
-                    isSuccess={isSuccess}
-                    message={message}
-                />
+  return (
+    <div className="min-h-screen bg-black pb-10">
+      <section className="max-w-2xl px-4 max-lg:mx-auto">
+        <StatusMessage
+          closeMessage={closeMessage}
+          isSuccess={isSuccess}
+          message={message}
+        />
 
-                <ProfileSummaryCard
-                    user={currentUser}
-                    showEditLink
-                />
+        <ProfileSummaryCard user={currentUser} showEditLink />
 
-                <ProfilePostList
-                    posts={currentUser.posts}
-                    showCreateLink
-                />
-            </section>
-        </div>
-    );
+        <ProfilePostList posts={currentUser.posts} showCreateLink />
+      </section>
+    </div>
+  );
 }

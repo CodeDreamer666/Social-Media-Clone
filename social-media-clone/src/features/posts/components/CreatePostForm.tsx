@@ -1,7 +1,6 @@
 "use client";
-
-import Link from "next/link";
 import LoadingIcon from "~/components/shared/LoadingIcon";
+import { POST_CONTENT_MAX_LENGTH } from "~/lib/contentLimits";
 import { interestOptions } from "~/lib/interests";
 import { getDisplayUsername } from "~/lib/userDisplay";
 import type { RouterOutputs } from "~/trpc/react";
@@ -18,7 +17,7 @@ type CreatePostFormProps = {
 
 export default function CreatePostForm({
     currentUser,
-    postState
+    postState,
 }: CreatePostFormProps) {
     const {
         postContent,
@@ -32,14 +31,15 @@ export default function CreatePostForm({
         hasPostText,
         hasPostImage,
         submitPost,
-        uploadPostImage
+        uploadPostImage,
+        cancelPost,
     } = postState;
     const displayUsername = currentUser.username
         ? `@${currentUser.username}`
         : getDisplayUsername(currentUser);
 
     return (
-        <div className="mx-auto max-lg:mt-8 flex w-full max-w-5xl flex-col justify-center px-4 lg:px-8 lg:py-4">
+        <div className="mx-auto flex w-full max-w-5xl flex-col justify-center px-4 max-lg:mt-8 lg:px-8 lg:py-4">
             <form
                 onSubmit={(event) => {
                     event.preventDefault();
@@ -65,17 +65,13 @@ export default function CreatePostForm({
                             {currentUser.name}
                         </h2>
 
-                        <p className="text-[13px] text-zinc-500">
-                            {displayUsername}
-                        </p>
+                        <p className="text-[13px] text-zinc-500">{displayUsername}</p>
                     </div>
                 </div>
 
                 <div>
                     <div className="mb-3">
-                        <p className="text-[13px] font-medium text-zinc-300">
-                            Categories
-                        </p>
+                        <p className="text-[13px] font-medium text-zinc-300">Categories</p>
                         <p className="mt-1 text-[12px] text-zinc-500">
                             Choose one topic that fits your post.
                         </p>
@@ -95,7 +91,7 @@ export default function CreatePostForm({
                                     className={[
                                         "min-h-11 cursor-pointer rounded-2xl border px-3 py-2",
                                         "text-center text-[13px] font-medium transition-all duration-200",
-                                        "focus:outline-none focus:ring-2 focus:ring-blue-500/40",
+                                        "focus:ring-2 focus:ring-blue-500/40 focus:outline-none",
                                         isSelected
                                             ? "border-blue-500/60 bg-blue-500/15 text-blue-100 shadow-md shadow-blue-500/10"
                                             : "border-white/[0.06] bg-black/40 text-zinc-300 hover:border-blue-500/40 hover:bg-black/50 hover:text-white",
@@ -107,7 +103,6 @@ export default function CreatePostForm({
                         })}
                     </div>
                 </div>
-
 
                 <div className="mt-6 grid gap-5 lg:grid-cols-2 lg:items-stretch lg:gap-6">
                     <ImageUploadField
@@ -130,11 +125,12 @@ export default function CreatePostForm({
                             value={postContent}
                             onChange={(event) => setPostContent(event.target.value)}
                             placeholder="What's happening?"
+                            maxLength={POST_CONTENT_MAX_LENGTH}
                             cols={80}
                             className={[
                                 "w-full flex-1 resize-none rounded-2xl border border-white/[0.06]",
                                 "bg-black/40 px-4 py-3 text-[15px] leading-7 text-white",
-                                "outline-none transition-colors duration-200 placeholder:text-zinc-500",
+                                "transition-colors duration-200 outline-none placeholder:text-zinc-500",
                                 "focus:border-blue-500/50",
                             ].join(" ")}
                         />
@@ -146,8 +142,11 @@ export default function CreatePostForm({
                         Keep it simple and meaningful.
                     </p>
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-                        <Link
-                            href="/"
+                        <button
+                            type="button"
+                            onClick={() => {
+                                void cancelPost();
+                            }}
                             className={[
                                 "flex h-10 items-center justify-center rounded-full border border-white/[0.08]",
                                 "bg-white/5 px-5 text-[14px] font-medium text-white transition-colors",
@@ -155,7 +154,7 @@ export default function CreatePostForm({
                             ].join(" ")}
                         >
                             Cancel
-                        </Link>
+                        </button>
                         <button
                             disabled={
                                 createPost.isPending ||
@@ -177,7 +176,9 @@ export default function CreatePostForm({
                                     <LoadingIcon />
                                     <p>Posting...</p>
                                 </div>
-                            ) : "Post"}
+                            ) : (
+                                "Post"
+                            )}
                         </button>
                     </div>
                 </div>

@@ -16,7 +16,7 @@ datasource db {
 
 model Post {
     id             String          @id @default(uuid())
-    user           User            @relation(fields: [userId], references: [id])
+    user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
     interest       Interests?
     userId         String
     content        String
@@ -26,6 +26,10 @@ model Post {
     updatedAt      DateTime        @updatedAt
     comments       Comment[]
     uploadedImages UploadedImage[]
+
+    @@index([createdAt, id])
+    @@index([userId, createdAt])
+    @@index([interest, createdAt])
 }
 
 model Comment {
@@ -33,10 +37,12 @@ model Comment {
     postId    String
     post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
     userId    String
-    user      User     @relation(fields: [userId], references: [id])
+    user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     content   String
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
+
+    @@index([postId, createdAt, id])
 }
 
 model User {
@@ -66,29 +72,33 @@ model User {
 model UploadedImage {
     id              String   @id @default(uuid())
     userId          String
-    user            User     @relation(fields: [userId], references: [id])
+    user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
     imageUrl        String   
-    imageId         String  
+    imageId         String   @unique
     imageCid        String
     isIncludeInPost Boolean  @default(false)
     postId          String?  @unique
-    post            Post?    @relation(fields: [postId], references: [id])
+    post            Post?    @relation(fields: [postId], references: [id], onDelete: Cascade)
     createdAt       DateTime @default(now())
     updatedAt       DateTime @updatedAt
+
+    @@index([userId, isIncludeInPost, createdAt])
 }
 
 model Connection {
     id             String           @id @default(uuid())
     requestUserId  String
-    requestUser    User             @relation("SentConnections", fields: [requestUserId], references: [id])
+    requestUser    User             @relation("SentConnections", fields: [requestUserId], references: [id], onDelete: Cascade)
     responseUserId String
-    responseUser   User             @relation("ReceivedConnections", fields: [responseUserId], references: [id])
+    responseUser   User             @relation("ReceivedConnections", fields: [responseUserId], references: [id], onDelete: Cascade)
     pairKey        String           @unique
     status         ConnectionStatus @default(PENDING)
     createdAt      DateTime         @default(now())
     updatedAt      DateTime         @updatedAt
 
     @@unique([requestUserId, responseUserId])
+    @@index([requestUserId, status, createdAt])
+    @@index([responseUserId, status, createdAt])
 }
 
 model Session {
@@ -122,6 +132,7 @@ model Account {
     createdAt             DateTime  @default(now())
     updatedAt             DateTime  @updatedAt
 
+    @@unique([providerId, accountId])
     @@map("account")
 }
 

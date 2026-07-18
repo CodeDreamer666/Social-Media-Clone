@@ -11,8 +11,9 @@ const adapter = new PrismaPg(pool);
 const createPrismaClient = () =>
   new PrismaClient({
     // In Prisma 7, you pass the adapter here
-    adapter, 
-    log: env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
+    adapter,
+    log:
+      env.NODE_ENV === "development" ? ["query", "error", "warn"] : ["error"],
   });
 
 // 3. Singleton pattern for Next.js / Fast Refresh

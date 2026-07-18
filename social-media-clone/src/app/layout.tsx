@@ -1,26 +1,24 @@
+import type { Metadata } from "next";
 import { TRPCReactProvider } from "~/trpc/react";
-import Navbar from "~/components/layout/Navbar";
-import "~/styles/globals.css"
-import RouteLoader from "~/components/layout/RouterLoader";
+import "~/styles/globals.css";
 import { HydrateClient } from "~/trpc/server";
 
+export const metadata: Metadata = {
+  title: "Quietly",
+  description:
+    "A calm, interest-based space for thoughtful posts and genuine connection.",
+};
+
 export default async function RootLayout({
-    children,
+  children,
 }: Readonly<{ children: React.ReactNode }>) {
-    return (
-        <html lang="en">
-            <body>
-                <TRPCReactProvider>
-                    <HydrateClient>
-                        <RouteLoader>
-                            <Navbar />
-                            <main className="lg:pl-[17rem]">
-                                {children}
-                            </main>
-                        </RouteLoader>
-                    </HydrateClient>
-                </TRPCReactProvider>
-            </body>
-        </html>
-    );
+  return (
+    <html lang="en">
+      <body>
+        <TRPCReactProvider>
+          <HydrateClient>{children}</HydrateClient>
+        </TRPCReactProvider>
+      </body>
+    </html>
+  );
 }

@@ -1,5 +1,4 @@
 "use client";
-
 import { usePathname, useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import type { Interests } from "../../../../generated/prisma";
@@ -9,15 +8,14 @@ import { api } from "~/trpc/react";
 import {
     allowedImageTypes,
     maxImageSize,
-    uploadImageResponseSchema
+    uploadImageResponseSchema,
 } from "../utils/postUploadSchemas";
 
 export default function useCreatePost() {
     const [postContent, setPostContent] = useState("");
     const [interest, setInterest] = useState<Interests | "">("");
     const [imageUrl, setImageUrl] = useState("");
-    const [imageCid, setImageCid] = useState("");
-    const [currentImagePinataId, setCurrentImagePinataId] = useState("");
+    const [uploadedImageId, setUploadedImageId] = useState("");
     const [isImageLoading, setIsImageLoading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const utils = api.useUtils();
@@ -25,10 +23,7 @@ export default function useCreatePost() {
     const pathname = usePathname();
 
     const statusMessage = useStatusMessage();
-    const {
-        setIsSuccess,
-        setMessage
-    } = statusMessage;
+    const { setIsSuccess, setMessage } = statusMessage;
 
     const createPost = api.post.createPost.useMutation({
         onSuccess: () => {
@@ -41,33 +36,17 @@ export default function useCreatePost() {
                 setMessage,
                 setIsSuccess,
                 router,
-                pathname
+                pathname,
             });
         },
 
         onSettled: async () => {
             await utils.invalidate();
-        }
-    });
-
-    const uploadImage = api.image.uploadImage.useMutation({
-        onError: (error) => {
-            handleTRPCError({
-                error,
-                setMessage,
-                setIsSuccess,
-                router,
-                pathname
-            });
         },
-
-        onSettled: async () => {
-            await utils.invalidate();
-        }
     });
 
     const hasPostText = postContent.trim().length > 0;
-    const hasPostImage = Boolean(imageUrl && imageCid);
+    const hasPostImage = Boolean(imageUrl && uploadedImageId);
 
     function submitPost() {
         if (!hasPostText && !hasPostImage) {
@@ -92,15 +71,14 @@ export default function useCreatePost() {
             createPost.mutate({
                 content: postContent,
                 interest,
-                imageUrl,
-                imageCid
+                uploadedImageId,
             });
             return;
         }
 
         createPost.mutate({
             content: postContent,
-            interest
+            interest,
         });
     }
 
@@ -109,8 +87,7 @@ export default function useCreatePost() {
 
         try {
             const data = new FormData();
-            const oldImageCid = imageCid;
-            const oldImageId = currentImagePinataId;
+            const oldUploadedImageId = uploadedImageId;
 
             if (!allowedImageTypes.includes(file.type)) {
                 setIsSuccess(false);
@@ -134,37 +111,53 @@ export default function useCreatePost() {
             const json: unknown = await uploadRequest.json();
             const result = uploadImageResponseSchema.safeParse(json);
 
-            if (!result.success) {
+            console.log("JSON", json);
+            console.log("RESULT", result);
+
+            if (!uploadRequest.ok || !result.success) {
                 setIsSuccess(false);
-                setMessage("Server error");
+                setMessage("Image upload failed. Please try again.");
                 return;
             }
 
-            setImageUrl(result.data.imageUrl);
-            setImageCid(result.data.imageCid);
-            setCurrentImagePinataId(result.data.imageId);
+            setImageUrl(result.data.previewUrl);
+            setUploadedImageId(result.data.uploadedImageId);
 
-            uploadImage.mutate({
-                imageUrl: result.data.imageUrl,
-                imageCid: result.data.imageCid,
-                imageId: result.data.imageId
-            });
-
-            if (oldImageCid && oldImageId) {
+            if (oldUploadedImageId) {
                 await fetch("/api/files", {
                     method: "DELETE",
                     body: JSON.stringify({
-                        imageCid: oldImageCid,
-                        imageId: oldImageId
+                        uploadedImageId: oldUploadedImageId,
                     }),
                     headers: {
                         "Content-Type": "application/json",
                     },
                 });
             }
+        } catch {
+            setIsSuccess(false);
+            setMessage("Image upload failed. Please try again.");
         } finally {
             setIsImageLoading(false);
         }
+    }
+
+    async function cancelPost() {
+        if (uploadedImageId) {
+            try {
+                await fetch("/api/files", {
+                    method: "DELETE",
+                    body: JSON.stringify({ uploadedImageId }),
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+            } catch {
+                // Navigation should not be blocked by best-effort orphan cleanup.
+            }
+        }
+
+        router.push("/");
     }
 
     return {
@@ -180,6 +173,7 @@ export default function useCreatePost() {
         hasPostText,
         hasPostImage,
         submitPost,
-        uploadPostImage
+        uploadPostImage,
+        cancelPost,
     };
 }

@@ -12,6 +12,7 @@ import superjson from "superjson";
 import { ZodError } from "zod";
 import { auth } from "~/server/better-auth";
 import { db } from "~/server/db";
+import { env } from "~/env";
 
 /**
  * 1. CONTEXT
@@ -46,12 +47,17 @@ export const createTRPCContext = async (opts: { headers: Headers }) => {
 const t = initTRPC.context<typeof createTRPCContext>().create({
   transformer: superjson,
   errorFormatter({ shape, error }) {
+    const shouldHideMessage =
+      env.NODE_ENV === "production" && error.code === "INTERNAL_SERVER_ERROR";
+
     return {
       ...shape,
+      message: shouldHideMessage
+        ? "An unexpected server error occurred"
+        : shape.message,
       data: {
         ...shape.data,
-        zodError:
-          error.cause instanceof ZodError ? error.cause.issues : null,
+        zodError: error.cause instanceof ZodError ? error.cause.issues : null,
       },
     };
   },
@@ -95,8 +101,10 @@ const timingMiddleware = t.middleware(async ({ next, path }) => {
 
   const result = await next();
 
-  const end = Date.now();
-  console.log(`[TRPC] ${path} took ${end - start}ms to execute`);
+  if (t._config.isDev) {
+    const end = Date.now();
+    console.info(`[TRPC] ${path} took ${end - start}ms to execute`);
+  }
 
   return result;
 });

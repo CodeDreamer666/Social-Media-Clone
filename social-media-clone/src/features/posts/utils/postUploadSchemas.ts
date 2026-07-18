@@ -5,7 +5,6 @@ export const allowedImageTypes = ["image/jpeg", "image/png", "image/webp"];
 export const maxImageSize = 5 * 1024 * 1024;
 
 export const uploadImageResponseSchema = z.object({
-    imageUrl: z.string().nonempty().url(),
-    imageCid: z.string().nonempty(),
-    imageId: z.string().nonempty()
+  uploadedImageId: z.string().uuid(),
+  previewUrl: z.string().startsWith("/api/files?imageId="),
 });
